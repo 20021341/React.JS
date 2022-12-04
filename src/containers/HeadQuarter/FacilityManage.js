@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { handleGetAllFacilities } from '../../services/userService'
+import { handleGetAllFacilities, handleCreateFacility } from '../../services/facilityService'
 import ModalCreateFacility from './ModalCreateFacility';
 
 class FacilityManage extends Component {
@@ -15,6 +14,10 @@ class FacilityManage extends Component {
     }
 
     async componentDidMount() {
+        await this.getAllFacilities()
+    }
+
+    getAllFacilities = async () => {
         let data = await handleGetAllFacilities()
         if (data && data.errCode === 0) {
             this.setState({
@@ -23,7 +26,22 @@ class FacilityManage extends Component {
         }
     }
 
-    handleCreateFacility = () => {
+    createFacility = async (data) => {
+        try {
+            let res = await handleCreateFacility(data)
+            if (res && res.errCode === 0) {
+                alert(res.message)
+                await this.getAllFacilities()
+                this.toggleModal()
+            } else {
+                alert(res.message)
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    handleCreateFacilityButton = () => {
         this.setState({
             is_modal_open: true
         })
@@ -44,10 +62,11 @@ class FacilityManage extends Component {
                 <ModalCreateFacility
                     isOpen={this.state.is_modal_open}
                     toggleModal={this.toggleModal}
+                    createFacility={this.createFacility}
                 />
                 <div className='mx-1'>
                     <button className='btn btn-primary px-3'
-                        onClick={() => this.handleCreateFacility()}>
+                        onClick={() => this.handleCreateFacilityButton()}>
                         <i className='fas fa-plus'></i> Create a new facility
                     </button>
                 </div>
@@ -87,6 +106,8 @@ class FacilityManage extends Component {
 
 const mapStateToProps = state => {
     return {
+        isLoggedIn: state.user.isLoggedIn,
+        facility: state.user.facility,
     };
 };
 

@@ -14,10 +14,10 @@ import Home from '../routes/Home';
 //import Login from '../routes/Login';
 import Login from './Auth/Login';
 import Header from './Header/Header';
-import System from '../routes/System';
+import HeadQuarter from '../routes/HeadQuarter';
+import Agent from '../routes/Agent';
 
 import { CustomToastCloseButton } from '../components/CustomToast';
-import ConfirmModal from '../components/ConfirmModal';
 
 class App extends Component {
 
@@ -44,14 +44,14 @@ class App extends Component {
             <Fragment>
                 <Router history={history}>
                     <div className="main-container">
-                        <ConfirmModal />
                         {this.props.isLoggedIn && <Header />}
 
                         <span className="content-container">
                             <Switch>
-                                <Route path={path.HOME} exact component={(Home)} />
-                                <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
-                                <Route path={path.SYSTEM} component={userIsAuthenticated(System)} />
+                                <Route path='/' exact component={(Home)} />
+                                <Route path='/login' component={userIsNotAuthenticated(Login)} />
+                                <Route path='/hq' component={userIsAuthenticated(HeadQuarter)} />
+                                <Route path='/agent' component={userIsAuthenticated(Agent)} />
                             </Switch>
                         </span>
 

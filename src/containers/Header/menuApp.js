@@ -1,15 +1,31 @@
-export const adminMenu = [
-    { //hệ thống
-        name: 'menu.system.header', menus: [
+export const headquarterMenu = [
+    {   // ban điều hành
+        name: 'Quản lý',
+        menus: [
             {
-                name: 'menu.system.system-administrator.header',
-                subMenus: [
-                    { name: 'menu.system.system-administrator.facility-manage', link: '/system/facility-manage' },
-                    { name: 'menu.system.system-administrator.product-manage', link: '/system/product-manage' },
-                    { name: 'menu.system.system-administrator.register-package-group-or-account', link: '/system/register-package-group-or-account' },
-                ]
+                name: 'Quản lý cơ sở',
+                link: '/hq/facility-manage'
             },
-            // { name: 'menu.system.system-parameter.header', link: '/system/system-parameter' },
+            {
+                name: 'Quản lý khách hàng',
+                link: '/hq/customer-manage'
+            },
+        ]
+    },
+];
+
+export const agentMenu = [
+    {   // đại lý
+        name: 'Quản lý',
+        menus: [
+            {
+                name: 'Quản lý sản phẩm tốt',
+                link: '/agent/good-products-manage'
+            },
+            {
+                name: 'Quản lý sản phẩm xấu',
+                link: '/agent/bad-products-manage'
+            },
         ]
     },
 ];

@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from 'react-router-dom';
-import FacilityManage from '../containers/System/FacilityManage';
-import ProductManage from '../containers/System/ProductManage';
-import RegisterPackageGroupOrAcc from '../containers/System/RegisterPackageGroupOrAcc';
+import FacilityManage from '../containers/HeadQuarter/FacilityManage';
+import CustomerMangage from '../containers/HeadQuarter/CustomerMangage';
 
-class System extends Component {
+class HeadQuarter extends Component {
     render() {
         const { systemMenuPath } = this.props;
         return (
             <div className="system-container">
                 <div className="system-list">
                     <Switch>
-                        <Route path="/system/facility-manage" component={FacilityManage} />
-                        <Route path="/system/product-manage" component={ProductManage} />
-                        <Route path="/system/register-package-group-or-account" component={RegisterPackageGroupOrAcc} />
+                        <Route path="/hq/facility-manage" component={FacilityManage} />
+                        <Route path="/hq/customer-manage" component={CustomerMangage} />
+
                         <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
                     </Switch>
                 </div>
@@ -34,4 +33,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(System);
+export default connect(mapStateToProps, mapDispatchToProps)(HeadQuarter);

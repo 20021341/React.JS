@@ -3,19 +3,51 @@ import { connect } from 'react-redux';
 
 import * as actions from "../../store/actions";
 import Navigator from '../../components/Navigator';
-import { adminMenu } from './menuApp';
+import { headquarterMenu, agentMenu } from './menuApp';
 import './Header.scss';
+import { ROLE } from '../../utils'
+import _ from 'lodash'
 
 class Header extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            menuApp: []
+        }
+    }
+
+    componentDidMount() {
+        let { facility } = this.props
+        let menu = []
+        if (facility && !_.isEmpty(facility)) {
+            let role = facility.role
+            if (role === ROLE.HEAD_QUARTER) {
+                menu = headquarterMenu
+            }
+
+            if (role === ROLE.AGENT) {
+                menu = agentMenu
+            }
+        }
+
+        this.setState({
+            menuApp: menu
+        })
+    }
 
     render() {
-        const { processLogout } = this.props;
+        const { processLogout, facility } = this.props;
+        console.log(facility)
 
         return (
             <div className="header-container">
                 {/* thanh navigator */}
                 <div className="header-tabs-container">
-                    <Navigator menus={adminMenu} />
+                    <Navigator menus={this.state.menuApp} />
+                </div>
+
+                <div className='facility-name'>
+                    {facility && facility.facility_name ? facility.facility_name : ''}
                 </div>
 
                 {/* nút logout */}
@@ -30,7 +62,8 @@ class Header extends Component {
 
 const mapStateToProps = state => {
     return {
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn,
+        facility: state.user.facility,
     };
 };
 
