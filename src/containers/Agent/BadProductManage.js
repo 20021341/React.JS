@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ModalCreateCard from './ModalCreateCard';
-import { handleGetBadProducts, handleCreateCard } from '../../services/agentService'
+import ModalConfirm from '../ModalConfirm'
+import { handleGetBadProducts, handleCreateCard, handleDeliverCustomerProducts, handleDeliverDefectiveProducts } from '../../services/agentService'
+import ModalDeliverDefectiveProduct from './ModalDeliverDefectiveProduct';
 
-class GoodProductManage extends Component {
+class BadProductManage extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
             badProducts: [],
-            is_modal_open: false
+            is_modal_card_open: false,
+            is_modal_confirm_open: false,
+            is_modal_defective_open: false,
         }
     }
 
@@ -44,7 +48,48 @@ class GoodProductManage extends Component {
             if (res && res.errCode === 0) {
                 alert(res.message)
                 await this.getBadProducts()
-                this.toggleModal()
+                this.toggleModalCreateCard()
+            } else {
+                alert(res.message)
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    deliverCustomerProducts = async () => {
+        const { facility } = this.props
+
+        try {
+            let res = await handleDeliverCustomerProducts({ agent_id: facility.facility_id })
+            console.log(res)
+            if (res && res.errCode === 0) {
+                alert(res.message)
+                await this.getBadProducts()
+                this.toggleModalConfirm()
+            } else {
+                alert(res.message)
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    deliverDefectiveProducts = async (center_id) => {
+        const { facility } = this.props
+
+        let data = {
+            agent_id: facility.facility_id,
+            center_id: center_id
+        }
+
+        try {
+            let res = await handleDeliverDefectiveProducts(data)
+            console.log(res)
+            if (res && res.errCode === 0) {
+                alert(res.message)
+                await this.getBadProducts()
+                this.toggleModalDefective()
             } else {
                 alert(res.message)
             }
@@ -55,16 +100,39 @@ class GoodProductManage extends Component {
 
     createCardButton = () => {
         this.setState({
-            is_modal_open: true
+            is_modal_card_open: true
         })
     }
 
-    toggleModal = () => {
+    deliverCustomerProductsButton = () => {
         this.setState({
-            is_modal_open: !this.state.is_modal_open
+            is_modal_confirm_open: true
         })
     }
 
+    deliverDefectiveProductsButton = () => {
+        this.setState({
+            is_modal_defective_open: true
+        })
+    }
+
+    toggleModalCreateCard = () => {
+        this.setState({
+            is_modal_card_open: !this.state.is_modal_card_open
+        })
+    }
+
+    toggleModalConfirm = () => {
+        this.setState({
+            is_modal_confirm_open: !this.state.is_modal_confirm_open
+        })
+    }
+
+    toggleModalDefective = () => {
+        this.setState({
+            is_modal_defective_open: !this.state.is_modal_defective_open
+        })
+    }
 
     render() {
         let badProducts = this.state.badProducts
@@ -73,18 +141,41 @@ class GoodProductManage extends Component {
             <div className='product-container'>
                 <div className='title text-center'>Bad Products</div>
                 <ModalCreateCard
-                    isOpen={this.state.is_modal_open}
-                    toggleModal={this.toggleModal}
+                    isOpen={this.state.is_modal_card_open}
+                    toggleModalCreateCard={this.toggleModalCreateCard}
                     createCard={this.createCard}
                 />
+                <ModalConfirm
+                    isOpen={this.state.is_modal_confirm_open}
+                    toggleModalConfirm={this.toggleModalConfirm}
+                    onConfirm={this.deliverCustomerProducts}
+                    message={'Vận chuyển sản phẩm cần bảo hành?'}
+                />
+                <ModalDeliverDefectiveProduct
+                    isOpen={this.state.is_modal_defective_open}
+                    toggleModalDefective={this.toggleModalDefective}
+                    deliverDefectiveProducts={this.deliverDefectiveProducts}
+                />
                 <div className='mx-1'>
-                    <button className='btn btn-primary px-3'
+                    <button className='btn btn-primary px-3 d-inline-flex'
                         onClick={() => this.createCardButton()}>
                         <i className='fa-solid fa-cart-shopping'></i>Tạo thẻ bảo hành
                     </button>
                 </div>
+                <div className='mx-1'>
+                    <button className='btn btn-primary px-3 d-inline-flex'
+                        onClick={() => this.deliverCustomerProductsButton()}>
+                        <i className='fa-solid fa-cart-shopping'></i>Vận chuyển sản phẩm bảo hành
+                    </button>
+                </div>
+                <div className='mx-1'>
+                    <button className='btn btn-primary px-3 d-inline-flex'
+                        onClick={() => this.deliverDefectiveProductsButton()}>
+                        <i className='fa-solid fa-cart-shopping'></i>Vận chuyển sản phẩm lỗi
+                    </button>
+                </div>
                 <div className='product-table mx-1 mt-3'>
-                    <table className="table">
+                    <table className="table table-striped">
                         <thead>
                             <tr>
                                 <th scope="col">Mã sản phẩm</th>
@@ -124,4 +215,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GoodProductManage);
+export default connect(mapStateToProps, mapDispatchToProps)(BadProductManage);

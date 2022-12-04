@@ -26,6 +26,14 @@ export const agentMenu = [
                 name: 'Quản lý sản phẩm xấu',
                 link: '/agent/bad-products-manage'
             },
+            {
+                name: 'Quản lý hóa đơn',
+                link: '/agent/bills-manage'
+            },
+            {
+                name: 'Quản lý phiếu bảo hành',
+                link: '/agent/cards-manage'
+            },
         ]
     },
 ];

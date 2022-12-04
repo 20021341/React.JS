@@ -85,7 +85,7 @@ class GoodProductManage extends Component {
                     </button>
                 </div>
                 <div className='product-table mx-1 mt-3'>
-                    <table className="table">
+                    <table className="table table-striped">
                         <thead>
                             <tr>
                                 <th scope="col">Dòng sản phẩm</th>

@@ -30,11 +30,11 @@ class ModalCreateBill extends Component {
     createBillButton = () => {
         if (this.checkValidInput()) {
             this.setState({
-                product_line: this.state.product_line.trim(),
-                quantity: this.state.quantity.trim(),
-                customer_id: this.state.customer_id.trim(),
-                fullname: this.state.fullname.trim(),
-                phone_number: this.state.phone_number.trim(),
+                product_line: '',
+                quantity: '',
+                customer_id: '',
+                fullname: '',
+                phone_number: ''
             })
 
             let data = {

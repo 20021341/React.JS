@@ -31,9 +31,10 @@ class ModalCreateFacility extends Component {
     createFacilityButton = () => {
         if (this.checkValidInput()) {
             this.setState({
-                facility_name: this.state.facility_name.trim(),
-                phone_number: this.state.phone_number.trim(),
-                address: this.state.address.trim(),
+                facility_name: '',
+                phone_number: '',
+                address: '',
+                role: ''
             })
 
             let data = {

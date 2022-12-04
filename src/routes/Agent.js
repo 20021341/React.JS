@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from 'react-router-dom';
 import BadProductManage from '../containers/Agent/BadProductManage';
+import BillManage from '../containers/Agent/BillManage';
 import GoodProductManage from '../containers/Agent/GoodProductManage';
+import WarrantyCardManage from '../containers/Agent/WarrantyCardManage';
 
 
 class Agent extends Component {
@@ -13,6 +15,8 @@ class Agent extends Component {
                     <Switch>
                         <Route path="/agent/good-products-manage" component={GoodProductManage} />
                         <Route path="/agent/bad-products-manage" component={BadProductManage} />
+                        <Route path="/agent/bills-manage" component={BillManage} />
+                        <Route path="/agent/cards-manage" component={WarrantyCardManage} />
                     </Switch>
                 </div>
             </div>

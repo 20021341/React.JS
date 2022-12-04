@@ -37,7 +37,10 @@ class ModalCreateCard extends Component {
     createCardButton = () => {
         if (this.checkValidInput()) {
             this.setState({
-                customer_id: this.state.customer_id.trim(),
+                customer_id: '',
+                product_id: '',
+                center_id: '',
+                products: [],
             })
 
             let data = {
@@ -92,11 +95,11 @@ class ModalCreateCard extends Component {
         return (
             <Modal
                 isOpen={this.props.isOpen}
-                toggle={() => this.props.toggleModal()}
+                toggle={() => this.props.toggleModalCreateCard()}
                 className={'modal-create-facility-container'}
                 size='lg'
             >
-                <ModalHeader toggle={() => this.props.toggleModal()}>Tạo thẻ bảo hành</ModalHeader>
+                <ModalHeader toggle={() => this.props.toggleModalCreateCard()}>Tạo thẻ bảo hành</ModalHeader>
                 <ModalBody>
                     <div className='modal-body'>
                         <div className='input-container'>
@@ -134,7 +137,7 @@ class ModalCreateCard extends Component {
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary" className='px-3' onClick={() => this.createCardButton()}>Tạo hóa đơn</Button>{' '}
-                    <Button color="secondary" className='px-3' onClick={() => this.props.toggleModal()}>Hủy</Button>
+                    <Button color="secondary" className='px-3' onClick={() => this.props.toggleModalCreateCard()}>Hủy</Button>
                 </ModalFooter>
             </Modal>
         )
