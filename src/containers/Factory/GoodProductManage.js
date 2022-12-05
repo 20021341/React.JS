@@ -1,8 +1,8 @@
 import { delay } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { handleGetGoodProducts } from '../../services/agentService'
 import { handleDeliverProducts, handleProduceProducts } from '../../services/factoryService';
+import { handleGetGoodProducts } from '../../services/siteService';
 import ModalDeliverGoodProduct from './ModalDeliverGoodProduct';
 import ModalProduce from './ModalProduce';
 

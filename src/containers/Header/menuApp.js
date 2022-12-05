@@ -10,6 +10,10 @@ export const headquarterMenu = [
                 name: 'Quản lý khách hàng',
                 link: '/hq/customer-manage'
             },
+            {
+                name: 'Quản lý dòng sản phẩm',
+                link: '/hq/product-line-manage'
+            },
         ]
     },
 ];

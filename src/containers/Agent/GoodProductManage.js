@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { handleGetGoodProducts, handleCreateBill } from '../../services/agentService'
+import { handleCreateBill } from '../../services/agentService'
+import { handleGetGoodProducts } from '../../services/siteService';
 import ModalCreateBill from './ModalCreateBill';
 
 class GoodProductManage extends Component {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { handleGetBadProducts } from '../../services/agentService';
 import { handleRecycleProducts, handleRepairProducts, handleReportDefective } from '../../services/factoryService';
+import { handleGetBadProducts } from '../../services/siteService';
 import ModalConfirm from '../ModalConfirm'
 import ModalReportDefective from './ModalReportDefective';
 

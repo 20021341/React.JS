@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ModalCreateCard from './ModalCreateCard';
 import ModalConfirm from '../ModalConfirm'
-import { handleGetBadProducts, handleCreateCard, handleDeliverCustomerProducts, handleDeliverDefectiveProducts } from '../../services/agentService'
+import { handleCreateCard, handleDeliverCustomerProducts, handleDeliverDefectiveProducts } from '../../services/agentService'
 import ModalDeliverDefectiveProduct from './ModalDeliverDefectiveProduct';
+import { handleGetBadProducts } from '../../services/siteService';
 
 class BadProductManage extends Component {
 
