@@ -1,11 +1,11 @@
 import axios from '../axios';
 
-const handleGetGoodProducts = (agent_id) => {
-    return axios.get('api/get-new-products', { params: { facility_id: agent_id } })
+const handleGetGoodProducts = (facility_id) => {
+    return axios.get('api/get-new-products', { params: { facility_id: facility_id } })
 }
 
-const handleGetBadProducts = (agent_id) => {
-    return axios.get('api/get-need-action-products', { params: { facility_id: agent_id } })
+const handleGetBadProducts = (facility_id) => {
+    return axios.get('api/get-need-action-products', { params: { facility_id: facility_id } })
 }
 
 const handleCreateBill = (data) => {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { handleGetProductsOfCustomer } from '../../services/customerService';
+import { handleGetProductsOfCustomer, handleGetCustomerByID } from '../../services/customerService';
 import { handleGetFacilititesByRole } from '../../services/facilityService';
 
 class ModalCreateCard extends Component {
@@ -9,10 +9,13 @@ class ModalCreateCard extends Component {
         super(props)
         this.state = {
             customer_id: '',
+            fullname: '',
+            phone_number: '',
             product_id: '',
             center_id: '',
             products: [],
-            centers: []
+            centers: [],
+            customerInfo: null
         }
     }
 
@@ -23,6 +26,7 @@ class ModalCreateCard extends Component {
     handleOnChangeInput = (event, field) => {
         if (field === 'customer_id') {
             this.getProductsOfCustomers(event.target.value.trim())
+            this.getCustomerByID(event.target.value.trim())
         }
 
         let copyState = { ...this.state }
@@ -36,18 +40,20 @@ class ModalCreateCard extends Component {
 
     createCardButton = () => {
         if (this.checkValidInput()) {
-            this.setState({
-                customer_id: '',
-                product_id: '',
-                center_id: '',
-                products: [],
-            })
-
             let data = {
                 customer_id: this.state.customer_id.trim(),
                 product_id: this.state.product_id,
                 center_id: this.state.center_id
             }
+
+            this.setState({
+                customer_id: '',
+                fullname: '',
+                phone_number: '',
+                product_id: '',
+                center_id: '',
+                products: [],
+            })
 
             this.props.createCard(data)
         }
@@ -64,6 +70,23 @@ class ModalCreateCard extends Component {
             }
         }
         return isValid
+    }
+
+    getCustomerByID = async (customer_id) => {
+        let res = await handleGetCustomerByID(customer_id)
+
+        if (res.errCode === 0) {
+            let customer = res.customer
+            this.setState({
+                customerInfo: customer,
+                fullname: customer.fullname,
+                phone_number: customer.phone_number
+            })
+        } else {
+            this.setState({
+                customerInfo: null
+            })
+        }
     }
 
     getCenters = async () => {
@@ -106,6 +129,16 @@ class ModalCreateCard extends Component {
                             <label>Mã khách hàng</label>
                             <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'customer_id') }}
                                 value={this.state.customer_id} />
+                        </div>
+                        <div className='input-container'>
+                            <label>Họ và tên</label>
+                            <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'fullname') }}
+                                value={this.state.fullname} />
+                        </div>
+                        <div className='input-container'>
+                            <label>Số điện thoại</label>
+                            <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'phone_number') }}
+                                value={this.state.phone_number} />
                         </div>
                         <div className='select-container'>
                             <label>Mã sản phẩm</label>

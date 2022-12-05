@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { handleGetFacilititesByRole } from '../../services/facilityService'
+import { handleGetAllProductLines } from '../../services/productService';
 
-class ModalDeliverDefectiveProduct extends Component {
+class ModalReportDefective extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            center_id: '',
-            centers: []
+            product_line: '',
+            product_lines: []
         }
     }
 
     componentDidMount() {
-        this.getCenters()
+        this.getAllProductLines()
     }
 
     handleOnChangeInput = (event, field) => {
@@ -26,19 +26,19 @@ class ModalDeliverDefectiveProduct extends Component {
         })
     }
 
-    deliverDefectiveButton = () => {
+    reportDefectiveButton = () => {
         if (this.checkValidInput()) {
-            this.props.deliverDefectiveProducts(this.state.center_id)
+            this.props.reportDefective(this.state.product_line)
 
             this.setState({
-                center_id: '',
+                product_line: '',
             })
         }
     }
 
     checkValidInput = () => {
         let isValid = true
-        let arrInput = ['center_id']
+        let arrInput = ['product_line']
         for (let i = 0; i < arrInput.length; i++) {
             if (!this.state[arrInput[i]]) {
                 isValid = false
@@ -49,35 +49,36 @@ class ModalDeliverDefectiveProduct extends Component {
         return isValid
     }
 
-    getCenters = async () => {
-        let res = await handleGetFacilititesByRole('center')
-        let centers = res.facilities
-        this.setState({
-            centers: centers
-        })
+    getAllProductLines = async () => {
+        let res = await handleGetAllProductLines()
+        if (res && res.errCode === 0) {
+            this.setState({
+                product_lines: res.product_lines
+            })
+        }
     }
 
     render() {
-        let centers = this.state.centers
+        let product_lines = this.state.product_lines
 
         return (
             <Modal
                 isOpen={this.props.isOpen}
-                toggle={() => this.props.toggleModalDefective()}
+                toggle={() => this.props.toggleModal()}
                 className={'modal-create-facility-container'}
                 size='lg'
             >
-                <ModalHeader toggle={() => this.props.toggleModalDefective()}>Vận chuyển sản phẩm lỗi</ModalHeader>
+                <ModalHeader toggle={() => this.props.toggleModal()}>Báo cáo dòng sản phẩm lỗi</ModalHeader>
                 <ModalBody>
                     <div className='modal-body'>
                         <div className='select-container'>
-                            <label>Trung tâm bảo hành</label>
-                            <select name='maintain_at' onChange={(event) => { this.handleOnChangeInput(event, 'center_id') }} >
-                                <option value={''}>--Chọn một trung tâm--</option>
+                            <label>Dòng sản phẩm</label>
+                            <select name='product_line' onChange={(event) => { this.handleOnChangeInput(event, 'product_line') }} >
+                                <option value={''}>--Chọn một dòng sản phẩm--</option>
                                 {
-                                    centers.map((center) => {
+                                    product_lines.map((product_line) => {
                                         return (
-                                            <option value={center.facility_id}>{center.facility_name}</option>
+                                            <option value={product_line.product_line}>{product_line.product_line}</option>
                                         )
                                     })
                                 }
@@ -86,8 +87,8 @@ class ModalDeliverDefectiveProduct extends Component {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" className='px-3' onClick={() => this.deliverDefectiveButton()}>Vận chuyển sản phẩm</Button>{' '}
-                    <Button color="secondary" className='px-3' onClick={() => this.props.toggleModalDefective()}>Hủy</Button>
+                    <Button color="primary" className='px-3' onClick={() => this.reportDefectiveButton()}>Báo cáo</Button>{' '}
+                    <Button color="secondary" className='px-3' onClick={() => this.props.toggleModal()}>Hủy</Button>
                 </ModalFooter>
             </Modal>
         )
@@ -105,4 +106,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalDeliverDefectiveProduct);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalReportDefective);

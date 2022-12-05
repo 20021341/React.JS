@@ -8,14 +8,14 @@ import { ToastContainer } from 'react-toastify';
 
 import { userIsAuthenticated, userIsNotAuthenticated } from '../hoc/authentication';
 
-import { path } from '../utils'
-
 import Home from '../routes/Home';
 //import Login from '../routes/Login';
 import Login from './Auth/Login';
 import Header from './Header/Header';
 import HeadQuarter from '../routes/HeadQuarter';
 import Agent from '../routes/Agent';
+import Factory from '../routes/Factory';
+import Center from '../routes/Center';
 
 import { CustomToastCloseButton } from '../components/CustomToast';
 
@@ -52,6 +52,8 @@ class App extends Component {
                                 <Route path='/login' component={userIsNotAuthenticated(Login)} />
                                 <Route path='/hq' component={userIsAuthenticated(HeadQuarter)} />
                                 <Route path='/agent' component={userIsAuthenticated(Agent)} />
+                                <Route path='/factory' component={userIsAuthenticated(Factory)} />
+                                <Route path='/center' component={userIsAuthenticated(Center)} />
                             </Switch>
                         </span>
 

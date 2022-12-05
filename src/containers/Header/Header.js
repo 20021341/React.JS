@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import * as actions from "../../store/actions";
 import Navigator from '../../components/Navigator';
-import { headquarterMenu, agentMenu } from './menuApp';
+import { headquarterMenu, agentMenu, factoryMenu, centerMenu } from './menuApp';
 import './Header.scss';
 import { ROLE } from '../../utils'
 import _ from 'lodash'
@@ -27,6 +27,14 @@ class Header extends Component {
 
             if (role === ROLE.AGENT) {
                 menu = agentMenu
+            }
+
+            if (role === ROLE.FACTORY) {
+                menu = factoryMenu
+            }
+
+            if (role === ROLE.MT_CENTER) {
+                menu = centerMenu
             }
         }
 

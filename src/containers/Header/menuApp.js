@@ -37,3 +37,31 @@ export const agentMenu = [
         ]
     },
 ];
+
+export const factoryMenu = [
+    {   // nhà máy
+        name: 'Quản lý',
+        menus: [
+            {
+                name: 'Quản lý sản phẩm tốt',
+                link: '/factory/good-products-manage'
+            },
+            {
+                name: 'Quản lý sản phẩm xấu',
+                link: '/factory/bad-products-manage'
+            },
+        ]
+    },
+];
+
+export const centerMenu = [
+    {   // trung tâm bảo hành
+        name: 'Quản lý',
+        menus: [
+            {
+                name: 'Quản lý sản phẩm xấu',
+                link: '/center/bad-products-manage'
+            },
+        ]
+    },
+];

@@ -1,32 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { handleGetCustomerByID } from '../../services/customerService';
+import { handleGetFacilititesByRole } from '../../services/facilityService';
 import { handleGetAllProductLines } from '../../services/productService';
 
-class ModalCreateBill extends Component {
+class ModalDeliverGoodProduct extends Component {
     constructor(props) {
         super(props)
         this.state = {
             product_line: '',
+            agent_id: '',
             quantity: '',
-            customer_id: '',
-            fullname: '',
-            phone_number: '',
-            customerInfo: null,
-            product_lines: []
+            product_lines: [],
+            agents: []
         }
     }
 
     async componentDidMount() {
+        await this.getAllAgents()
         await this.getAllProductLines()
     }
 
     handleOnChangeInput = (event, field) => {
-        if (field === 'customer_id') {
-            this.getCustomerByID(event.target.value.trim())
-        }
-
         let copyState = { ...this.state }
         copyState[field] = event.target.value
         this.setState({
@@ -36,31 +31,27 @@ class ModalCreateBill extends Component {
         })
     }
 
-    createBillButton = () => {
+    deliverButton = () => {
         if (this.checkValidInput()) {
             let data = {
-                product_line: this.state.product_line.trim(),
+                product_line: this.state.product_line,
+                agent_id: this.state.agent_id,
                 quantity: this.state.quantity.trim(),
-                customer_id: this.state.customer_id.trim(),
-                fullname: this.state.fullname.trim(),
-                phone_number: this.state.phone_number.trim(),
             }
 
             this.setState({
                 product_line: '',
+                agent_id: '',
                 quantity: '',
-                customer_id: '',
-                fullname: '',
-                phone_number: ''
             })
 
-            this.props.createBill(data)
+            this.props.deliverGoodProducts(data)
         }
     }
 
     checkValidInput = () => {
         let isValid = true
-        let arrInput = ['product_line', 'quantity', 'customer_id', 'fullname', 'phone_number']
+        let arrInput = ['product_line', 'agent_id', 'quantity']
         for (let i = 0; i < arrInput.length; i++) {
             if (!this.state[arrInput[i]]) {
                 isValid = false
@@ -71,19 +62,11 @@ class ModalCreateBill extends Component {
         return isValid
     }
 
-    getCustomerByID = async (customer_id) => {
-        let res = await handleGetCustomerByID(customer_id)
-
-        if (res.errCode === 0) {
-            let customer = res.customer
+    getAllAgents = async () => {
+        let res = await handleGetFacilititesByRole('agent')
+        if (res && res.errCode === 0) {
             this.setState({
-                customerInfo: customer,
-                fullname: customer.fullname,
-                phone_number: customer.phone_number
-            })
-        } else {
-            this.setState({
-                customerInfo: null
+                agents: res.facilities
             })
         }
     }
@@ -99,6 +82,7 @@ class ModalCreateBill extends Component {
 
     render() {
         let product_lines = this.state.product_lines
+        let agents = this.state.agents
         return (
             <Modal
                 isOpen={this.props.isOpen}
@@ -122,30 +106,28 @@ class ModalCreateBill extends Component {
                                 }
                             </select>
                         </div>
+                        <div className='select-container'>
+                            <label>Đại lý phân phối</label>
+                            <select name='agent_id' onChange={(event) => { this.handleOnChangeInput(event, 'agent_id') }} >
+                                <option value={''}>--Chọn một đại lý--</option>
+                                {
+                                    agents.map((agent) => {
+                                        return (
+                                            <option value={agent.facility_id}>{agent.facility_name}</option>
+                                        )
+                                    })
+                                }
+                            </select>
+                        </div>
                         <div className='input-container'>
                             <label>Số lượng</label>
                             <input type='number' min={1} onChange={(event) => { this.handleOnChangeInput(event, 'quantity') }}
                                 value={this.state.quantity} />
                         </div>
-                        <div className='input-container'>
-                            <label>Mã khách hàng</label>
-                            <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'customer_id') }}
-                                value={this.state.customer_id} />
-                        </div>
-                        <div className='input-container'>
-                            <label>Họ và tên</label>
-                            <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'fullname') }}
-                                value={this.state.fullname} />
-                        </div>
-                        <div className='input-container'>
-                            <label>Số điện thoại</label>
-                            <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'phone_number') }}
-                                value={this.state.phone_number} />
-                        </div>
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" className='px-3' onClick={() => this.createBillButton()}>Tạo hóa đơn</Button>{' '}
+                    <Button color="primary" className='px-3' onClick={() => this.deliverButton()}>Vận chuyển</Button>{' '}
                     <Button color="secondary" className='px-3' onClick={() => this.props.toggleModal()}>Hủy</Button>
                 </ModalFooter>
             </Modal>
@@ -164,4 +146,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalCreateBill);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalDeliverGoodProduct);

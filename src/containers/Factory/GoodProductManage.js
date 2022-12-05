@@ -1,7 +1,10 @@
+import { delay } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { handleGetGoodProducts, handleCreateBill } from '../../services/agentService'
-import ModalCreateBill from './ModalCreateBill';
+import { handleGetGoodProducts } from '../../services/agentService'
+import { handleDeliverProducts, handleProduceProducts } from '../../services/factoryService';
+import ModalDeliverGoodProduct from './ModalDeliverGoodProduct';
+import ModalProduce from './ModalProduce';
 
 class GoodProductManage extends Component {
 
@@ -9,7 +12,8 @@ class GoodProductManage extends Component {
         super(props)
         this.state = {
             goodProducts: [],
-            is_modal_open: false
+            is_modal_produce_open: false,
+            is_modal_deliver_open: false
         }
     }
 
@@ -27,23 +31,19 @@ class GoodProductManage extends Component {
         }
     }
 
-    createBill = async (data) => {
+    produce = async (data) => {
         const { facility } = this.props
-        let bill = {
+        let info = {
+            factory_id: facility.facility_id,
             product_line: data.product_line,
             quantity: data.quantity,
-            agent_id: facility.facility_id,
-            customer_id: data.customer_id,
-            fullname: data.fullname,
-            phone_number: data.phone_number
         }
 
         try {
-            let res = await handleCreateBill(bill)
-            console.log(res)
+            let res = await handleProduceProducts(info)
             if (res && res.errCode === 0) {
                 await this.getGoodProducts()
-                this.toggleModal()
+                this.toggleModalProduce()
             } else {
                 alert(res.message)
             }
@@ -52,15 +52,49 @@ class GoodProductManage extends Component {
         }
     }
 
-    createBillButton = () => {
+    deliverGoodProducts = async (data) => {
+        const { facility } = this.props
+        let info = {
+            factory_id: facility.facility_id,
+            product_line: data.product_line,
+            agent_id: data.agent_id,
+            quantity: data.quantity,
+        }
+
+        try {
+            let res = await handleDeliverProducts(info)
+            if (res && res.errCode === 0) {
+                await this.getGoodProducts()
+                this.toggleModalDeliver()
+            } else {
+                alert(res.message)
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    produceButton = () => {
         this.setState({
-            is_modal_open: true
+            is_modal_produce_open: true
         })
     }
 
-    toggleModal = () => {
+    toggleModalProduce = () => {
         this.setState({
-            is_modal_open: !this.state.is_modal_open
+            is_modal_produce_open: !this.state.is_modal_produce_open
+        })
+    }
+
+    deliverButton = () => {
+        this.setState({
+            is_modal_deliver_open: true
+        })
+    }
+
+    toggleModalDeliver = () => {
+        this.setState({
+            is_modal_deliver_open: !this.state.is_modal_deliver_open
         })
     }
 
@@ -71,15 +105,26 @@ class GoodProductManage extends Component {
         return (
             <div className='product-container'>
                 <div className='title text-center'>Good Products</div>
-                <ModalCreateBill
-                    isOpen={this.state.is_modal_open}
-                    toggleModal={this.toggleModal}
-                    createBill={this.createBill}
+                <ModalProduce
+                    isOpen={this.state.is_modal_produce_open}
+                    toggleModal={this.toggleModalProduce}
+                    produce={this.produce}
+                />
+                <ModalDeliverGoodProduct
+                    isOpen={this.state.is_modal_deliver_open}
+                    toggleModal={this.toggleModalDeliver}
+                    deliverGoodProducts={this.deliverGoodProducts}
                 />
                 <div className='mx-1'>
                     <button className='btn btn-primary px-3'
-                        onClick={() => this.createBillButton()}>
-                        <i className='fa-solid fa-cart-shopping'></i>Tạo hóa đơn
+                        onClick={() => this.produceButton()}>
+                        <i className='fa-solid fa-cart-shopping'></i>Sản xuất
+                    </button>
+                </div>
+                <div className='mx-1'>
+                    <button className='btn btn-primary px-3'
+                        onClick={() => this.deliverButton()}>
+                        <i className='fa-solid fa-cart-shopping'></i>Vận chuyển
                     </button>
                 </div>
                 <div className='product-table mx-1 mt-3'>

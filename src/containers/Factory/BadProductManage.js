@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ModalCreateCard from './ModalCreateCard';
+import { handleGetBadProducts } from '../../services/agentService';
+import { handleRecycleProducts, handleRepairProducts, handleReportDefective } from '../../services/factoryService';
 import ModalConfirm from '../ModalConfirm'
-import { handleGetBadProducts, handleCreateCard, handleDeliverCustomerProducts, handleDeliverDefectiveProducts } from '../../services/agentService'
-import ModalDeliverDefectiveProduct from './ModalDeliverDefectiveProduct';
+import ModalReportDefective from './ModalReportDefective';
 
 class BadProductManage extends Component {
 
@@ -11,9 +11,9 @@ class BadProductManage extends Component {
         super(props)
         this.state = {
             badProducts: [],
-            is_modal_card_open: false,
-            is_modal_confirm_open: false,
-            is_modal_defective_open: false,
+            is_modal_recycle_open: false,
+            is_modal_repair_open: false,
+            is_modal_report_open: false,
         }
     }
 
@@ -31,23 +31,15 @@ class BadProductManage extends Component {
         }
     }
 
-    createCard = async (data) => {
+    recyleProducts = async () => {
         const { facility } = this.props
-        let card = {
-            customer_id: data.customer_id,
-            product_id: data.product_id,
-            agent_id: facility.facility_id,
-            center_id: data.center_id,
-        }
-
-        console.log(card)
 
         try {
-            let res = await handleCreateCard(card)
+            let res = await handleRecycleProducts({ factory_id: facility.facility_id })
             console.log(res)
             if (res && res.errCode === 0) {
                 await this.getBadProducts()
-                this.toggleModalCreateCard()
+                this.toggleModalRecycle()
             } else {
                 alert(res.message)
             }
@@ -56,15 +48,15 @@ class BadProductManage extends Component {
         }
     }
 
-    deliverCustomerProducts = async () => {
+    repairProducts = async () => {
         const { facility } = this.props
 
         try {
-            let res = await handleDeliverCustomerProducts({ agent_id: facility.facility_id })
+            let res = await handleRepairProducts({ factory_id: facility.facility_id })
             console.log(res)
             if (res && res.errCode === 0) {
                 await this.getBadProducts()
-                this.toggleModalConfirm()
+                this.toggleModalRepair()
             } else {
                 alert(res.message)
             }
@@ -73,20 +65,20 @@ class BadProductManage extends Component {
         }
     }
 
-    deliverDefectiveProducts = async (center_id) => {
+    reportDefective = async (product_line) => {
         const { facility } = this.props
 
         let data = {
-            agent_id: facility.facility_id,
-            center_id: center_id
+            product_line: product_line,
+            factory_id: facility.facility_id
         }
 
         try {
-            let res = await handleDeliverDefectiveProducts(data)
+            let res = await handleReportDefective(data)
             console.log(res)
             if (res && res.errCode === 0) {
                 await this.getBadProducts()
-                this.toggleModalDefective()
+                this.toggleModalReport()
             } else {
                 alert(res.message)
             }
@@ -95,39 +87,39 @@ class BadProductManage extends Component {
         }
     }
 
-    createCardButton = () => {
+    recycleButton = () => {
         this.setState({
-            is_modal_card_open: true
+            is_modal_recycle_open: true
         })
     }
 
-    deliverCustomerProductsButton = () => {
+    repairButton = () => {
         this.setState({
-            is_modal_confirm_open: true
+            is_modal_repair_open: true
         })
     }
 
-    deliverDefectiveProductsButton = () => {
+    reportButton = () => {
         this.setState({
-            is_modal_defective_open: true
+            is_modal_report_open: true
         })
     }
 
-    toggleModalCreateCard = () => {
+    toggleModalRecycle = () => {
         this.setState({
-            is_modal_card_open: !this.state.is_modal_card_open
+            is_modal_recycle_open: !this.state.is_modal_recycle_open
         })
     }
 
-    toggleModalConfirm = () => {
+    toggleModalRepair = () => {
         this.setState({
-            is_modal_confirm_open: !this.state.is_modal_confirm_open
+            is_modal_repair_open: !this.state.is_modal_repair_open
         })
     }
 
-    toggleModalDefective = () => {
+    toggleModalReport = () => {
         this.setState({
-            is_modal_defective_open: !this.state.is_modal_defective_open
+            is_modal_report_open: !this.state.is_modal_report_open
         })
     }
 
@@ -137,38 +129,39 @@ class BadProductManage extends Component {
         return (
             <div className='product-container'>
                 <div className='title text-center'>Bad Products</div>
-                <ModalCreateCard
-                    isOpen={this.state.is_modal_card_open}
-                    toggleModalCreateCard={this.toggleModalCreateCard}
-                    createCard={this.createCard}
+                <ModalConfirm
+                    isOpen={this.state.is_modal_recycle_open}
+                    toggleModalConfirm={this.toggleModalRecycle}
+                    onConfirm={this.recyleProducts}
+                    message={'Tái chế các sản phẩm hỏng?'}
                 />
                 <ModalConfirm
-                    isOpen={this.state.is_modal_confirm_open}
-                    toggleModalConfirm={this.toggleModalConfirm}
-                    onConfirm={this.deliverCustomerProducts}
-                    message={'Vận chuyển sản phẩm cần bảo hành?'}
+                    isOpen={this.state.is_modal_repair_open}
+                    toggleModalConfirm={this.toggleModalRepair}
+                    onConfirm={this.repairProducts}
+                    message={'Sửa chữa các sản phẩm lỗi?'}
                 />
-                <ModalDeliverDefectiveProduct
-                    isOpen={this.state.is_modal_defective_open}
-                    toggleModalDefective={this.toggleModalDefective}
-                    deliverDefectiveProducts={this.deliverDefectiveProducts}
+                <ModalReportDefective
+                    isOpen={this.state.is_modal_report_open}
+                    toggleModal={this.toggleModalReport}
+                    reportDefective={this.reportDefective}
                 />
                 <div className='mx-1'>
                     <button className='btn btn-primary px-3 d-inline-flex'
-                        onClick={() => this.createCardButton()}>
-                        <i className='fa-solid fa-cart-shopping'></i>Tạo thẻ bảo hành
+                        onClick={() => this.recycleButton()}>
+                        <i className='fa-solid fa-cart-shopping'></i>Tái chế sản phẩm hỏng
                     </button>
                 </div>
                 <div className='mx-1'>
                     <button className='btn btn-primary px-3 d-inline-flex'
-                        onClick={() => this.deliverCustomerProductsButton()}>
-                        <i className='fa-solid fa-cart-shopping'></i>Vận chuyển sản phẩm bảo hành
+                        onClick={() => this.repairButton()}>
+                        <i className='fa-solid fa-cart-shopping'></i>Sửa chữa sản phẩm lỗi
                     </button>
                 </div>
                 <div className='mx-1'>
                     <button className='btn btn-primary px-3 d-inline-flex'
-                        onClick={() => this.deliverDefectiveProductsButton()}>
-                        <i className='fa-solid fa-cart-shopping'></i>Vận chuyển sản phẩm lỗi
+                        onClick={() => this.reportButton()}>
+                        <i className='fa-solid fa-cart-shopping'></i>Báo cáo dòng sản phẩm lỗi
                     </button>
                 </div>
                 <div className='product-table mx-1 mt-3'>
