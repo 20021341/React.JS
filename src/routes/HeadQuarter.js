@@ -7,7 +7,6 @@ import ProductLineManage from '../containers/HeadQuarter/ProductLineManage';
 
 class HeadQuarter extends Component {
     render() {
-        const { systemMenuPath } = this.props;
         return (
             <div className="system-container">
                 <div className="system-list">
@@ -15,9 +14,7 @@ class HeadQuarter extends Component {
                         <Route path="/hq/facility-manage" component={FacilityManage} />
                         <Route path="/hq/customer-manage" component={CustomerMangage} />
                         <Route path="/hq/product-line-manage" component={ProductLineManage} />
-
-
-                        <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
+                        <Redirect to="/" />
                     </Switch>
                 </div>
             </div>
@@ -27,7 +24,6 @@ class HeadQuarter extends Component {
 
 const mapStateToProps = state => {
     return {
-        systemMenuPath: state.app.systemMenuPath
     };
 };
 

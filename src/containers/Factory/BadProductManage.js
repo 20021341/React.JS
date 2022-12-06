@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { handleRecycleProducts, handleRepairProducts, handleReportDefective } from '../../services/factoryService';
 import { handleGetBadProducts } from '../../services/siteService';
-import ModalConfirm from '../ModalConfirm'
-import ModalReportDefective from './ModalReportDefective';
+import ModalConfirm from '../Modal/ModalConfirm'
+import ModalReportDefective from '../Modal/Factory/ModalReportDefective';
 
 class BadProductManage extends Component {
 

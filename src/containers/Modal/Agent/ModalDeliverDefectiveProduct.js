@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { handleGetFacilititesByRole } from '../../services/facilityService'
+import { handleGetFacilititesByRole } from '../../../services/facilityService'
 
 class ModalDeliverDefectiveProduct extends Component {
     constructor(props) {

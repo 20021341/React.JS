@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { handleGetCustomerByID } from '../../services/customerService';
-import { handleGetAllProductLines } from '../../services/productService';
 
 class ModalCreateProductLine extends Component {
     constructor(props) {
@@ -89,10 +87,6 @@ class ModalCreateProductLine extends Component {
     }
 
     handleOnChangeInput = (event, field) => {
-        if (field === 'customer_id') {
-            this.getCustomerByID(event.target.value.trim())
-        }
-
         let copyState = { ...this.state }
         copyState[field] = event.target.value
         this.setState({

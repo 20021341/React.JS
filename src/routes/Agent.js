@@ -17,6 +17,7 @@ class Agent extends Component {
                         <Route path="/agent/bad-products-manage" component={BadProductManage} />
                         <Route path="/agent/bills-manage" component={BillManage} />
                         <Route path="/agent/cards-manage" component={WarrantyCardManage} />
+                        <Redirect to="/" />
                     </Switch>
                 </div>
             </div>
@@ -26,7 +27,6 @@ class Agent extends Component {
 
 const mapStateToProps = state => {
     return {
-        systemMenuPath: state.app.systemMenuPath
     };
 };
 

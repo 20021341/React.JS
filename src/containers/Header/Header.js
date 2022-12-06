@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from "../../store/actions";
-import Navigator from '../../components/Navigator';
+import Navigator from './Navigator';
 import { headquarterMenu, agentMenu, factoryMenu, centerMenu } from './menuApp';
 import './Header.scss';
 import { ROLE } from '../../utils'
@@ -45,7 +45,6 @@ class Header extends Component {
 
     render() {
         const { processLogout, facility } = this.props;
-        console.log(facility)
 
         return (
             <div className="header-container">

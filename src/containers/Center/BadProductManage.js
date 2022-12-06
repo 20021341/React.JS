@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ModalConfirm from '../ModalConfirm'
+import ModalConfirm from '../Modal/ModalConfirm'
 import { handleDeliverBrokenProducts, handleRepairProducts } from '../../services/centerService';
 import { handleGetBadProducts } from '../../services/siteService';
 

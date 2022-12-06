@@ -1,10 +1,9 @@
-import { delay } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { handleDeliverProducts, handleProduceProducts } from '../../services/factoryService';
 import { handleGetGoodProducts } from '../../services/siteService';
-import ModalDeliverGoodProduct from './ModalDeliverGoodProduct';
-import ModalProduce from './ModalProduce';
+import ModalDeliverGoodProduct from '../Modal/Factory/ModalDeliverGoodProduct';
+import ModalProduce from '../Modal/Factory/ModalProduce';
 
 class GoodProductManage extends Component {
 

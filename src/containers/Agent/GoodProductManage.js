@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { handleCreateBill } from '../../services/agentService'
 import { handleGetGoodProducts } from '../../services/siteService';
-import ModalCreateBill from './ModalCreateBill';
+import ModalCreateBill from '../Modal/Agent/ModalCreateBill';
 
 class GoodProductManage extends Component {
 

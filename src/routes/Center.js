@@ -11,6 +11,7 @@ class Center extends Component {
                 <div className="system-list">
                     <Switch>
                         <Route path="/center/bad-products-manage" component={BadProductManage} />
+                        <Redirect to="/" />
                     </Switch>
                 </div>
             </div>
@@ -20,7 +21,6 @@ class Center extends Component {
 
 const mapStateToProps = state => {
     return {
-        systemMenuPath: state.app.systemMenuPath
     };
 };
 

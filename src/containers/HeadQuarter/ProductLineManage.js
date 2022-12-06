@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { handleGetAllProductLines, handleCreateNewProductLine } from '../../services/productService';
-import ModalCreateFacility from './ModalCreateFacility';
-import ModalCreateProductLine from './ModalCreateProductLine';
+import ModalCreateProductLine from '../Modal/HeadQuarter/ModalCreateProductLine';
 
 class ProductLineManage extends Component {
 

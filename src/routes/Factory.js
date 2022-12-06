@@ -13,6 +13,7 @@ class Factory extends Component {
                     <Switch>
                         <Route path="/factory/good-products-manage" component={GoodProductManage} />
                         <Route path="/factory/bad-products-manage" component={BadProductManage} />
+                        <Redirect to="/" />
                     </Switch>
                 </div>
             </div>
@@ -22,7 +23,6 @@ class Factory extends Component {
 
 const mapStateToProps = state => {
     return {
-        systemMenuPath: state.app.systemMenuPath
     };
 };
 

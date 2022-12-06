@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { handleGetProductsOfCustomer, handleGetCustomerByID } from '../../services/customerService';
-import { handleGetFacilititesByRole } from '../../services/facilityService';
+import { handleGetProductsOfCustomer, handleGetCustomerByID } from '../../../services/customerService';
+import { handleGetFacilititesByRole } from '../../../services/facilityService';
 
 class ModalCreateCard extends Component {
     constructor(props) {

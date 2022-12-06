@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { handleGetAllProductLines } from '../../services/productService';
+import { handleGetFacilititesByRole } from '../../../services/facilityService';
+import { handleGetAllProductLines } from '../../../services/productService';
 
-class ModalProduce extends Component {
+class ModalDeliverGoodProduct extends Component {
     constructor(props) {
         super(props)
         this.state = {
             product_line: '',
+            agent_id: '',
             quantity: '',
-            product_lines: []
+            product_lines: [],
+            agents: []
         }
     }
 
     async componentDidMount() {
+        await this.getAllAgents()
         await this.getAllProductLines()
     }
 
@@ -27,25 +31,27 @@ class ModalProduce extends Component {
         })
     }
 
-    produceButton = () => {
+    deliverButton = () => {
         if (this.checkValidInput()) {
             let data = {
                 product_line: this.state.product_line,
+                agent_id: this.state.agent_id,
                 quantity: this.state.quantity.trim(),
             }
 
             this.setState({
                 product_line: '',
+                agent_id: '',
                 quantity: '',
             })
 
-            this.props.produce(data)
+            this.props.deliverGoodProducts(data)
         }
     }
 
     checkValidInput = () => {
         let isValid = true
-        let arrInput = ['product_line', 'quantity']
+        let arrInput = ['product_line', 'agent_id', 'quantity']
         for (let i = 0; i < arrInput.length; i++) {
             if (!this.state[arrInput[i]]) {
                 isValid = false
@@ -54,6 +60,15 @@ class ModalProduce extends Component {
             }
         }
         return isValid
+    }
+
+    getAllAgents = async () => {
+        let res = await handleGetFacilititesByRole('agent')
+        if (res && res.errCode === 0) {
+            this.setState({
+                agents: res.facilities
+            })
+        }
     }
 
     getAllProductLines = async () => {
@@ -67,6 +82,7 @@ class ModalProduce extends Component {
 
     render() {
         let product_lines = this.state.product_lines
+        let agents = this.state.agents
         return (
             <Modal
                 isOpen={this.props.isOpen}
@@ -74,7 +90,7 @@ class ModalProduce extends Component {
                 className={'modal-create-facility-container'}
                 size='lg'
             >
-                <ModalHeader toggle={() => this.props.toggleModal()}>Sản xuất sản phẩm</ModalHeader>
+                <ModalHeader toggle={() => this.props.toggleModal()}>Tạo hóa đơn</ModalHeader>
                 <ModalBody>
                     <div className='modal-body'>
                         <div className='select-container'>
@@ -90,6 +106,19 @@ class ModalProduce extends Component {
                                 }
                             </select>
                         </div>
+                        <div className='select-container'>
+                            <label>Đại lý phân phối</label>
+                            <select name='agent_id' onChange={(event) => { this.handleOnChangeInput(event, 'agent_id') }} >
+                                <option value={''}>--Chọn một đại lý--</option>
+                                {
+                                    agents.map((agent) => {
+                                        return (
+                                            <option value={agent.facility_id}>{agent.facility_name}</option>
+                                        )
+                                    })
+                                }
+                            </select>
+                        </div>
                         <div className='input-container'>
                             <label>Số lượng</label>
                             <input type='number' min={1} onChange={(event) => { this.handleOnChangeInput(event, 'quantity') }}
@@ -98,7 +127,7 @@ class ModalProduce extends Component {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" className='px-3' onClick={() => this.produceButton()}>Sản xuất</Button>{' '}
+                    <Button color="primary" className='px-3' onClick={() => this.deliverButton()}>Vận chuyển</Button>{' '}
                     <Button color="secondary" className='px-3' onClick={() => this.props.toggleModal()}>Hủy</Button>
                 </ModalFooter>
             </Modal>
@@ -117,4 +146,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalProduce);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalDeliverGoodProduct);

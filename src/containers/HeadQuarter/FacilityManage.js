@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { handleGetAllFacilities, handleCreateFacility } from '../../services/facilityService'
-import ModalCreateFacility from './ModalCreateFacility';
+import ModalCreateFacility from '../Modal/HeadQuarter/ModalCreateFacility';
 
 class FacilityManage extends Component {
 
