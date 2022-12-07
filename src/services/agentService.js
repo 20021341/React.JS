@@ -24,6 +24,11 @@ const handleGetCardsByAgentID = (agent_id) => {
     return axios.get('api/agent/get-cards-by-agent-id', { params: { agent_id: agent_id } })
 }
 
+const handleGetProductsNeedRetrieving = (agent_id) => {
+    return axios.get('api/agent/get-products-need-retrieving', { params: { agent_id: agent_id } })
+}
+
+
 export {
     handleCreateBill,
     handleCreateCard,
@@ -31,4 +36,5 @@ export {
     handleDeliverDefectiveProducts,
     handleGetBillsByAgentID,
     handleGetCardsByAgentID,
+    handleGetProductsNeedRetrieving,
 };

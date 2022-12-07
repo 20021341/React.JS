@@ -38,6 +38,10 @@ export const agentMenu = [
                 name: 'Quản lý phiếu bảo hành',
                 link: '/agent/cards-manage'
             },
+            {
+                name: 'Thu hồi sản phẩm lỗi',
+                link: '/agent/retrieve-products'
+            },
         ]
     },
 ];
