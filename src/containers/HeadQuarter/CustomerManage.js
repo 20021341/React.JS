@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { handleGetAllCustomers } from '../../services/customerService'
 
-class CustomerMangage extends Component {
+class CustomerManage extends Component {
 
     constructor(props) {
         super(props)
@@ -71,4 +71,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomerMangage);
+export default connect(mapStateToProps, mapDispatchToProps)(CustomerManage);
