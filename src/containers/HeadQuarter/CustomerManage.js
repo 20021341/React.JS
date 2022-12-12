@@ -29,10 +29,10 @@ class CustomerManage extends Component {
         let customers = this.state.customers
 
         return (
-            <div className='facility-container'>
+            <div className='content'>
                 <div className='title text-center'>Customers</div>
-                <div className='facility-table mx-1 mt-3'>
-                    <table className="table">
+                <div className='mx-1 mt-3'>
+                    <table className="table table-striped">
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>

@@ -5,7 +5,7 @@
     .login-container {
         background: white;
         width: 400px;
-        height: 450px;
+        height: 300px;
         position: absolute;
         top: 0;
         right: 0;
@@ -46,41 +46,6 @@
                 outline: none;
                 border: none;
                 background: linear-gradient(135deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
-            }
-
-            .forgor-password {
-                font-size: 12px;
-            }
-
-            .social-login {
-                display: flex;
-                justify-content: center;
-                margin-top: 10px;
-
-                .google {
-                    font-size: 30px;
-                    background: red;
-                    border-radius: 50%;
-                    height: 50px;
-                    width: 50px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: white;
-                    margin-right: 20px;
-                }
-
-                .facebook {
-                    font-size: 30px;
-                    background: #307aff;
-                    border-radius: 50%;
-                    height: 50px;
-                    width: 50px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: white;
-                }
             }
         }
     }

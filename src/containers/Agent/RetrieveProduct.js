@@ -31,9 +31,9 @@ class RetrieveProduct extends Component {
         let products = this.state.products
 
         return (
-            <div className='facility-container'>
+            <div className='content'>
                 <div className='title text-center'>Sản phẩm cần thu hồi</div>
-                <div className='facility-table mx-1 mt-3'>
+                <div className='mx-1 mt-3'>
                     <table className="table">
                         <thead>
                             <tr>

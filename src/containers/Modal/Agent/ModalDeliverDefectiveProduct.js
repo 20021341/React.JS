@@ -86,8 +86,8 @@ class ModalDeliverDefectiveProduct extends Component {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" className='px-3' onClick={() => this.deliverDefectiveButton()}>Vận chuyển sản phẩm</Button>{' '}
-                    <Button color="secondary" className='px-3' onClick={() => this.props.toggleModalDefective()}>Hủy</Button>
+                    <Button className='btn btn-confirm px-3' onClick={() => this.deliverDefectiveButton()}>Vận chuyển sản phẩm</Button>{' '}
+                    <Button className='btn btn-deny px-3' onClick={() => this.props.toggleModalDefective()}>Hủy</Button>
                 </ModalFooter>
             </Modal>
         )

@@ -8,15 +8,13 @@ import ProductLineManage from '../containers/HeadQuarter/ProductLineManage';
 class HeadQuarter extends Component {
     render() {
         return (
-            <div className="system-container">
-                <div className="system-list">
-                    <Switch>
-                        <Route path="/hq/facility-manage" component={FacilityManage} />
-                        <Route path="/hq/customer-manage" component={CustomerManage} />
-                        <Route path="/hq/product-line-manage" component={ProductLineManage} />
-                        <Redirect to="/" />
-                    </Switch>
-                </div>
+            <div className="head-quarter-container">
+                <Switch>
+                    <Route path="/hq/facility-manage" component={FacilityManage} />
+                    <Route path="/hq/customer-manage" component={CustomerManage} />
+                    <Route path="/hq/product-line-manage" component={ProductLineManage} />
+                    <Redirect to="/" />
+                </Switch>
             </div>
         );
     }

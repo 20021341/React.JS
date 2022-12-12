@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from "connected-react-router";
-
 import * as actions from "../../store/actions";
-import './Login.scss';
-import { handleLoginAPI } from '../../services/facilityService';
+import { handleLogin } from '../../services/siteService';
 
 class Login extends Component {
     constructor(props) {
@@ -29,13 +27,13 @@ class Login extends Component {
         });
     }
 
-    handleLogin = async () => {
+    login = async () => {
         this.setState({
             errMessage: ''
         });
 
         try {
-            let data = await handleLoginAPI(this.state.facility_id, this.state.password);
+            let data = await handleLogin(this.state.facility_id, this.state.password);
             if (data && data.errCode !== 0) {
                 this.setState({
                     errMessage: data.message
@@ -58,7 +56,7 @@ class Login extends Component {
 
     handleKeyDown = (event) => {
         if (event.key === 'Enter') {
-            this.handleLogin()
+            this.login()
         }
     }
 
@@ -95,17 +93,7 @@ class Login extends Component {
                             {this.state.errMessage}
                         </div>
                         <div className='col-12'>
-                            <button className='login-button' onClick={() => this.handleLogin()}>Login</button>
-                        </div>
-                        <div className='col-12'>
-                            <span className='forgot-password'>Forgot your password?</span>
-                        </div>
-                        <div className='col-12 text-center mt-3'>
-                            <span>Or sign in with:</span>
-                        </div>
-                        <div className='col-12 social-login'>
-                            <i className='fab fa-google-plus-g google'></i>
-                            <i className='fab fa-facebook-f facebook'></i>
+                            <button className='login-button' onClick={() => this.login()}>Login</button>
                         </div>
                     </div>
                 </div>

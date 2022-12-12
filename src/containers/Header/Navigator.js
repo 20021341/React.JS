@@ -3,8 +3,6 @@ import { Link, withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 
-import './Navigator.scss';
-
 class MenuGroup extends Component {
 
     render() {
@@ -27,7 +25,7 @@ class Menu extends Component {
     render() {
         const { name, active, link, children, onClick, hasSubMenu, onLinkClick } = this.props;
         return (
-            <li className={"menu" + (hasSubMenu ? " has-sub-menu" : "") + ("") + (active ? " active" : "")}>
+            <li className={"menu " + (active ? " active" : "")}>
                 {hasSubMenu ? (
                     <Fragment>
                         <span
@@ -48,36 +46,18 @@ class Menu extends Component {
                         </div>
                     </Fragment>
                 ) : (
-                        <Link to={link} className="menu-link" onClick={onLinkClick}>
-                            <FormattedMessage id={name} />
-                        </Link>
-                    )}
+                    <Link to={link} className="menu-link" onClick={onLinkClick}>
+                        <FormattedMessage id={name} />
+                    </Link>
+                )}
             </li>
         );
     }
 }
 
-class SubMenu extends Component {
-
-    getItemClass = path => {
-        return this.props.location.pathname === path ? "active" : "";
-    };
-
-    render() {
-        const { name, link, onLinkClick } = this.props;
-        return (
-            <li className={"sub-menu " + this.getItemClass(link)}>
-                <Link to={link} className="sub-menu-link" onClick={onLinkClick}>
-                    <FormattedMessage id={name} />
-                </Link>
-            </li>
-        );
-    }
-}
 
 const MenuGroupWithRouter = withRouter(MenuGroup);
 const MenuWithRouter = withRouter(Menu);
-const SubMenuWithRouter = withRouter(SubMenu);
 
 const withRouterInnerRef = (WrappedComponent) => {
 
@@ -162,20 +142,6 @@ class Navigator extends Component {
         this.checkActiveMenu();
     };
 
-    // componentWillReceiveProps(nextProps, prevState) {
-    //     const { location, setAccountMenuPath, setSettingMenuPath } = this.props;
-    //     const { location: nextLocation } = nextProps;
-    //     if (location !== nextLocation) {
-    //         let pathname = nextLocation && nextLocation.pathname;
-    //         if ((pathname.startsWith('/account/') || pathname.startsWith('/fds/account/'))) {
-    //             setAccountMenuPath(pathname);
-    //         }
-    //         if (pathname.startsWith('/settings/')) {
-    //             setSettingMenuPath(pathname);
-    //         };
-    //     };
-    // };
-
     componentDidUpdate(prevProps, prevState) {
         const { location } = this.props;
         const { location: prevLocation } = prevProps;
@@ -209,15 +175,6 @@ class Navigator extends Component {
                                                         onClick={() => this.toggle(groupIndex, menuIndex)}
                                                         onLinkClick={onLinkClick}
                                                     >
-                                                        {menu.subMenus && menu.subMenus.map((subMenu, subMenuIndex) => (
-                                                            <SubMenuWithRouter
-                                                                key={subMenuIndex}
-                                                                name={subMenu.name}
-                                                                link={subMenu.link}
-                                                                onClick={this.closeOtherExpand}
-                                                                onLinkClick={onLinkClick}
-                                                            />
-                                                        ))}
                                                     </MenuWithRouter>
                                                 );
                                             })

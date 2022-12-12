@@ -127,7 +127,7 @@ class BadProductManage extends Component {
         let badProducts = this.state.badProducts
 
         return (
-            <div className='product-container'>
+            <div className='content'>
                 <div className='title text-center'>Bad Products</div>
                 <ModalConfirm
                     isOpen={this.state.is_modal_recycle_open}
@@ -146,25 +146,23 @@ class BadProductManage extends Component {
                     toggleModal={this.toggleModalReport}
                     reportDefective={this.reportDefective}
                 />
-                <div className='mx-1'>
-                    <button className='btn btn-primary px-3 d-inline-flex'
-                        onClick={() => this.recycleButton()}>
-                        <i className='fa-solid fa-cart-shopping'></i>Tái chế sản phẩm hỏng
-                    </button>
-                </div>
-                <div className='mx-1'>
-                    <button className='btn btn-primary px-3 d-inline-flex'
-                        onClick={() => this.repairButton()}>
-                        <i className='fa-solid fa-cart-shopping'></i>Sửa chữa sản phẩm lỗi
-                    </button>
-                </div>
-                <div className='mx-1'>
-                    <button className='btn btn-primary px-3 d-inline-flex'
-                        onClick={() => this.reportButton()}>
-                        <i className='fa-solid fa-cart-shopping'></i>Báo cáo dòng sản phẩm lỗi
-                    </button>
-                </div>
-                <div className='product-table mx-1 mt-3'>
+
+                <button className='btn btn-modify'
+                    onClick={() => this.recycleButton()}>
+                    Tái chế sản phẩm hỏng
+                </button>
+
+                <button className='btn btn-modify'
+                    onClick={() => this.repairButton()}>
+                    Sửa chữa sản phẩm lỗi
+                </button>
+
+                <button className='btn btn-delete'
+                    onClick={() => this.reportButton()}>
+                    Báo cáo dòng sản phẩm lỗi
+                </button>
+
+                <div className='mx-1 mt-3'>
                     <table className="table table-striped">
                         <thead>
                             <tr>

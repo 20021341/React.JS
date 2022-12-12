@@ -169,8 +169,8 @@ class ModalCreateCard extends Component {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" className='px-3' onClick={() => this.createCardButton()}>Tạo hóa đơn</Button>{' '}
-                    <Button color="secondary" className='px-3' onClick={() => this.props.toggleModalCreateCard()}>Hủy</Button>
+                    <Button className='btn btn-confirm px-3' onClick={() => this.createCardButton()}>Tạo hóa đơn</Button>{' '}
+                    <Button className='btn btn-deny px-3' onClick={() => this.props.toggleModalCreateCard()}>Hủy</Button>
                 </ModalFooter>
             </Modal>
         )

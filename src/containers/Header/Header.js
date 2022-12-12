@@ -4,36 +4,35 @@ import { connect } from 'react-redux';
 import * as actions from "../../store/actions";
 import Navigator from './Navigator';
 import { headquarterMenu, agentMenu, factoryMenu, centerMenu } from './menuApp';
-import './Header.scss';
-import { ROLE } from '../../utils'
-import _ from 'lodash'
+import ModalConfirm from '../Modal/ModalConfirm'
 
 class Header extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            menuApp: []
+            menuApp: [],
+            is_modal_confirm_open: false
         }
     }
 
     componentDidMount() {
         let { facility } = this.props
         let menu = []
-        if (facility && !_.isEmpty(facility)) {
+        if (facility) {
             let role = facility.role
-            if (role === ROLE.HEAD_QUARTER) {
+            if (role === 'admin') {
                 menu = headquarterMenu
             }
 
-            if (role === ROLE.AGENT) {
+            if (role === 'agent') {
                 menu = agentMenu
             }
 
-            if (role === ROLE.FACTORY) {
+            if (role === 'factory') {
                 menu = factoryMenu
             }
 
-            if (role === ROLE.MT_CENTER) {
+            if (role === 'center') {
                 menu = centerMenu
             }
         }
@@ -43,8 +42,26 @@ class Header extends Component {
         })
     }
 
+    logout = () => {
+        const { processLogout } = this.props
+        processLogout()
+        this.toggleModalLogout()
+    }
+
+    logoutButton = () => {
+        this.setState({
+            is_modal_confirm_open: true
+        })
+    }
+
+    toggleModalLogout = () => {
+        this.setState({
+            is_modal_confirm_open: !this.state.is_modal_confirm_open
+        })
+    }
+
     render() {
-        const { processLogout, facility } = this.props;
+        const { facility } = this.props;
 
         return (
             <div className="header-container">
@@ -57,8 +74,15 @@ class Header extends Component {
                     {facility && facility.facility_name ? facility.facility_name : ''}
                 </div>
 
+                <ModalConfirm
+                    isOpen={this.state.is_modal_confirm_open}
+                    toggleModalConfirm={this.toggleModalLogout}
+                    onConfirm={this.logout}
+                    message={'Bạn có muốn đăng xuất không?'}
+                />
+
                 {/* nút logout */}
-                <div className="btn btn-logout" onClick={processLogout}>
+                <div className="btn btn-logout" onClick={() => this.logoutButton()}>
                     <i className="fas fa-sign-out-alt"></i>
                 </div>
             </div>

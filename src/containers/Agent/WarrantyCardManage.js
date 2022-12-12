@@ -30,9 +30,9 @@ class WarrantyCardManage extends Component {
         let cards = this.state.cards
 
         return (
-            <div className='product-container'>
+            <div className='content'>
                 <div className='title text-center'>Phiếu bảo hành</div>
-                <div className='product-table mx-1 mt-3'>
+                <div className='mx-1 mt-3'>
                     <table className="table table-striped">
                         <thead>
                             <tr>

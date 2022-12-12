@@ -136,7 +136,7 @@ class BadProductManage extends Component {
         let badProducts = this.state.badProducts
 
         return (
-            <div className='product-container'>
+            <div className='content'>
                 <div className='title text-center'>Bad Products</div>
                 <ModalCreateCard
                     isOpen={this.state.is_modal_card_open}
@@ -154,25 +154,19 @@ class BadProductManage extends Component {
                     toggleModalDefective={this.toggleModalDefective}
                     deliverDefectiveProducts={this.deliverDefectiveProducts}
                 />
-                <div className='mx-1'>
-                    <button className='btn btn-primary px-3 d-inline-flex'
-                        onClick={() => this.createCardButton()}>
-                        <i className='fa-solid fa-cart-shopping'></i>Tạo thẻ bảo hành
-                    </button>
-                </div>
-                <div className='mx-1'>
-                    <button className='btn btn-primary px-3 d-inline-flex'
-                        onClick={() => this.deliverCustomerProductsButton()}>
-                        <i className='fa-solid fa-cart-shopping'></i>Vận chuyển sản phẩm bảo hành
-                    </button>
-                </div>
-                <div className='mx-1'>
-                    <button className='btn btn-primary px-3 d-inline-flex'
-                        onClick={() => this.deliverDefectiveProductsButton()}>
-                        <i className='fa-solid fa-cart-shopping'></i>Vận chuyển sản phẩm lỗi
-                    </button>
-                </div>
-                <div className='product-table mx-1 mt-3'>
+                <button className='btn btn-add'
+                    onClick={() => this.createCardButton()}>
+                    Tạo thẻ bảo hành
+                </button>
+                <button className='btn btn-modify'
+                    onClick={() => this.deliverCustomerProductsButton()}>
+                    Vận chuyển sản phẩm bảo hành
+                </button>
+                <button className='btn btn-modify'
+                    onClick={() => this.deliverDefectiveProductsButton()}>
+                    Vận chuyển sản phẩm lỗi
+                </button>
+                <div className='mx-1 mt-3'>
                     <table className="table table-striped">
                         <thead>
                             <tr>

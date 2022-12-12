@@ -7,13 +7,11 @@ import BadProductManage from '../containers/Center/BadProductManage';
 class Center extends Component {
     render() {
         return (
-            <div className="system-container">
-                <div className="system-list">
-                    <Switch>
-                        <Route path="/center/bad-products-manage" component={BadProductManage} />
-                        <Redirect to="/" />
-                    </Switch>
-                </div>
+            <div className="center-container">
+                <Switch>
+                    <Route path="/center/bad-products-manage" component={BadProductManage} />
+                    <Redirect to="/" />
+                </Switch>
             </div>
         );
     }

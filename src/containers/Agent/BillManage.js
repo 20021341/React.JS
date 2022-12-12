@@ -29,9 +29,9 @@ class BillManage extends Component {
         let bills = this.state.bills
 
         return (
-            <div className='product-container'>
+            <div className='content'>
                 <div className='title text-center'>Hóa đơn</div>
-                <div className='product-table mx-1 mt-3'>
+                <div className='mx-1 mt-3'>
                     <table className="table table-striped">
                         <thead>
                             <tr>

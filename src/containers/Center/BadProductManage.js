@@ -91,7 +91,7 @@ class BadProductManage extends Component {
         let badProducts = this.state.badProducts
 
         return (
-            <div className='product-container'>
+            <div className='content'>
                 <div className='title text-center'>Bad Products</div>
                 <ModalConfirm
                     isOpen={this.state.is_modal_repair_open}
@@ -105,19 +105,18 @@ class BadProductManage extends Component {
                     onConfirm={this.deliverBrokenProducts}
                     message={'Vận chuyển sản phẩm hỏng?'}
                 />
-                <div className='mx-1'>
-                    <button className='btn btn-primary px-3 d-inline-flex'
-                        onClick={() => this.repairButton()}>
-                        <i className='fa-solid fa-cart-shopping'></i>Sửa chữa sản phẩm
-                    </button>
-                </div>
-                <div className='mx-1'>
-                    <button className='btn btn-primary px-3 d-inline-flex'
-                        onClick={() => this.deliverButton()}>
-                        <i className='fa-solid fa-cart-shopping'></i>Vận chuyển sản phẩm hỏng
-                    </button>
-                </div>
-                <div className='product-table mx-1 mt-3'>
+
+                <button className='btn btn-modify'
+                    onClick={() => this.repairButton()}>
+                    Sửa chữa sản phẩm
+                </button>
+
+                <button className='btn btn-modify'
+                    onClick={() => this.deliverButton()}>
+                    Vận chuyển sản phẩm hỏng
+                </button>
+
+                <div className='mx-1 mt-3'>
                     <table className="table table-striped">
                         <thead>
                             <tr>

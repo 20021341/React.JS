@@ -102,7 +102,7 @@ class GoodProductManage extends Component {
         let goodProducts = this.state.goodProducts
 
         return (
-            <div className='product-container'>
+            <div className='content'>
                 <div className='title text-center'>Good Products</div>
                 <ModalProduce
                     isOpen={this.state.is_modal_produce_open}
@@ -114,19 +114,18 @@ class GoodProductManage extends Component {
                     toggleModal={this.toggleModalDeliver}
                     deliverGoodProducts={this.deliverGoodProducts}
                 />
-                <div className='mx-1'>
-                    <button className='btn btn-primary px-3'
-                        onClick={() => this.produceButton()}>
-                        <i className='fa-solid fa-cart-shopping'></i>Sản xuất
-                    </button>
-                </div>
-                <div className='mx-1'>
-                    <button className='btn btn-primary px-3'
-                        onClick={() => this.deliverButton()}>
-                        <i className='fa-solid fa-cart-shopping'></i>Vận chuyển
-                    </button>
-                </div>
-                <div className='product-table mx-1 mt-3'>
+
+                <button className='btn btn-add'
+                    onClick={() => this.produceButton()}>
+                    Sản xuất
+                </button>
+
+                <button className='btn btn-modify'
+                    onClick={() => this.deliverButton()}>
+                    Vận chuyển
+                </button>
+
+                <div className='mx-1 mt-3'>
                     <table className="table table-striped">
                         <thead>
                             <tr>

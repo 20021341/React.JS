@@ -57,21 +57,21 @@ class FacilityManage extends Component {
         let facilities = this.state.facilities
 
         return (
-            <div className='facility-container'>
+            <div className='content'>
                 <div className='title text-center'>Facilities</div>
                 <ModalCreateFacility
                     isOpen={this.state.is_modal_open}
                     toggleModal={this.toggleModal}
                     createFacility={this.createFacility}
                 />
-                <div className='mx-1'>
-                    <button className='btn btn-primary px-3'
-                        onClick={() => this.handleCreateFacilityButton()}>
-                        <i className='fas fa-plus'></i> Create a new facility
-                    </button>
-                </div>
-                <div className='facility-table mx-1 mt-3'>
-                    <table className="table">
+
+                <button className='btn btn-add'
+                    onClick={() => this.handleCreateFacilityButton()}>
+                    Create a new facility
+                </button>
+
+                <div className='mx-1 mt-3'>
+                    <table className="table table-striped">
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>

@@ -11,17 +11,15 @@ import WarrantyCardManage from '../containers/Agent/WarrantyCardManage';
 class Agent extends Component {
     render() {
         return (
-            <div className="system-container">
-                <div className="system-list">
-                    <Switch>
-                        <Route path="/agent/good-products-manage" component={GoodProductManage} />
-                        <Route path="/agent/bad-products-manage" component={BadProductManage} />
-                        <Route path="/agent/bills-manage" component={BillManage} />
-                        <Route path="/agent/cards-manage" component={WarrantyCardManage} />
-                        <Route path="/agent/retrieve-products" component={RetrieveProduct} />
-                        <Redirect to="/" />
-                    </Switch>
-                </div>
+            <div className="agent-container">
+                <Switch>
+                    <Route path="/agent/good-products-manage" component={GoodProductManage} />
+                    <Route path="/agent/bad-products-manage" component={BadProductManage} />
+                    <Route path="/agent/bills-manage" component={BillManage} />
+                    <Route path="/agent/cards-manage" component={WarrantyCardManage} />
+                    <Route path="/agent/retrieve-products" component={RetrieveProduct} />
+                    <Redirect to="/" />
+                </Switch>
             </div>
         );
     }

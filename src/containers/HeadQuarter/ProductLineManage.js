@@ -57,21 +57,21 @@ class ProductLineManage extends Component {
         let product_lines = this.state.product_lines
 
         return (
-            <div className='facility-container'>
+            <div className='content'>
                 <div className='title text-center'>Quản lý dòng sản phẩm</div>
                 <ModalCreateProductLine
                     isOpen={this.state.is_modal_create_open}
                     toggleModal={this.toggleModalCreate}
                     createProductLine={this.createProductLine}
                 />
-                <div className='mx-1'>
-                    <button className='btn btn-primary px-3'
-                        onClick={() => this.handleCreateProductLineButton()}>
-                        <i className='fas fa-plus'></i> Tạo dòng sản phẩm
-                    </button>
-                </div>
-                <div className='facility-table mx-1 mt-3'>
-                    <table className="table">
+
+                <button className='btn btn-add'
+                    onClick={() => this.handleCreateProductLineButton()}>
+                    Tạo dòng sản phẩm
+                </button>
+
+                <div className='mx-1 mt-3'>
+                    <table className="table table-striped">
                         <thead>
                             <tr>
                                 <th scope="col">Dòng sản phẩm</th>

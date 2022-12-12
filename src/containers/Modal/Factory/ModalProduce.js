@@ -98,8 +98,8 @@ class ModalProduce extends Component {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" className='px-3' onClick={() => this.produceButton()}>Sản xuất</Button>{' '}
-                    <Button color="secondary" className='px-3' onClick={() => this.props.toggleModal()}>Hủy</Button>
+                    <Button className='btn btn-confirm px-3' onClick={() => this.produceButton()}>Sản xuất</Button>{' '}
+                    <Button className='btn btn-deny px-3' onClick={() => this.props.toggleModal()}>Hủy</Button>
                 </ModalFooter>
             </Modal>
         )

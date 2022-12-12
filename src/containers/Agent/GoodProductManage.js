@@ -70,20 +70,18 @@ class GoodProductManage extends Component {
         let goodProducts = this.state.goodProducts
 
         return (
-            <div className='product-container'>
+            <div className='content'>
                 <div className='title text-center'>Good Products</div>
                 <ModalCreateBill
                     isOpen={this.state.is_modal_open}
                     toggleModal={this.toggleModal}
                     createBill={this.createBill}
                 />
-                <div className='mx-1'>
-                    <button className='btn btn-primary px-3'
-                        onClick={() => this.createBillButton()}>
-                        <i className='fa-solid fa-cart-shopping'></i>Tạo hóa đơn
-                    </button>
-                </div>
-                <div className='product-table mx-1 mt-3'>
+                <button className='btn btn-add'
+                    onClick={() => this.createBillButton()}>
+                    Tạo hóa đơn
+                </button>
+                <div className='mx-1 mt-3'>
                     <table className="table table-striped">
                         <thead>
                             <tr>

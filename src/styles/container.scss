@@ -1,0 +1,101 @@
+/*
+ * General styles
+ */
+body,
+html {
+  // background: linear-gradient(135deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+  background-image: "#fff";
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: $fontmain;
+  font-size: $base-size - 2px;
+  height: 100vh;
+}
+
+.btn {
+  padding: 8px;
+  margin-left: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  user-select: none;
+}
+
+.btn-add,
+.btn-delete,
+.btn-modify {
+  display: inline-block;
+
+  &:hover {
+    color: $common-text-color;
+    background-color: darken($colormain, 5);
+  }
+}
+
+.btn-add {
+  background-color: $colormain;
+  color: $common-text-color;
+}
+
+.btn-modify {
+  background-color: $colorsub;
+  color: $common-text-color;
+}
+
+.btn-delete {
+  background-color: $common-red;
+  color: $common-text-color;
+}
+
+.btn-confirm {
+  background-color: $common-green;
+  color: $common-text-color;
+
+  &:hover {
+    color: $common-text-color;
+    background-color: darken($common-green, 5);
+  }
+}
+
+.btn-deny {
+  background-color: $common-orange;
+  color: $common-text-color;
+
+  &:hover {
+    color: $common-text-color;
+    background-color: darken($common-orange, 5);
+  }
+}
+
+.table {
+  width: 100%;
+
+  thead {
+    background-color: $colormain;
+    color: $common-text-color;
+    text-align: center;
+  }
+
+  tbody {
+    text-align: center;
+
+    tr {
+      &:hover {
+        color: $common-text-color;
+        background-color: $color-table-hover;
+      }
+    }
+  }
+}
+
+.content-container {
+  .title {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: $base-size + 4px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    color: $colormain;
+  }
+}

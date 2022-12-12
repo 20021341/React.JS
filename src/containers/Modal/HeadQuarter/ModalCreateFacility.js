@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './ModalCreateFacility.scss';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 class ModalCreateFacility extends Component {
@@ -66,7 +65,6 @@ class ModalCreateFacility extends Component {
             <Modal
                 isOpen={this.props.isOpen}
                 toggle={() => this.props.toggleModal()}
-                className={'modal-create-facility-container'}
                 size='lg'
             >
                 <ModalHeader toggle={() => this.props.toggleModal()}>Modal title</ModalHeader>
@@ -165,8 +163,8 @@ class ModalCreateFacility extends Component {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" className='px-3' onClick={() => this.createFacilityButton()}>Create Facility</Button>{' '}
-                    <Button color="secondary" className='px-3' onClick={() => this.props.toggleModal()}>Cancel</Button>
+                    <Button className='btn btn-confirm px-3' onClick={() => this.createFacilityButton()}>Create Facility</Button>{' '}
+                    <Button className=' btn btn-deny px-3' onClick={() => this.props.toggleModal()}>Cancel</Button>
                 </ModalFooter>
             </Modal>
         )
