@@ -10,13 +10,15 @@
     .facility-name {
         justify-content: center;
         line-height: 40px;
+        text-transform: uppercase;
     }
 
     .btn-logout {
         color: $common-text-color;
         line-height: 40px;
         height: 40px;
-        padding: 0 10px;
+        padding: 0 20px;
+        margin-left: 23.25px;
 
         &:hover {
             background-color: darken($colormain, 5);
