@@ -27,18 +27,9 @@ class ProductLineManage extends Component {
     }
 
     createProductLine = async (data) => {
-        try {
-            let res = await handleCreateNewProductLine(data)
-            if (res && res.errCode === 0) {
-                alert(res.message)
-                await this.getAllProductLines()
-                this.toggleModalCreate()
-            } else {
-                alert(res.message)
-            }
-        } catch (e) {
-            console.log(e)
-        }
+        let res = await handleCreateNewProductLine(data)
+        await this.getAllProductLines()
+        return res
     }
 
     handleCreateProductLineButton = () => {

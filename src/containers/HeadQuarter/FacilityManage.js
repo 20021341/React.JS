@@ -27,18 +27,9 @@ class FacilityManage extends Component {
     }
 
     createFacility = async (data) => {
-        try {
-            let res = await handleCreateFacility(data)
-            if (res && res.errCode === 0) {
-                alert(res.message)
-                await this.getAllFacilities()
-                this.toggleModal()
-            } else {
-                alert(res.message)
-            }
-        } catch (e) {
-            console.log(e)
-        }
+        let res = await handleCreateFacility(data)
+        await this.getAllFacilities()
+        return res
     }
 
     handleCreateFacilityButton = () => {
@@ -58,7 +49,7 @@ class FacilityManage extends Component {
 
         return (
             <div className='content'>
-                <div className='title text-center'>Facilities</div>
+                <div className='title text-center'>Cơ sở</div>
                 <ModalCreateFacility
                     isOpen={this.state.is_modal_open}
                     toggleModal={this.toggleModal}
@@ -67,18 +58,18 @@ class FacilityManage extends Component {
 
                 <button className='btn btn-add'
                     onClick={() => this.handleCreateFacilityButton()}>
-                    Create a new facility
+                    Mở cơ sở mới
                 </button>
 
                 <div className='mx-1 mt-3'>
                     <table className="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Address</th>
-                                <th scope="col">Phone number</th>
-                                <th scope="col">Role</th>
+                                <th scope="col">Mã cơ sở</th>
+                                <th scope="col">Tên cơ sở</th>
+                                <th scope="col">Địa chỉ</th>
+                                <th scope="col">Số điện thoại</th>
+                                <th scope="col">Vai trò</th>
                             </tr>
                         </thead>
                         <tbody>

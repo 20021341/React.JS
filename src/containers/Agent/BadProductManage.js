@@ -41,37 +41,17 @@ class BadProductManage extends Component {
             center_id: data.center_id,
         }
 
-        console.log(card)
-
-        try {
-            let res = await handleCreateCard(card)
-            console.log(res)
-            if (res && res.errCode === 0) {
-                await this.getBadProducts()
-                this.toggleModalCreateCard()
-            } else {
-                alert(res.message)
-            }
-        } catch (e) {
-            console.log(e)
-        }
+        let res = await handleCreateCard(card)
+        await this.getBadProducts()
+        return res
     }
 
     deliverCustomerProducts = async () => {
         const { facility } = this.props
 
-        try {
-            let res = await handleDeliverCustomerProducts({ agent_id: facility.facility_id })
-            console.log(res)
-            if (res && res.errCode === 0) {
-                await this.getBadProducts()
-                this.toggleModalConfirm()
-            } else {
-                alert(res.message)
-            }
-        } catch (e) {
-            console.log(e)
-        }
+        let res = await handleDeliverCustomerProducts({ agent_id: facility.facility_id })
+        await this.getBadProducts()
+        return res
     }
 
     deliverDefectiveProducts = async (center_id) => {
@@ -82,18 +62,9 @@ class BadProductManage extends Component {
             center_id: center_id
         }
 
-        try {
-            let res = await handleDeliverDefectiveProducts(data)
-            console.log(res)
-            if (res && res.errCode === 0) {
-                await this.getBadProducts()
-                this.toggleModalDefective()
-            } else {
-                alert(res.message)
-            }
-        } catch (e) {
-            console.log(e)
-        }
+        let res = await handleDeliverDefectiveProducts(data)
+        await this.getBadProducts()
+        return res
     }
 
     createCardButton = () => {
@@ -137,7 +108,7 @@ class BadProductManage extends Component {
 
         return (
             <div className='content'>
-                <div className='title text-center'>Bad Products</div>
+                <div className='title text-center'>Sản phẩm xấu</div>
                 <ModalCreateCard
                     isOpen={this.state.is_modal_card_open}
                     toggleModalCreateCard={this.toggleModalCreateCard}
@@ -156,7 +127,7 @@ class BadProductManage extends Component {
                 />
                 <button className='btn btn-add'
                     onClick={() => this.createCardButton()}>
-                    Tạo thẻ bảo hành
+                    Tạo phiếu bảo hành
                 </button>
                 <button className='btn btn-modify'
                     onClick={() => this.deliverCustomerProductsButton()}>

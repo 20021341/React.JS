@@ -10,7 +10,12 @@ class ModalCreateFacility extends Component {
             facility_name: '',
             phone_number: '',
             address: '',
-            role: ''
+            role: '',
+            facility_name_alert: '',
+            phone_number_alert: '',
+            address_alert: '',
+            role_alert: '',
+            res_message: ''
         }
     }
 
@@ -28,14 +33,14 @@ class ModalCreateFacility extends Component {
     }
 
     createFacilityButton = () => {
+        this.setState({
+            facility_name_alert: '',
+            phone_number_alert: '',
+            address_alert: '',
+            role_alert: '',
+            res_message: ''
+        })
         if (this.checkValidInput()) {
-            this.setState({
-                facility_name: '',
-                phone_number: '',
-                address: '',
-                role: ''
-            })
-
             let data = {
                 facility_name: this.state.facility_name.trim(),
                 phone_number: this.state.phone_number.trim(),
@@ -43,7 +48,15 @@ class ModalCreateFacility extends Component {
                 role: this.state.role
             }
 
-            this.props.createFacility(data)
+            let res = this.props.createFacility(data)
+
+            res.then((obj) => {
+                if (obj.errCode === 0) {
+                    this.toggle()
+                } else {
+                    this.setState({ res_message: obj.message })
+                }
+            })
         }
     }
 
@@ -53,37 +66,88 @@ class ModalCreateFacility extends Component {
         for (let i = 0; i < arrInput.length; i++) {
             if (!this.state[arrInput[i]]) {
                 isValid = false
-                alert('Missing input param: ' + arrInput[i])
-                break
+                switch (arrInput[i]) {
+                    case 'facility_name':
+                        this.setState({ facility_name_alert: 'Chưa nhập tên cơ sở' })
+                        break
+                    case 'phone_number':
+                        this.setState({ phone_number_alert: 'Chưa nhập số điện thoại' })
+                        break
+                    case 'address':
+                        this.setState({ address_alert: 'Chưa chọn địa chỉ' })
+                        break
+                    case 'role':
+                        this.setState({ role_alert: 'Chưa chọn vai trò' })
+                        break
+                }
             }
         }
         return isValid
+    }
+
+    handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            this.createFacilityButton()
+        }
+    }
+
+    toggle = () => {
+        this.setState({
+            facility_name: '',
+            phone_number: '',
+            address: '',
+            role: '',
+            facility_name_alert: '',
+            phone_number_alert: '',
+            address_alert: '',
+            role_alert: '',
+            res_message: ''
+        })
+
+        this.props.toggleModal()
     }
 
     render() {
         return (
             <Modal
                 isOpen={this.props.isOpen}
-                toggle={() => this.props.toggleModal()}
+                toggle={() => this.toggle()}
                 size='lg'
             >
-                <ModalHeader toggle={() => this.props.toggleModal()}>Modal title</ModalHeader>
+                <ModalHeader toggle={() => this.toggle()}>Mở cơ sở mới</ModalHeader>
                 <ModalBody>
                     <div className='modal-body'>
                         <div className='input-container'>
-                            <label>Facility Name</label>
+                            <div>
+                                <label style={{ float: 'left' }}>Tên cơ sở</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.facility_name_alert}
+                                </label>
+                            </div>
                             <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'facility_name') }}
-                                value={this.state.facility_name} />
+                                value={this.state.facility_name}
+                                onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
                         <div className='input-container'>
-                            <label>Phone Number</label>
+                            <div>
+                                <label style={{ float: 'left' }}>Số điện thoại</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.phone_number_alert}
+                                </label>
+                            </div>
                             <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'phone_number') }}
-                                value={this.state.phone_number} />
+                                value={this.state.phone_number}
+                                onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
                         <div className='select-container'>
-                            <label>Address</label>
+                            <div>
+                                <label style={{ float: 'left' }}>Địa chỉ</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.address_alert}
+                                </label>
+                            </div>
                             <select name='address' onChange={(event) => { this.handleOnChangeInput(event, 'address') }} >
-                                <option value={''}>--Thành phố--</option>
+                                <option value={''} selected={'selected'}>--Thành phố--</option>
                                 <option value={'An Giang'}>An Giang</option>
                                 <option value={'Bà Rịa - Vũng Tàu'}>Bà Rịa - Vũng Tàu</option>
                                 <option value={'Bắc Giang'}>Bắc Giang</option>
@@ -152,19 +216,30 @@ class ModalCreateFacility extends Component {
                             </select>
                         </div>
                         <div className='select-container'>
-                            <label>Role</label>
+                            <div>
+                                <label style={{ float: 'left' }}>Vai trò</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.role_alert}
+                                </label>
+                            </div>
                             <select name='role' onChange={(event) => { this.handleOnChangeInput(event, 'role') }} >
-                                <option value={''}>--Choose a role--</option>
-                                <option value={'factory'}>Factory</option>
-                                <option value={'agent'}>Agent</option>
-                                <option value={'center'}>Maintainance Center</option>
+                                <option value={''} selected={'selected'}>--Chọn một vai trò--</option>
+                                <option value={'factory'}>Nhà máy</option>
+                                <option value={'agent'}>Đại lý phân phối</option>
+                                <option value={'center'}>Trung tâm bảo hành</option>
                             </select>
+
+                        </div>
+                        <div className='response-container'>
+                            <div style={{ color: 'red' }}>
+                                {this.state.res_message}
+                            </div>
                         </div>
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button className='btn btn-confirm px-3' onClick={() => this.createFacilityButton()}>Create Facility</Button>{' '}
-                    <Button className=' btn btn-deny px-3' onClick={() => this.props.toggleModal()}>Cancel</Button>
+                    <Button className='btn btn-confirm px-3' onClick={() => this.createFacilityButton()}>Mở cơ sở mới</Button>{' '}
+                    <Button className=' btn btn-deny px-3' onClick={() => this.toggle()}>Hủy</Button>
                 </ModalFooter>
             </Modal>
         )

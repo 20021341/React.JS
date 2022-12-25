@@ -8,6 +8,8 @@ class ModalReportDefective extends Component {
         super(props)
         this.state = {
             product_line: '',
+            product_line_alert: '',
+            res_message: '',
             product_lines: []
         }
     }
@@ -27,25 +29,32 @@ class ModalReportDefective extends Component {
     }
 
     reportDefectiveButton = () => {
-        if (this.checkValidInput()) {
-            this.props.reportDefective(this.state.product_line)
+        this.setState({
+            product_line_alert: '',
+            res_message: ''
+        })
 
-            this.setState({
-                product_line: '',
+        if (this.checkValidInput()) {
+            let res = this.props.reportDefective(this.state.product_line)
+
+            res.then((obj) => {
+                if (obj.errCode === 0) {
+                    this.toggle()
+                } else {
+                    this.setState({ res_message: obj.message })
+                }
             })
         }
     }
 
     checkValidInput = () => {
         let isValid = true
-        let arrInput = ['product_line']
-        for (let i = 0; i < arrInput.length; i++) {
-            if (!this.state[arrInput[i]]) {
-                isValid = false
-                alert('Missing input param: ' + arrInput[i])
-                break
-            }
+
+        if (!this.state['product_line']) {
+            isValid = false
+            this.setState({ product_line_alert: 'Chưa chọn dòng sản phẩm' })
         }
+
         return isValid
     }
 
@@ -58,23 +67,37 @@ class ModalReportDefective extends Component {
         }
     }
 
+    toggle = () => {
+        this.setState({
+            product_line: '',
+            product_line_alert: '',
+            res_message: '',
+        })
+
+        this.props.toggleModal()
+    }
+
     render() {
         let product_lines = this.state.product_lines
 
         return (
             <Modal
                 isOpen={this.props.isOpen}
-                toggle={() => this.props.toggleModal()}
-                className={'modal-create-facility-container'}
+                toggle={() => this.toggle()}
                 size='lg'
             >
-                <ModalHeader toggle={() => this.props.toggleModal()}>Báo cáo dòng sản phẩm lỗi</ModalHeader>
+                <ModalHeader toggle={() => this.toggle()}>Báo cáo dòng sản phẩm lỗi</ModalHeader>
                 <ModalBody>
                     <div className='modal-body'>
                         <div className='select-container'>
-                            <label>Dòng sản phẩm</label>
+                            <div>
+                                <label style={{ float: 'left' }}>Dòng sản phẩm</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.product_line_alert}
+                                </label>
+                            </div>
                             <select name='product_line' onChange={(event) => { this.handleOnChangeInput(event, 'product_line') }} >
-                                <option value={''}>--Chọn một dòng sản phẩm--</option>
+                                <option value={''} selected={'selected'}>--Chọn một dòng sản phẩm--</option>
                                 {
                                     product_lines.map((product_line) => {
                                         return (
@@ -83,12 +106,17 @@ class ModalReportDefective extends Component {
                                     })
                                 }
                             </select>
+                            <div className='response-container'>
+                                <div style={{ color: 'red' }}>
+                                    {this.state.res_message}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </ModalBody>
                 <ModalFooter>
                     <Button className='btn btn-confirm px-3' onClick={() => this.reportDefectiveButton()}>Báo cáo</Button>{' '}
-                    <Button className='btn btn-deny px-3' onClick={() => this.props.toggleModal()}>Hủy</Button>
+                    <Button className='btn btn-deny px-3' onClick={() => this.toggle()}>Hủy</Button>
                 </ModalFooter>
             </Modal>
         )

@@ -13,6 +13,10 @@ class ModalCreateCard extends Component {
             phone_number: '',
             product_id: '',
             center_id: '',
+            customer_id_alert: '',
+            product_id_alert: '',
+            center_id_alert: '',
+            res_messsage: '',
             products: [],
             centers: [],
             customerInfo: null
@@ -39,6 +43,13 @@ class ModalCreateCard extends Component {
     }
 
     createCardButton = () => {
+        this.setState({
+            customer_id_alert: '',
+            product_id_alert: '',
+            center_id_alert: '',
+            res_messsage: '',
+        })
+
         if (this.checkValidInput()) {
             let data = {
                 customer_id: this.state.customer_id.trim(),
@@ -46,16 +57,14 @@ class ModalCreateCard extends Component {
                 center_id: this.state.center_id
             }
 
-            this.setState({
-                customer_id: '',
-                fullname: '',
-                phone_number: '',
-                product_id: '',
-                center_id: '',
-                products: [],
+            let res = this.props.createCard(data)
+            res.then((obj) => {
+                if (obj.errCode === 0) {
+                    this.toggle()
+                } else {
+                    this.setState({ res_message: obj.message })
+                }
             })
-
-            this.props.createCard(data)
         }
     }
 
@@ -65,8 +74,17 @@ class ModalCreateCard extends Component {
         for (let i = 0; i < arrInput.length; i++) {
             if (!this.state[arrInput[i]]) {
                 isValid = false
-                alert('Missing input param: ' + arrInput[i])
-                break
+                switch (arrInput[i]) {
+                    case 'customer_id':
+                        this.setState({ customer_id_alert: 'Chưa nhập mã khách hàng' })
+                        break
+                    case 'product_id':
+                        this.setState({ product_id_alert: 'Chưa chọn sản phẩm' })
+                        break
+                    case 'center_id':
+                        this.setState({ center_id_alert: 'Chưa chọn trung tâm bảo hành' })
+                        break
+                }
             }
         }
         return isValid
@@ -84,7 +102,9 @@ class ModalCreateCard extends Component {
             })
         } else {
             this.setState({
-                customerInfo: null
+                customerInfo: null,
+                fullname: '',
+                phone_number: ''
             })
         }
     }
@@ -111,6 +131,29 @@ class ModalCreateCard extends Component {
         }
     }
 
+    handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            this.createCardButton()
+        }
+    }
+
+    toggle = () => {
+        this.setState({
+            customer_id: '',
+            fullname: '',
+            phone_number: '',
+            product_id: '',
+            center_id: '',
+            customer_id_alert: '',
+            product_id_alert: '',
+            center_id_alert: '',
+            res_messsage: '',
+            products: [],
+        })
+
+        this.props.toggleModalCreateCard()
+    }
+
     render() {
         let centers = this.state.centers
         let products = this.state.products
@@ -118,32 +161,42 @@ class ModalCreateCard extends Component {
         return (
             <Modal
                 isOpen={this.props.isOpen}
-                toggle={() => this.props.toggleModalCreateCard()}
-                className={'modal-create-facility-container'}
+                toggle={() => this.toggle()}
                 size='lg'
             >
-                <ModalHeader toggle={() => this.props.toggleModalCreateCard()}>Tạo thẻ bảo hành</ModalHeader>
+                <ModalHeader toggle={() => this.toggle()}>Tạo thẻ bảo hành</ModalHeader>
                 <ModalBody>
                     <div className='modal-body'>
                         <div className='input-container'>
-                            <label>Mã khách hàng</label>
-                            <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'customer_id') }}
-                                value={this.state.customer_id} />
+                            <div>
+                                <label style={{ float: 'left' }}>Mã khách hàng</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.customer_id_alert}
+                                </label>
+                            </div>
+                            <input type='text' value={this.state.customer_id}
+                                onChange={(event) => { this.handleOnChangeInput(event, 'customer_id') }}
+                                onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
                         <div className='input-container'>
                             <label>Họ và tên</label>
-                            <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'fullname') }}
+                            <input type='text' readOnly onChange={(event) => { this.handleOnChangeInput(event, 'fullname') }}
                                 value={this.state.fullname} />
                         </div>
                         <div className='input-container'>
                             <label>Số điện thoại</label>
-                            <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'phone_number') }}
+                            <input type='text' readOnly onChange={(event) => { this.handleOnChangeInput(event, 'phone_number') }}
                                 value={this.state.phone_number} />
                         </div>
                         <div className='select-container'>
-                            <label>Mã sản phẩm</label>
+                            <div>
+                                <label style={{ float: 'left' }}>Mã sản phẩm</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.product_id_alert}
+                                </label>
+                            </div>
                             <select name='product_id' onChange={(event) => { this.handleOnChangeInput(event, 'product_id') }} >
-                                <option value={''}>--Sản phẩm đã mua--</option>
+                                <option value={''} selected={'selected'}>--Sản phẩm đã mua--</option>
                                 {
                                     products.map((product) => {
                                         return (
@@ -154,9 +207,14 @@ class ModalCreateCard extends Component {
                             </select>
                         </div>
                         <div className='select-container'>
-                            <label>Trung tâm bảo hành</label>
+                            <div>
+                                <label style={{ float: 'left' }}>Trung tâm bảo hành</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.center_id_alert}
+                                </label>
+                            </div>
                             <select name='maintain_at' onChange={(event) => { this.handleOnChangeInput(event, 'center_id') }} >
-                                <option value={''}>--Chọn một trung tâm--</option>
+                                <option value={''} selected={'selected'}>--Chọn một trung tâm--</option>
                                 {
                                     centers.map((center) => {
                                         return (
@@ -166,11 +224,16 @@ class ModalCreateCard extends Component {
                                 }
                             </select>
                         </div>
+                        <div className='response-container'>
+                            <div style={{ color: 'red' }}>
+                                {this.state.res_message}
+                            </div>
+                        </div>
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button className='btn btn-confirm px-3' onClick={() => this.createCardButton()}>Tạo hóa đơn</Button>{' '}
-                    <Button className='btn btn-deny px-3' onClick={() => this.props.toggleModalCreateCard()}>Hủy</Button>
+                    <Button className='btn btn-confirm px-3' onClick={() => this.createCardButton()}>Tạo phiếu bảo hành</Button>{' '}
+                    <Button className='btn btn-deny px-3' onClick={() => this.toggle()}>Hủy</Button>
                 </ModalFooter>
             </Modal>
         )

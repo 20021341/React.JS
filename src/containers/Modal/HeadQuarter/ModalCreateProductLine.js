@@ -13,6 +13,14 @@ class ModalCreateProductLine extends Component {
             memory: '',
             display: '',
             warranty_period: '',
+            product_line_alert: '',
+            cpu_alert: '',
+            gpu_alert: '',
+            ram_alert: '',
+            memory_alert: '',
+            display_alert: '',
+            warranty_period_alert: '',
+            res_message: '',
             cpuList: [
                 'Intel Core i9-12900H',
                 'Intel Core i9-12900HK',
@@ -97,6 +105,17 @@ class ModalCreateProductLine extends Component {
     }
 
     createProductLineButton = () => {
+        this.setState({
+            product_line_alert: '',
+            cpu_alert: '',
+            gpu_alert: '',
+            ram_alert: '',
+            memory_alert: '',
+            display_alert: '',
+            warranty_period_alert: '',
+            res_message: '',
+        })
+
         if (this.checkValidInput()) {
             let data = {
                 product_line: this.state.product_line.trim(),
@@ -108,11 +127,15 @@ class ModalCreateProductLine extends Component {
                 warranty_period: this.state.warranty_period
             }
 
-            this.setState({
-                product_line: '',
-            })
+            let res = this.props.createProductLine(data)
 
-            this.props.createProductLine(data)
+            res.then((obj) => {
+                if (obj.errCode === 0) {
+                    this.toggle()
+                } else {
+                    this.setState({ res_message: obj.message })
+                }
+            })
         }
     }
 
@@ -122,11 +145,60 @@ class ModalCreateProductLine extends Component {
         for (let i = 0; i < arrInput.length; i++) {
             if (!this.state[arrInput[i]]) {
                 isValid = false
-                alert('Missing input param: ' + arrInput[i])
-                break
+                switch (arrInput[i]) {
+                    case 'product_line':
+                        this.setState({ product_line_alert: 'Chưa nhập tên dòng sản phẩm' })
+                        break
+                    case 'cpu':
+                        this.setState({ cpu_alert: 'Chưa chọn bộ vi xử lí' })
+                        break
+                    case 'gpu':
+                        this.setState({ gpu_alert: 'Chưa chọn bộ xử lí đồ họa' })
+                        break
+                    case 'ram':
+                        this.setState({ ram_alert: 'Chưa chọn bộ nhớ RAM' })
+                        break
+                    case 'memory':
+                        this.setState({ memory_alert: 'Chưa chọn bộ nhớ lưu trữ' })
+                        break
+                    case 'display':
+                        this.setState({ display_alert: 'Chưa chọn độ phân giải' })
+                        break
+                    case 'warranty_period':
+                        this.setState({ warranty_period_alert: 'Chưa chọn thời hạn bảo hành' })
+                        break
+                }
             }
         }
         return isValid
+    }
+
+    toggle = () => {
+        this.setState({
+            product_line: '',
+            cpu: '',
+            gpu: '',
+            ram: '',
+            memory: '',
+            display: '',
+            warranty_period: '',
+            product_line_alert: '',
+            cpu_alert: '',
+            gpu_alert: '',
+            ram_alert: '',
+            memory_alert: '',
+            display_alert: '',
+            warranty_period_alert: '',
+            res_message: '',
+        })
+
+        this.props.toggleModal()
+    }
+
+    handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            this.createProductLineButton()
+        }
     }
 
     render() {
@@ -140,22 +212,33 @@ class ModalCreateProductLine extends Component {
         return (
             <Modal
                 isOpen={this.props.isOpen}
-                toggle={() => this.props.toggleModal()}
-                className={'modal-create-facility-container'}
+                toggle={() => this.toggle()}
+
                 size='lg'
             >
-                <ModalHeader toggle={() => this.props.toggleModal()}>Tạo dòng sản phẩm mới</ModalHeader>
+                <ModalHeader toggle={() => this.toggle()}>Tạo dòng sản phẩm mới</ModalHeader>
                 <ModalBody>
                     <div className='modal-body'>
                         <div className='input-container'>
-                            <label>Tên dòng sản phẩm</label>
+                            <div>
+                                <label style={{ float: 'left' }}>Tên dòng sản phẩm</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.product_line_alert}
+                                </label>
+                            </div>
                             <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'product_line') }}
-                                value={this.state.quantity} />
+                                value={this.state.quantity}
+                                onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
                         <div className='select-container'>
-                            <label>CPU</label>
+                            <div>
+                                <label style={{ float: 'left' }}>CPU</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.cpu_alert}
+                                </label>
+                            </div>
                             <select name='cpu' onChange={(event) => { this.handleOnChangeInput(event, 'cpu') }} >
-                                <option value={''}>--Chọn bộ vi xử lí--</option>
+                                <option value={''} selected={'selected'}>--Chọn bộ vi xử lí--</option>
                                 {
                                     cpuList.map((cpu) => {
                                         return (
@@ -166,9 +249,14 @@ class ModalCreateProductLine extends Component {
                             </select>
                         </div>
                         <div className='select-container'>
-                            <label>GPU</label>
+                            <div>
+                                <label style={{ float: 'left' }}>GPU</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.gpu_alert}
+                                </label>
+                            </div>
                             <select name='gpu' onChange={(event) => { this.handleOnChangeInput(event, 'gpu') }} >
-                                <option value={''}>--Chọn bộ xử lí đồ họa--</option>
+                                <option value={''} selected={'selected'}>--Chọn bộ xử lí đồ họa--</option>
                                 {
                                     gpuList.map((gpu) => {
                                         return (
@@ -179,9 +267,14 @@ class ModalCreateProductLine extends Component {
                             </select>
                         </div>
                         <div className='select-container'>
-                            <label>RAM</label>
+                            <div>
+                                <label style={{ float: 'left' }}>RAM</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.ram_alert}
+                                </label>
+                            </div>
                             <select name='ram' onChange={(event) => { this.handleOnChangeInput(event, 'ram') }} >
-                                <option value={''}>--Chọn bộ nhớ RAM--</option>
+                                <option value={''} selected={'selected'}>--Chọn bộ nhớ RAM--</option>
                                 {
                                     ramList.map((ram) => {
                                         return (
@@ -192,9 +285,14 @@ class ModalCreateProductLine extends Component {
                             </select>
                         </div>
                         <div className='select-container'>
-                            <label>Bộ nhớ lưu trữ</label>
+                            <div>
+                                <label style={{ float: 'left' }}>ROM</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.memory_alert}
+                                </label>
+                            </div>
                             <select name='memory' onChange={(event) => { this.handleOnChangeInput(event, 'memory') }} >
-                                <option value={''}>--Chọn bộ nhớ lưu trữ--</option>
+                                <option value={''} selected={'selected'}>--Chọn bộ nhớ lưu trữ--</option>
                                 {
                                     memoryList.map((memory) => {
                                         return (
@@ -205,9 +303,14 @@ class ModalCreateProductLine extends Component {
                             </select>
                         </div>
                         <div className='select-container'>
-                            <label>Màn hình</label>
+                            <div>
+                                <label style={{ float: 'left' }}>Màn hình</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.display_alert}
+                                </label>
+                            </div>
                             <select name='display' onChange={(event) => { this.handleOnChangeInput(event, 'display') }} >
-                                <option value={''}>--Chọn độ phân giải--</option>
+                                <option value={''} selected={'selected'}>--Chọn độ phân giải--</option>
                                 {
                                     displayList.map((display) => {
                                         return (
@@ -218,9 +321,14 @@ class ModalCreateProductLine extends Component {
                             </select>
                         </div>
                         <div className='select-container'>
-                            <label>Thời hạn bảo hành</label>
+                            <div>
+                                <label style={{ float: 'left' }}>Bảo hành</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.warranty_period_alert}
+                                </label>
+                            </div>
                             <select name='warranty_period' onChange={(event) => { this.handleOnChangeInput(event, 'warranty_period') }} >
-                                <option value={''}>--Chọn thời hạn bảo hành--</option>
+                                <option value={''} selected={'selected'}>--Chọn thời hạn bảo hành--</option>
                                 {
                                     warranty_periodList.map((warranty_period) => {
                                         return (
@@ -230,11 +338,16 @@ class ModalCreateProductLine extends Component {
                                 }
                             </select>
                         </div>
+                        <div className='response-container'>
+                            <div style={{ color: 'red' }}>
+                                {this.state.res_message}
+                            </div>
+                        </div>
                     </div>
                 </ModalBody>
                 <ModalFooter>
                     <Button className='btn btn-confirm px-3' onClick={() => this.createProductLineButton()}>Tạo dòng sản phẩm</Button>{' '}
-                    <Button className='btn btn-deny px-3' onClick={() => this.props.toggleModal()}>Hủy</Button>
+                    <Button className='btn btn-deny px-3' onClick={() => this.toggle()}>Hủy</Button>
                 </ModalFooter>
             </Modal>
         )

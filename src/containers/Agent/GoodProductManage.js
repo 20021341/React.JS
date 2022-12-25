@@ -39,18 +39,9 @@ class GoodProductManage extends Component {
             phone_number: data.phone_number
         }
 
-        try {
-            let res = await handleCreateBill(bill)
-            console.log(res)
-            if (res && res.errCode === 0) {
-                await this.getGoodProducts()
-                this.toggleModal()
-            } else {
-                alert(res.message)
-            }
-        } catch (e) {
-            console.log(e)
-        }
+        let res = await handleCreateBill(bill)
+        await this.getGoodProducts()
+        return res
     }
 
     createBillButton = () => {
@@ -71,7 +62,7 @@ class GoodProductManage extends Component {
 
         return (
             <div className='content'>
-                <div className='title text-center'>Good Products</div>
+                <div className='title text-center'>Sản phẩm tốt</div>
                 <ModalCreateBill
                     isOpen={this.state.is_modal_open}
                     toggleModal={this.toggleModal}

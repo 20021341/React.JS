@@ -6,29 +6,56 @@ class ModalConfirm extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            res_message: ''
         }
     }
 
     componentDidMount() {
     }
 
+    confirmButton = async () => {
+        this.setState({
+            res_message: ''
+        })
+
+        let res = await this.props.onConfirm()
+        if (!res || res.errCode === 0) {
+            this.toggle()
+        } else {
+            this.setState({ res_message: res.message })
+        }
+    }
+
+    toggle = () => {
+        this.setState({
+            res_message: ''
+        })
+
+        this.props.toggleModalConfirm()
+    }
+
     render() {
         return (
             <Modal
                 isOpen={this.props.isOpen}
-                toggle={() => this.props.toggleModalConfirm()}
-                className={'modal-create-facility-container'}
+                toggle={() => this.toggle()}
                 size='lg'
             >
-                <ModalHeader toggle={() => this.props.toggleModalConfirm()}>Xác nhận</ModalHeader>
+                <ModalHeader toggle={() => this.toggle()}>Xác nhận</ModalHeader>
                 <ModalBody>
                     <div className='modal-body'>
-                        {this.props.message}
+                        <h5>{this.props.message}</h5>
+                        <div className='response-container'>
+                            <div style={{ color: 'red' }}>
+                                {this.state.res_message}
+                            </div>
+                        </div>
                     </div>
+
                 </ModalBody>
                 <ModalFooter>
-                    <Button className='btn btn-confirm px-3' onClick={() => this.props.onConfirm()}>Đồng ý</Button>{' '}
-                    <Button className='btn btn-deny px-3' onClick={() => this.props.toggleModalConfirm()}>Hủy</Button>
+                    <Button className='btn btn-confirm px-3' onClick={() => this.confirmButton()}>Đồng ý</Button>{' '}
+                    <Button className='btn btn-deny px-3' onClick={() => this.toggle()}>Hủy</Button>
                 </ModalFooter>
             </Modal>
         )

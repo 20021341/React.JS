@@ -32,35 +32,17 @@ class BadProductManage extends Component {
     repairProducts = async () => {
         const { facility } = this.props
 
-        try {
-            let res = await handleRepairProducts({ center_id: facility.facility_id })
-            console.log(res)
-            if (res && res.errCode === 0) {
-                await this.getBadProducts()
-                this.toggleModalRepair()
-            } else {
-                alert(res.message)
-            }
-        } catch (e) {
-            console.log(e)
-        }
+        let res = await handleRepairProducts({ center_id: facility.facility_id })
+        await this.getBadProducts()
+        return res
     }
 
     deliverBrokenProducts = async () => {
         const { facility } = this.props
 
-        try {
-            let res = await handleDeliverBrokenProducts({ center_id: facility.facility_id })
-            console.log(res)
-            if (res && res.errCode === 0) {
-                await this.getBadProducts()
-                this.toggleModalDeliver()
-            } else {
-                alert(res.message)
-            }
-        } catch (e) {
-            console.log(e)
-        }
+        let res = await handleDeliverBrokenProducts({ center_id: facility.facility_id })
+        await this.getBadProducts()
+        return res
     }
 
     repairButton = () => {
@@ -92,7 +74,7 @@ class BadProductManage extends Component {
 
         return (
             <div className='content'>
-                <div className='title text-center'>Bad Products</div>
+                <div className='title text-center'>Sản phẩm xấu</div>
                 <ModalConfirm
                     isOpen={this.state.is_modal_repair_open}
                     toggleModalConfirm={this.toggleModalRepair}

@@ -30,14 +30,14 @@ class CustomerManage extends Component {
 
         return (
             <div className='content'>
-                <div className='title text-center'>Customers</div>
+                <div className='title text-center'>Khách hàng</div>
                 <div className='mx-1 mt-3'>
                     <table className="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Full Name</th>
-                                <th scope="col">Phone number</th>
+                                <th scope="col">Mã khách hàng</th>
+                                <th scope="col">Họ và tên</th>
+                                <th scope="col">Số điện thoại</th>
                             </tr>
                         </thead>
                         <tbody>

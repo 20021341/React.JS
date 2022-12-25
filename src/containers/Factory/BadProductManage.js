@@ -34,35 +34,17 @@ class BadProductManage extends Component {
     recyleProducts = async () => {
         const { facility } = this.props
 
-        try {
-            let res = await handleRecycleProducts({ factory_id: facility.facility_id })
-            console.log(res)
-            if (res && res.errCode === 0) {
-                await this.getBadProducts()
-                this.toggleModalRecycle()
-            } else {
-                alert(res.message)
-            }
-        } catch (e) {
-            console.log(e)
-        }
+        let res = await handleRecycleProducts({ factory_id: facility.facility_id })
+        await this.getBadProducts()
+        return res
     }
 
     repairProducts = async () => {
         const { facility } = this.props
 
-        try {
-            let res = await handleRepairProducts({ factory_id: facility.facility_id })
-            console.log(res)
-            if (res && res.errCode === 0) {
-                await this.getBadProducts()
-                this.toggleModalRepair()
-            } else {
-                alert(res.message)
-            }
-        } catch (e) {
-            console.log(e)
-        }
+        let res = await handleRepairProducts({ factory_id: facility.facility_id })
+        await this.getBadProducts()
+        return res
     }
 
     reportDefective = async (product_line) => {
@@ -73,18 +55,9 @@ class BadProductManage extends Component {
             factory_id: facility.facility_id
         }
 
-        try {
-            let res = await handleReportDefective(data)
-            console.log(res)
-            if (res && res.errCode === 0) {
-                await this.getBadProducts()
-                this.toggleModalReport()
-            } else {
-                alert(res.message)
-            }
-        } catch (e) {
-            console.log(e)
-        }
+        let res = await handleReportDefective(data)
+        await this.getBadProducts()
+        return res
     }
 
     recycleButton = () => {
@@ -128,7 +101,7 @@ class BadProductManage extends Component {
 
         return (
             <div className='content'>
-                <div className='title text-center'>Bad Products</div>
+                <div className='title text-center'>Sản phẩm xấu</div>
                 <ModalConfirm
                     isOpen={this.state.is_modal_recycle_open}
                     toggleModalConfirm={this.toggleModalRecycle}

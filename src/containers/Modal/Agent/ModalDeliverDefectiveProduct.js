@@ -8,6 +8,8 @@ class ModalDeliverDefectiveProduct extends Component {
         super(props)
         this.state = {
             center_id: '',
+            center_id_alert: '',
+            res_message: '',
             centers: []
         }
     }
@@ -26,25 +28,28 @@ class ModalDeliverDefectiveProduct extends Component {
         })
     }
 
-    deliverDefectiveButton = () => {
-        if (this.checkValidInput()) {
-            this.props.deliverDefectiveProducts(this.state.center_id)
+    deliverDefectiveButton = async () => {
+        this.setState({
+            center_id_alert: '',
+            res_message: ''
+        })
 
-            this.setState({
-                center_id: '',
-            })
+        if (this.checkValidInput()) {
+            let res = await this.props.deliverDefectiveProducts(this.state.center_id)
+
+            if (res.errCode === 0) {
+                this.toggle()
+            } else {
+                this.setState({ res_message: res.message })
+            }
         }
     }
 
     checkValidInput = () => {
         let isValid = true
-        let arrInput = ['center_id']
-        for (let i = 0; i < arrInput.length; i++) {
-            if (!this.state[arrInput[i]]) {
-                isValid = false
-                alert('Missing input param: ' + arrInput[i])
-                break
-            }
+        if (!this.state['center_id']) {
+            isValid = false
+            this.setState({ center_id_alert: 'Chưa chọn trung tâm bảo hành' })
         }
         return isValid
     }
@@ -57,23 +62,37 @@ class ModalDeliverDefectiveProduct extends Component {
         })
     }
 
+    toggle = () => {
+        this.setState({
+            center_id: '',
+            center_id_alert: '',
+            res_message: ''
+        })
+
+        this.props.toggleModalDefective()
+    }
+
     render() {
         let centers = this.state.centers
 
         return (
             <Modal
                 isOpen={this.props.isOpen}
-                toggle={() => this.props.toggleModalDefective()}
-                className={'modal-create-facility-container'}
+                toggle={() => this.toggle()}
                 size='lg'
             >
-                <ModalHeader toggle={() => this.props.toggleModalDefective()}>Vận chuyển sản phẩm lỗi</ModalHeader>
+                <ModalHeader toggle={() => this.toggle()}>Vận chuyển sản phẩm lỗi</ModalHeader>
                 <ModalBody>
                     <div className='modal-body'>
                         <div className='select-container'>
-                            <label>Trung tâm bảo hành</label>
+                            <div>
+                                <label style={{ float: 'left' }}>Trung tâm bảo hành</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.center_id_alert}
+                                </label>
+                            </div>
                             <select name='maintain_at' onChange={(event) => { this.handleOnChangeInput(event, 'center_id') }} >
-                                <option value={''}>--Chọn một trung tâm--</option>
+                                <option value={''} selected={'selected'}>--Chọn một trung tâm--</option>
                                 {
                                     centers.map((center) => {
                                         return (
@@ -83,11 +102,17 @@ class ModalDeliverDefectiveProduct extends Component {
                                 }
                             </select>
                         </div>
+
+                        <div className='response-container'>
+                            <div style={{ color: 'red' }}>
+                                {this.state.res_message}
+                            </div>
+                        </div>
                     </div>
                 </ModalBody>
                 <ModalFooter>
                     <Button className='btn btn-confirm px-3' onClick={() => this.deliverDefectiveButton()}>Vận chuyển sản phẩm</Button>{' '}
-                    <Button className='btn btn-deny px-3' onClick={() => this.props.toggleModalDefective()}>Hủy</Button>
+                    <Button className='btn btn-deny px-3' onClick={() => this.toggle()}>Hủy</Button>
                 </ModalFooter>
             </Modal>
         )

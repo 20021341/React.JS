@@ -42,7 +42,7 @@ class Header extends Component {
         })
     }
 
-    logout = () => {
+    logout = async () => {
         const { processLogout } = this.props
         processLogout()
         this.toggleModalLogout()

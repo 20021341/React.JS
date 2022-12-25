@@ -13,6 +13,12 @@ class ModalCreateBill extends Component {
             customer_id: '',
             fullname: '',
             phone_number: '',
+            product_line_alert: '',
+            quantity_alert: '',
+            customer_id_alert: '',
+            fullname_alert: '',
+            phone_number_alert: '',
+            res_message: '',
             customerInfo: null,
             product_lines: []
         }
@@ -37,6 +43,15 @@ class ModalCreateBill extends Component {
     }
 
     createBillButton = () => {
+        this.setState({
+            product_line_alert: '',
+            quantity_alert: '',
+            customer_id_alert: '',
+            fullname_alert: '',
+            phone_number_alert: '',
+            res_message: ''
+        })
+
         if (this.checkValidInput()) {
             let data = {
                 product_line: this.state.product_line.trim(),
@@ -46,15 +61,14 @@ class ModalCreateBill extends Component {
                 phone_number: this.state.phone_number.trim(),
             }
 
-            this.setState({
-                product_line: '',
-                quantity: '',
-                customer_id: '',
-                fullname: '',
-                phone_number: ''
+            let res = this.props.createBill(data)
+            res.then((obj) => {
+                if (obj.errCode === 0) {
+                    this.toggle()
+                } else {
+                    this.setState({ res_message: obj.message })
+                }
             })
-
-            this.props.createBill(data)
         }
     }
 
@@ -64,8 +78,23 @@ class ModalCreateBill extends Component {
         for (let i = 0; i < arrInput.length; i++) {
             if (!this.state[arrInput[i]]) {
                 isValid = false
-                alert('Missing input param: ' + arrInput[i])
-                break
+                switch (arrInput[i]) {
+                    case 'product_line':
+                        this.setState({ product_line_alert: 'Chưa chọn dòng sản phẩm' })
+                        break
+                    case 'quantity':
+                        this.setState({ quantity_alert: 'Chưa nhập số lượng' })
+                        break
+                    case 'customer_id':
+                        this.setState({ customer_id_alert: 'Chưa nhập mã khách hàng' })
+                        break
+                    case 'fullname':
+                        this.setState({ fullname_alert: 'Chưa nhập họ và tên' })
+                        break
+                    case 'phone_number':
+                        this.setState({ phone_number_alert: 'Chưa nhập số điện thoại' })
+                        break
+                }
             }
         }
         return isValid
@@ -97,22 +126,50 @@ class ModalCreateBill extends Component {
         }
     }
 
+    handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            this.createBillButton()
+        }
+    }
+
+    toggle = () => {
+        this.setState({
+            product_line: '',
+            quantity: '',
+            customer_id: '',
+            fullname: '',
+            phone_number: '',
+            product_line_alert: '',
+            quantity_alert: '',
+            customer_id_alert: '',
+            fullname_alert: '',
+            phone_number_alert: '',
+            res_message: ''
+        })
+        this.props.toggleModal()
+    }
+
     render() {
         let product_lines = this.state.product_lines
         return (
             <Modal
                 isOpen={this.props.isOpen}
-                toggle={() => this.props.toggleModal()}
-                className={'modal-create-facility-container'}
+                toggle={() => this.toggle()}
                 size='lg'
             >
-                <ModalHeader toggle={() => this.props.toggleModal()}>Tạo hóa đơn</ModalHeader>
+                <ModalHeader toggle={() => this.toggle()}>Tạo hóa đơn</ModalHeader>
                 <ModalBody>
                     <div className='modal-body'>
                         <div className='select-container'>
-                            <label>Dòng sản phẩm</label>
+                            <div>
+                                <label style={{ float: 'left' }}>Dòng sản phẩm</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.product_line_alert}
+                                </label>
+                            </div>
+
                             <select name='product_line' onChange={(event) => { this.handleOnChangeInput(event, 'product_line') }} >
-                                <option value={''}>--Chọn một dòng sản phẩm--</option>
+                                <option value={''} selected={'selected'} >--Chọn một dòng sản phẩm--</option>
                                 {
                                     product_lines.map((product_line) => {
                                         return (
@@ -123,30 +180,59 @@ class ModalCreateBill extends Component {
                             </select>
                         </div>
                         <div className='input-container'>
-                            <label>Số lượng</label>
-                            <input type='number' min={1} onChange={(event) => { this.handleOnChangeInput(event, 'quantity') }}
-                                value={this.state.quantity} />
+                            <div>
+                                <label style={{ float: 'left' }}>Số lượng</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.quantity_alert}
+                                </label>
+                            </div>
+                            <input type='number' min={1} value={this.state.quantity}
+                                onChange={(event) => { this.handleOnChangeInput(event, 'quantity') }}
+                                onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
                         <div className='input-container'>
-                            <label>Mã khách hàng</label>
-                            <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'customer_id') }}
-                                value={this.state.customer_id} />
+                            <div>
+                                <label style={{ float: 'left' }}>Mã khách hàng</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.customer_id_alert}
+                                </label>
+                            </div>
+                            <input type='text' value={this.state.customer_id}
+                                onChange={(event) => { this.handleOnChangeInput(event, 'customer_id') }}
+                                onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
                         <div className='input-container'>
-                            <label>Họ và tên</label>
-                            <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'fullname') }}
-                                value={this.state.fullname} />
+                            <div>
+                                <label style={{ float: 'left' }}>Họ và tên</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.fullname_alert}
+                                </label>
+                            </div>
+                            <input type='text' value={this.state.fullname}
+                                onChange={(event) => { this.handleOnChangeInput(event, 'fullname') }}
+                                onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
                         <div className='input-container'>
-                            <label>Số điện thoại</label>
-                            <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'phone_number') }}
-                                value={this.state.phone_number} />
+                            <div>
+                                <label style={{ float: 'left' }}>Số điện thoại</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.phone_number_alert}
+                                </label>
+                            </div>
+                            <input type='text' value={this.state.phone_number}
+                                onChange={(event) => { this.handleOnChangeInput(event, 'phone_number') }}
+                                onKeyDown={(event) => this.handleKeyDown(event)} />
+                        </div>
+                        <div className='response-container'>
+                            <div style={{ color: 'red' }}>
+                                {this.state.res_message}
+                            </div>
                         </div>
                     </div>
                 </ModalBody>
                 <ModalFooter>
                     <Button className='btn btn-confirm px-3' onClick={() => this.createBillButton()}>Tạo hóa đơn</Button>{' '}
-                    <Button className='btn btn-deny px-3' onClick={() => this.props.toggleModal()}>Hủy</Button>
+                    <Button className='btn btn-deny px-3' onClick={() => this.toggle()}>Hủy</Button>
                 </ModalFooter>
             </Modal>
         )

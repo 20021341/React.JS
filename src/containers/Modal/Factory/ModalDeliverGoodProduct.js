@@ -11,6 +11,10 @@ class ModalDeliverGoodProduct extends Component {
             product_line: '',
             agent_id: '',
             quantity: '',
+            product_line_alert: '',
+            agent_id_alert: '',
+            quantity_alert: '',
+            res_message: '',
             product_lines: [],
             agents: []
         }
@@ -32,6 +36,13 @@ class ModalDeliverGoodProduct extends Component {
     }
 
     deliverButton = () => {
+        this.setState({
+            product_line_alert: '',
+            agent_id_alert: '',
+            quantity_alert: '',
+            res_message: ''
+        })
+
         if (this.checkValidInput()) {
             let data = {
                 product_line: this.state.product_line,
@@ -39,13 +50,15 @@ class ModalDeliverGoodProduct extends Component {
                 quantity: this.state.quantity.trim(),
             }
 
-            this.setState({
-                product_line: '',
-                agent_id: '',
-                quantity: '',
-            })
+            let res = this.props.deliverGoodProducts(data)
 
-            this.props.deliverGoodProducts(data)
+            res.then((obj) => {
+                if (obj.errCode === 0) {
+                    this.toggle()
+                } else {
+                    this.setState({ res_message: obj.message })
+                }
+            })
         }
     }
 
@@ -55,8 +68,16 @@ class ModalDeliverGoodProduct extends Component {
         for (let i = 0; i < arrInput.length; i++) {
             if (!this.state[arrInput[i]]) {
                 isValid = false
-                alert('Missing input param: ' + arrInput[i])
-                break
+                switch (arrInput[i]) {
+                    case 'product_line':
+                        this.setState({ product_line_alert: 'Chưa chọn dòng sản phẩm' })
+                        break
+                    case 'agent_id':
+                        this.setState({ agent_id_alert: 'Chưa chọn đại lý phân phối' })
+                    case 'quantity':
+                        this.setState({ quantity_alert: 'Chưa nhập số lượng' })
+                        break
+                }
             }
         }
         return isValid
@@ -80,23 +101,47 @@ class ModalDeliverGoodProduct extends Component {
         }
     }
 
+    handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            this.deliverButton()
+        }
+    }
+
+    toggle = () => {
+        this.setState({
+            product_line: '',
+            agent_id: '',
+            quantity: '',
+            product_line_alert: '',
+            agent_id_alert: '',
+            quantity_alert: '',
+            res_message: '',
+        })
+
+        this.props.toggleModal()
+    }
+
     render() {
         let product_lines = this.state.product_lines
         let agents = this.state.agents
         return (
             <Modal
                 isOpen={this.props.isOpen}
-                toggle={() => this.props.toggleModal()}
-                className={'modal-create-facility-container'}
+                toggle={() => this.toggle()}
                 size='lg'
             >
-                <ModalHeader toggle={() => this.props.toggleModal()}>Tạo hóa đơn</ModalHeader>
+                <ModalHeader toggle={() => this.toggle()}>Vận chuyển đến đại lý</ModalHeader>
                 <ModalBody>
                     <div className='modal-body'>
                         <div className='select-container'>
-                            <label>Dòng sản phẩm</label>
+                            <div>
+                                <label style={{ float: 'left' }}>Dòng sản phẩm</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.product_line_alert}
+                                </label>
+                            </div>
                             <select name='product_line' onChange={(event) => { this.handleOnChangeInput(event, 'product_line') }} >
-                                <option value={''}>--Chọn một dòng sản phẩm--</option>
+                                <option value={''} selected={'selected'}>--Chọn một dòng sản phẩm--</option>
                                 {
                                     product_lines.map((product_line) => {
                                         return (
@@ -107,7 +152,12 @@ class ModalDeliverGoodProduct extends Component {
                             </select>
                         </div>
                         <div className='select-container'>
-                            <label>Đại lý phân phối</label>
+                            <div>
+                                <label style={{ float: 'left' }}>Đại lý phân phối</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.agent_id_alert}
+                                </label>
+                            </div>
                             <select name='agent_id' onChange={(event) => { this.handleOnChangeInput(event, 'agent_id') }} >
                                 <option value={''}>--Chọn một đại lý--</option>
                                 {
@@ -120,15 +170,26 @@ class ModalDeliverGoodProduct extends Component {
                             </select>
                         </div>
                         <div className='input-container'>
-                            <label>Số lượng</label>
-                            <input type='number' min={1} onChange={(event) => { this.handleOnChangeInput(event, 'quantity') }}
-                                value={this.state.quantity} />
+                            <div>
+                                <label style={{ float: 'left' }}>Số lượng</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.quantity_alert}
+                                </label>
+                            </div>
+                            <input type='number' min={1} value={this.state.quantity}
+                                onChange={(event) => { this.handleOnChangeInput(event, 'quantity') }}
+                                onKeyDown={(event) => this.handleKeyDown(event)} />
+                        </div>
+                        <div className='response-container'>
+                            <div style={{ color: 'red' }}>
+                                {this.state.res_message}
+                            </div>
                         </div>
                     </div>
                 </ModalBody>
                 <ModalFooter>
                     <Button className='btn btn-confirm px-3' onClick={() => this.deliverButton()}>Vận chuyển</Button>{' '}
-                    <Button className='btn btn-deny px-3' onClick={() => this.props.toggleModal()}>Hủy</Button>
+                    <Button className='btn btn-deny px-3' onClick={() => this.toggle()}>Hủy</Button>
                 </ModalFooter>
             </Modal>
         )

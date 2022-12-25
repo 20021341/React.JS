@@ -10,46 +10,56 @@ class Login extends Component {
         this.state = {
             facility_id: '',
             password: '',
-            isShowPassword: false,
-            errMessage: '',
+            facility_id_alert: '',
+            password_alert: '',
+            res_message: '',
+            is_password_showed: false,
         }
     }
 
-    handleOnChangeFacilityID = (event) => {
+    handleOnChangeInput = (event, field) => {
+        let copyState = { ...this.state }
+        copyState[field] = event.target.value
         this.setState({
-            facility_id: event.target.value
-        });
+            ...copyState
+        }, () => {
+            console.log(this.state)
+        })
     }
 
-    handleOnChangePassword = (event) => {
-        this.setState({
-            password: event.target.value
-        });
+    checkValidInput = () => {
+        let isValid = true
+        let arrInput = ['facility_id', 'password']
+        for (let i = 0; i < arrInput.length; i++) {
+            if (!this.state[arrInput[i]]) {
+                isValid = false
+                switch (arrInput[i]) {
+                    case 'facility_id':
+                        this.setState({ facility_id_alert: 'Chưa nhập mã cơ sở' })
+                        break
+                    case 'password':
+                        this.setState({ password_alert: 'Chưa nhập mật khẩu' })
+                        break
+                }
+            }
+        }
+        return isValid
     }
 
     login = async () => {
         this.setState({
-            errMessage: ''
-        });
+            facility_id_alert: '',
+            password_alert: '',
+            res_message: ''
+        })
 
-        try {
-            let data = await handleLogin(this.state.facility_id, this.state.password);
-            if (data && data.errCode !== 0) {
-                this.setState({
-                    errMessage: data.message
-                });
-            }
+        if (this.checkValidInput()) {
+            let res = await handleLogin(this.state.facility_id, this.state.password);
 
-            if (data && data.errCode === 0) {
-                this.props.userLoginSuccess(data.facility);
-            }
-        } catch (e) {
-            if (e.response) {
-                if (e.response.data) {
-                    this.setState({
-                        errMessage: e.response.data.message
-                    });
-                }
+            if (res && res.errCode === 0) {
+                this.props.userLoginSuccess(res.facility);
+            } else {
+                this.setState({ res_message: res.message })
             }
         }
     }
@@ -62,38 +72,53 @@ class Login extends Component {
 
     handleShowHidePassword = () => {
         this.setState({
-            isShowPassword: !this.state.isShowPassword
+            is_password_showed: !this.state.is_password_showed
         });
     }
 
     render() {
         return (
             <div className='login-background'>
+                <div className='stars' aria-hidden='true'></div>
+                <div className='stars2' aria-hidden='true'></div>
+                <div className='stars3' aria-hidden='true'></div>
                 <div className='login-container'>
                     <div className='login-content'>
-                        <div className='col-12 login-text'>Login</div>
+                        <div className='col-12 login-text'>Đăng nhập</div>
                         <div className='col-12 form-group login-input'>
-                            <label>ID</label>
-                            <input type='text' className='form-control' placeholder='Enter id...'
+                            <div>
+                                <label style={{ float: 'left' }}>Mã cơ sở</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.facility_id_alert}
+                                </label>
+                            </div>
+                            <input type='text' className='form-control' placeholder='Nhập mã cơ sở...'
                                 value={this.state.facility_id}
-                                onChange={(event) => this.handleOnChangeFacilityID(event)} />
+                                onChange={(event) => { this.handleOnChangeInput(event, 'facility_id') }}
+                                onKeyDown={(event) => this.handleKeyDown(event)} />
+
                         </div>
                         <div className='col-12 form-group login-input'>
-                            <label>Password</label>
-                            <input type={this.state.isShowPassword ? 'text' : 'password'} className='form-control' placeholder='Enter password...'
+                            <div>
+                                <label style={{ float: 'left' }}>Mật khẩu</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.password_alert}
+                                </label>
+                            </div>
+                            <input type={this.state.is_password_showed ? 'text' : 'password'} className='form-control' placeholder='Nhập mật khẩu...'
                                 value={this.state.password}
-                                onChange={(event) => this.handleOnChangePassword(event)}
+                                onChange={(event) => { this.handleOnChangeInput(event, 'password') }}
                                 onKeyDown={(event) => this.handleKeyDown(event)} />
                             <span onClick={() => this.handleShowHidePassword()}>
-                                <i className={this.state.isShowPassword ? 'far fa-eye-slash' : 'far fa-eye'}></i>
+                                <i className={this.state.is_password_showed ? 'far fa-eye-slash' : 'far fa-eye'}></i>
                             </span>
                         </div>
 
                         <div className='col-12' style={{ color: "red" }}>
-                            {this.state.errMessage}
+                            {this.state.res_message}
                         </div>
                         <div className='col-12'>
-                            <button className='login-button' onClick={() => this.login()}>Login</button>
+                            <button className='login-button' onClick={() => this.login()}>Đăng nhập</button>
                         </div>
                     </div>
                 </div>

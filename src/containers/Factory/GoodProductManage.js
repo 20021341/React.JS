@@ -38,17 +38,9 @@ class GoodProductManage extends Component {
             quantity: data.quantity,
         }
 
-        try {
-            let res = await handleProduceProducts(info)
-            if (res && res.errCode === 0) {
-                await this.getGoodProducts()
-                this.toggleModalProduce()
-            } else {
-                alert(res.message)
-            }
-        } catch (e) {
-            console.log(e)
-        }
+        let res = await handleProduceProducts(info)
+        await this.getGoodProducts()
+        return res
     }
 
     deliverGoodProducts = async (data) => {
@@ -60,17 +52,9 @@ class GoodProductManage extends Component {
             quantity: data.quantity,
         }
 
-        try {
-            let res = await handleDeliverProducts(info)
-            if (res && res.errCode === 0) {
-                await this.getGoodProducts()
-                this.toggleModalDeliver()
-            } else {
-                alert(res.message)
-            }
-        } catch (e) {
-            console.log(e)
-        }
+        let res = await handleDeliverProducts(info)
+        await this.getGoodProducts()
+        return res
     }
 
     produceButton = () => {
@@ -103,7 +87,7 @@ class GoodProductManage extends Component {
 
         return (
             <div className='content'>
-                <div className='title text-center'>Good Products</div>
+                <div className='title text-center'>Sản phẩm tốt</div>
                 <ModalProduce
                     isOpen={this.state.is_modal_produce_open}
                     toggleModal={this.toggleModalProduce}
