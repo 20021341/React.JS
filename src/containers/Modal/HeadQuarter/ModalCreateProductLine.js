@@ -118,7 +118,7 @@ class ModalCreateProductLine extends Component {
 
         if (this.checkValidInput()) {
             let data = {
-                product_line: this.state.product_line.trim(),
+                product_line: this.state.product_line.trim().replace(/\s+/g, ' '),
                 cpu: this.state.cpu,
                 gpu: this.state.gpu,
                 ram: this.state.ram,
@@ -170,7 +170,18 @@ class ModalCreateProductLine extends Component {
                 }
             }
         }
+
+        if (!this.nameValidate(this.state.product_line)) {
+            isValid = false
+            this.setState({ product_line_alert: 'Dòng sản phẩm không đúng định dạng' })
+        }
+
         return isValid
+    }
+
+    nameValidate = (name) => {
+        var regExp = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/
+        return regExp.test(name)
     }
 
     toggle = () => {

@@ -39,8 +39,10 @@ class WarrantyCardManage extends Component {
                                 <th scope="col">Mã phiếu bảo hành</th>
                                 <th scope="col">Mã sản phẩm</th>
                                 <th scope="col">Mã khách hàng</th>
+                                <th scope="col">Số điện thoại</th>
                                 <th scope="col">Ngày tạo</th>
                                 <th scope="col">Trung tâm bảo hành</th>
+                                <th scope="col">Trạng thái</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,9 +52,11 @@ class WarrantyCardManage extends Component {
                                         <tr>
                                             <td>{card.card_id}</td>
                                             <td>{card.product_id}</td>
-                                            <td>{card.customer_id ? card.customer_id : 'Sản phẩm chưa có người mua'}</td>
+                                            <td>{card.customer_id}</td>
+                                            <td>{card.phone_number}</td>
                                             <td>{card.create_date}</td>
-                                            <td>{card.maintain_at}</td>
+                                            <td>{card.facility_name}</td>
+                                            <td>{card.status}</td>
                                         </tr>
                                     )
                                 })

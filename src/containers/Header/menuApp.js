@@ -23,6 +23,10 @@ export const agentMenu = [
         name: 'Quản lý',
         menus: [
             {
+                name: 'Thống kê',
+                link: '/agent/sales-statistics'
+            },
+            {
                 name: 'Quản lý sản phẩm tốt',
                 link: '/agent/good-products-manage'
             },
@@ -51,6 +55,10 @@ export const factoryMenu = [
         name: 'Quản lý',
         menus: [
             {
+                name: 'Thống kê',
+                link: '/factory/sale-rate-statistics'
+            },
+            {
                 name: 'Quản lý sản phẩm tốt',
                 link: '/factory/good-products-manage'
             },
@@ -66,6 +74,10 @@ export const centerMenu = [
     {   // trung tâm bảo hành
         name: 'Quản lý',
         menus: [
+            {
+                name: 'Thống kê',
+                link: '/center/warranty-statistics'
+            },
             {
                 name: 'Quản lý sản phẩm xấu',
                 link: '/center/bad-products-manage'

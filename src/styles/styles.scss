@@ -7,6 +7,37 @@ $fa-font-path : "~@fortawesome/fontawesome-free-webfonts/webfonts";
 @import "~@fortawesome/fontawesome-free-webfonts/scss/fa-regular.scss";
 @import "~@fortawesome/fontawesome-free-webfonts/scss/fa-brands.scss";
 
+.arrow {
+    border: solid $colormain;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 6px;
+
+    &:hover {
+        border: solid $colorsub;
+        border-width: 0 3px 3px 0;
+        cursor: pointer;
+    }
+}
+
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+.sales-statistics {
+    float: left;
+}
+
+.defective-statistics {
+    float: right
+}
+
 @import "login";
 @import "header";
 @import "navigator";

@@ -24,10 +24,16 @@ class BadProductManage extends Component {
     getBadProducts = async () => {
         const { facility } = this.props
         let data = await handleGetBadProducts(facility.facility_id)
-        if (data && data.errCode === 0) {
-            this.setState({
-                badProducts: data.products
-            })
+        if (data) {
+            if (data.errCode === 0) {
+                this.setState({
+                    badProducts: data.products
+                })
+            } else if (data.errCode === 2) { //không có sản phẩm xấu
+                this.setState({
+                    badProducts: []
+                })
+            }
         }
     }
 

@@ -13,7 +13,6 @@ class HeadQuarter extends Component {
                     <Route path="/hq/facility-manage" component={FacilityManage} />
                     <Route path="/hq/customer-manage" component={CustomerManage} />
                     <Route path="/hq/product-line-manage" component={ProductLineManage} />
-                    <Redirect to="/" />
                 </Switch>
             </div>
         );

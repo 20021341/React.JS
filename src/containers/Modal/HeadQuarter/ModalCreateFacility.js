@@ -8,10 +8,12 @@ class ModalCreateFacility extends Component {
         super(props)
         this.state = {
             facility_name: '',
+            password: '123456',
             phone_number: '',
             address: '',
             role: '',
             facility_name_alert: '',
+            password_alert: '',
             phone_number_alert: '',
             address_alert: '',
             role_alert: '',
@@ -35,16 +37,19 @@ class ModalCreateFacility extends Component {
     createFacilityButton = () => {
         this.setState({
             facility_name_alert: '',
+            password_alert: '',
             phone_number_alert: '',
             address_alert: '',
             role_alert: '',
             res_message: ''
         })
+
         if (this.checkValidInput()) {
             let data = {
-                facility_name: this.state.facility_name.trim(),
+                facility_name: this.state.facility_name.trim().replace(/\s+/g, ' '),
+                password: this.state.password.trim(),
                 phone_number: this.state.phone_number.trim(),
-                address: this.state.address.trim(),
+                address: this.state.address,
                 role: this.state.role
             }
 
@@ -62,13 +67,16 @@ class ModalCreateFacility extends Component {
 
     checkValidInput = () => {
         let isValid = true
-        let arrInput = ['facility_name', 'phone_number', 'address', 'role']
+        let arrInput = ['facility_name', 'password', 'phone_number', 'address', 'role']
         for (let i = 0; i < arrInput.length; i++) {
             if (!this.state[arrInput[i]]) {
                 isValid = false
                 switch (arrInput[i]) {
                     case 'facility_name':
                         this.setState({ facility_name_alert: 'Chưa nhập tên cơ sở' })
+                        break
+                    case 'password':
+                        this.setState({ password_alert: 'Chưa nhập mật khẩu' })
                         break
                     case 'phone_number':
                         this.setState({ phone_number_alert: 'Chưa nhập số điện thoại' })
@@ -82,7 +90,28 @@ class ModalCreateFacility extends Component {
                 }
             }
         }
+
+        if (!this.nameValidate(this.state.facility_name)) {
+            isValid = false
+            this.setState({ facility_name_alert: 'Tên cơ sở không đúng định dạng' })
+        }
+
+        if (!this.phoneNumberValidate(this.state.phone_number)) {
+            isValid = false
+            this.setState({ phone_number_alert: 'Số điện thoại không đúng định dạng' })
+        }
+
         return isValid
+    }
+
+    nameValidate = (name) => {
+        var regExp = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/
+        return regExp.test(name)
+    }
+
+    phoneNumberValidate = (phone_number) => {
+        var regExp = /^(0[234][0-9]{8}|1[89]00[0-9]{4})$/
+        return regExp.test(phone_number)
     }
 
     handleKeyDown = (event) => {
@@ -94,6 +123,7 @@ class ModalCreateFacility extends Component {
     toggle = () => {
         this.setState({
             facility_name: '',
+            password: '123456',
             phone_number: '',
             address: '',
             role: '',
@@ -126,6 +156,17 @@ class ModalCreateFacility extends Component {
                             </div>
                             <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'facility_name') }}
                                 value={this.state.facility_name}
+                                onKeyDown={(event) => this.handleKeyDown(event)} />
+                        </div>
+                        <div className='input-container'>
+                            <div>
+                                <label style={{ float: 'left' }}>Mật khẩu {'(Mặc định là 123456)'}</label>
+                                <label style={{ color: 'red', float: 'right' }}>
+                                    {this.state.password_alert}
+                                </label>
+                            </div>
+                            <input type='password' onChange={(event) => { this.handleOnChangeInput(event, 'password') }}
+                                value={this.state.password}
                                 onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
                         <div className='input-container'>

@@ -1,5 +1,10 @@
 import axios from '../axios';
 
+const handleGetSalesStatisticsByProductLine = (data) => {
+    return axios.get('api/agent/get-sales-statistics-by-product-line',
+        { params: { agent_id: data.agent_id, year: data.year, product_line: data.product_line } })
+}
+
 const handleCreateBill = (data) => {
     return axios.post('api/agent/create-bill', data)
 }
@@ -30,6 +35,7 @@ const handleGetProductsNeedRetrieving = (agent_id) => {
 
 
 export {
+    handleGetSalesStatisticsByProductLine,
     handleCreateBill,
     handleCreateCard,
     handleDeliverCustomerProducts,

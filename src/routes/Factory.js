@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Redirect, Route, Switch } from 'react-router-dom';
 import GoodProductManage from '../containers/Factory/GoodProductManage';
 import BadProductManage from '../containers/Factory/BadProductManage';
+import SalesOverProduceStatistics from '../containers/Factory/SalesOverProduceStatistics';
 
 
 class Factory extends Component {
@@ -10,9 +11,9 @@ class Factory extends Component {
         return (
             <div className="factory-container">
                 <Switch>
+                    <Route path="/factory/sale-rate-statistics" component={SalesOverProduceStatistics} />
                     <Route path="/factory/good-products-manage" component={GoodProductManage} />
                     <Route path="/factory/bad-products-manage" component={BadProductManage} />
-                    <Redirect to="/" />
                 </Switch>
             </div>
         );

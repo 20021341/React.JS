@@ -5,6 +5,7 @@ import BadProductManage from '../containers/Agent/BadProductManage';
 import BillManage from '../containers/Agent/BillManage';
 import GoodProductManage from '../containers/Agent/GoodProductManage';
 import RetrieveProduct from '../containers/Agent/RetrieveProduct';
+import SalesStatistics from '../containers/Agent/SalesStatistics';
 import WarrantyCardManage from '../containers/Agent/WarrantyCardManage';
 
 
@@ -13,12 +14,12 @@ class Agent extends Component {
         return (
             <div className="agent-container">
                 <Switch>
+                    <Route path="/agent/sales-statistics" component={SalesStatistics} />
                     <Route path="/agent/good-products-manage" component={GoodProductManage} />
                     <Route path="/agent/bad-products-manage" component={BadProductManage} />
                     <Route path="/agent/bills-manage" component={BillManage} />
                     <Route path="/agent/cards-manage" component={WarrantyCardManage} />
                     <Route path="/agent/retrieve-products" component={RetrieveProduct} />
-                    <Redirect to="/" />
                 </Switch>
             </div>
         );

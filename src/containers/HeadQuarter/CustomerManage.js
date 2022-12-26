@@ -38,6 +38,7 @@ class CustomerManage extends Component {
                                 <th scope="col">Mã khách hàng</th>
                                 <th scope="col">Họ và tên</th>
                                 <th scope="col">Số điện thoại</th>
+                                <th scope="col">Số lượng sản phẩm đã mua</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,6 +49,7 @@ class CustomerManage extends Component {
                                             <td>{customer.customer_id}</td>
                                             <td>{customer.fullname}</td>
                                             <td>{customer.phone_number}</td>
+                                            <td>{customer.quantity_bought}</td>
                                         </tr>
                                     )
                                 })

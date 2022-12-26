@@ -1,5 +1,15 @@
 import axios from '../axios';
 
+const handleGetSalesOverProduceStatistics = (data) => {
+    return axios.get('api/factory/get-sales-over-produce-statistics',
+        { params: { factory_id: data.factory_id, year: data.year } })
+}
+
+const handleGetDefectiveOverProduceStatistics = (data) => {
+    return axios.get('api/factory/get-defective-over-produce-statistics',
+        { params: { factory_id: data.factory_id, year: data.year } })
+}
+
 const handleProduceProducts = (data) => {
     return axios.post('api/factory/create-products', data);
 }
@@ -25,5 +35,7 @@ export {
     handleDeliverProducts,
     handleRecycleProducts,
     handleRepairProducts,
-    handleReportDefective
+    handleReportDefective,
+    handleGetSalesOverProduceStatistics,
+    handleGetDefectiveOverProduceStatistics
 };

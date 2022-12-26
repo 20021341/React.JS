@@ -22,10 +22,16 @@ class BadProductManage extends Component {
     getBadProducts = async () => {
         const { facility } = this.props
         let data = await handleGetBadProducts(facility.facility_id)
-        if (data && data.errCode === 0) {
-            this.setState({
-                badProducts: data.products
-            })
+        if (data) {
+            if (data.errCode === 0) {
+                this.setState({
+                    badProducts: data.products
+                })
+            } else if (data.errCode === 2) { //không có sản phẩm xấu
+                this.setState({
+                    badProducts: []
+                })
+            }
         }
     }
 
@@ -33,7 +39,7 @@ class BadProductManage extends Component {
         const { facility } = this.props
 
         let res = await handleRepairProducts({ center_id: facility.facility_id })
-        await this.getBadProducts()
+        this.getBadProducts()
         return res
     }
 
@@ -41,7 +47,7 @@ class BadProductManage extends Component {
         const { facility } = this.props
 
         let res = await handleDeliverBrokenProducts({ center_id: facility.facility_id })
-        await this.getBadProducts()
+        this.getBadProducts()
         return res
     }
 

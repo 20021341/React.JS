@@ -57,9 +57,11 @@ class ModalCreateBill extends Component {
                 product_line: this.state.product_line.trim(),
                 quantity: this.state.quantity.trim(),
                 customer_id: this.state.customer_id.trim(),
-                fullname: this.state.fullname.trim(),
+                fullname: this.state.fullname.trim().replace(/\s+/g, ' '),
                 phone_number: this.state.phone_number.trim(),
             }
+
+            console.log(data)
 
             let res = this.props.createBill(data)
             res.then((obj) => {
@@ -97,7 +99,28 @@ class ModalCreateBill extends Component {
                 }
             }
         }
+
+        if (!this.nameValidate(this.state.fullname)) {
+            isValid = false
+            this.setState({ fullname_alert: 'Họ và tên không đúng định dạng' })
+        }
+
+        if (!this.phoneNumberValidate(this.state.phone_number)) {
+            isValid = false
+            this.setState({ phone_number_alert: 'Số điện thoại không đúng định dạng' })
+        }
+
         return isValid
+    }
+
+    nameValidate = (name) => {
+        var regExp = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/
+        return regExp.test(name)
+    }
+
+    phoneNumberValidate = (phone_number) => {
+        var regExp = /^(0[234][0-9]{8}|1[89]00[0-9]{4})$/
+        return regExp.test(phone_number)
     }
 
     getCustomerByID = async (customer_id) => {
