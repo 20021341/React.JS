@@ -2,6 +2,8 @@
     display: flex;
     margin: 0;
     padding: 0;
+    margin-left: 150px;
+    background: $color-button-red;
 
     &.list-unstyled,
     .list-unstyled {
@@ -11,7 +13,7 @@
     .menu-group {
         &:hover {
             cursor: pointer;
-            background-color: darken($colormain, 5);
+            background: darken($color-header, 10);
         }
 
         .menu-group-name {
@@ -26,7 +28,7 @@
 
         .menu-list {
             display: none;
-            background-color: $bg-menu-color;
+            background: $color-menu;
             box-shadow: 2px 2px 4px 0 $box-shadow-color;
             -webkit-box-shadow: 2px 2px 4px 0 $box-shadow-color;
             color: $text-in-light;
@@ -51,7 +53,7 @@
                 }
 
                 &:hover {
-                    background-color: $color-table-hover;
+                    background: $color-table-hover;
                     color: $common-text-color;
                 }
             }

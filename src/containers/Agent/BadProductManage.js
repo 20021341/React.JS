@@ -116,7 +116,7 @@ class BadProductManage extends Component {
 
         return (
             <div className='content'>
-                <div className='title text-center'>Sản phẩm xấu</div>
+                <div className='title'>Quản lý sản phẩm cần bảo hành/lỗi</div>
                 <ModalCreateCard
                     isOpen={this.state.is_modal_card_open}
                     toggleModalCreateCard={this.toggleModalCreateCard}
@@ -133,20 +133,20 @@ class BadProductManage extends Component {
                     toggleModalDefective={this.toggleModalDefective}
                     deliverDefectiveProducts={this.deliverDefectiveProducts}
                 />
-                <button className='btn btn-add'
+                <button className='btn btn-red'
                     onClick={() => this.createCardButton()}>
                     Tạo phiếu bảo hành
                 </button>
-                <button className='btn btn-modify'
+                <button className='btn btn-brown'
                     onClick={() => this.deliverCustomerProductsButton()}>
                     Vận chuyển sản phẩm bảo hành
                 </button>
-                <button className='btn btn-modify'
+                <button className='btn btn-yellow'
                     onClick={() => this.deliverDefectiveProductsButton()}>
                     Vận chuyển sản phẩm lỗi
                 </button>
-                <div className='mx-1 mt-3'>
-                    <table className="table table-striped">
+                <div className='table-container mt-3'>
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th scope="col">Mã sản phẩm</th>

@@ -21,7 +21,7 @@ class Home extends Component {
                     linkToRedirect = '/center/warranty-statistics'
                     break
                 case 'factory':
-                    linkToRedirect = '/factory/sale-rate-statistics'
+                    linkToRedirect = '/factory/statistics'
                     break
                 case 'admin':
                     linkToRedirect = '/hq/facility-manage'

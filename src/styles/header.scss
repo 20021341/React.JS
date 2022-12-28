@@ -2,10 +2,12 @@
     z-index: 99;
     display: flex;
     justify-content: space-between;
-    background-color: $colormain;
-    color: $common-text-color;
+    background: $color-header;
+    color: black;
+    font-weight: bold;
     height: 40px;
     position: relative;
+    font-size: 15px;
 
     .facility-name {
         justify-content: center;
@@ -14,14 +16,15 @@
     }
 
     .btn-logout {
-        color: $common-text-color;
         line-height: 40px;
         height: 40px;
         padding: 0 20px;
         margin-left: 23.25px;
+        margin-right: 150px;
+        background: $color-button-red;
 
         &:hover {
-            background-color: darken($colormain, 5);
+            background: darken($color-header, 10);
         }
 
         i {

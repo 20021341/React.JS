@@ -32,8 +32,8 @@ class RetrieveProduct extends Component {
 
         return (
             <div className='content'>
-                <div className='title text-center'>Sản phẩm cần thu hồi</div>
-                <div className='mx-1 mt-3'>
+                <div className='title'>Sản phẩm cần thu hồi</div>
+                <div className='table-container mt-3'>
                     <table className="table">
                         <thead>
                             <tr>

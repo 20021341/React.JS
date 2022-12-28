@@ -1,11 +1,18 @@
 .modal {
     .modal-dialog {
         .modal-content {
+            background: $color-statistics;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+
             .modal-header {
                 padding: 0 10px;
                 height: 35px;
-                background-color: $colormain;
-                color: $common-text-color;
+                background: $color-modal-header;
+                color: $color-modal-text;
+                border: none;
 
                 .modal-title {
                     line-height: 35px;
@@ -13,27 +20,33 @@
                     font-size: $base-size + 1px;
                 }
 
-                .btn-close {
-                    position: absolute;
-                    color: $common-text-color;
-
-                    i {
-                        line-height: 35px;
-                        font-size: $base-size + 2px;
-                    }
+                .close {
+                    color: $color-modal-text;
+                    background: none;
+                    border: none;
+                    font-size: 30px;
                 }
             }
 
             .modal-body {
+
+                .confirm-question {
+                    color: $color-modal-header;
+                }
 
                 .input-container,
                 .select-container,
                 .response-container {
                     display: flex;
                     flex-direction: column;
+                    color: $color-modal-header;
+                    font-weight: bold;
+                    padding-top: 10px;
 
                     input,
                     select {
+                        background: $color-modal-input;
+                        color: $common-text-color;
                         border-radius: 3px;
                         height: 30px;
                         border: 1px solid grey;
@@ -42,6 +55,10 @@
                     }
 
                 }
+            }
+
+            .modal-footer {
+                border: none;
             }
         }
     }

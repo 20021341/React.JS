@@ -49,20 +49,20 @@ class FacilityManage extends Component {
 
         return (
             <div className='content'>
-                <div className='title text-center'>Cơ sở</div>
+                <div className='title'>Quản lý cơ sở</div>
                 <ModalCreateFacility
                     isOpen={this.state.is_modal_open}
                     toggleModal={this.toggleModal}
                     createFacility={this.createFacility}
                 />
 
-                <button className='btn btn-add'
+                <button className='btn btn-red'
                     onClick={() => this.handleCreateFacilityButton()}>
                     Mở cơ sở mới
                 </button>
 
-                <div className='mx-1 mt-3'>
-                    <table className="table table-striped">
+                <div className='table-container mt-3'>
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th scope="col">Mã cơ sở</th>

@@ -124,6 +124,16 @@ class ModalDeliverGoodProduct extends Component {
     render() {
         let product_lines = this.state.product_lines
         let agents = this.state.agents
+        let good_products = this.props.good_products
+        let in_stock = ''
+        
+        for (let i = 0; i < good_products.length; i++) {
+            if (good_products[i].product_line === this.state.product_line) {
+                in_stock = good_products[i].quantity
+                break
+            }
+        }
+
         return (
             <Modal
                 isOpen={this.props.isOpen}
@@ -171,7 +181,7 @@ class ModalDeliverGoodProduct extends Component {
                         </div>
                         <div className='input-container'>
                             <div>
-                                <label style={{ float: 'left' }}>Số lượng</label>
+                                <label style={{ float: 'left' }}>Số lượng {!in_stock ? '' : '(Số lượng tồn kho: ' + in_stock + ')'}</label>
                                 <label style={{ color: 'red', float: 'right' }}>
                                     {this.state.quantity_alert}
                                 </label>

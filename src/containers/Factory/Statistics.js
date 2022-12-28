@@ -8,7 +8,7 @@ import { handleGetSalesOverProduceStatistics, handleGetDefectiveOverProduceStati
 const Root = (props) => <Legend.Root {...props} className="m-auto flex-row" />;
 
 
-class SalesOverProduceStatistics extends Component {
+class Statistics extends Component {
 
     constructor(props) {
         super(props)
@@ -136,12 +136,12 @@ class SalesOverProduceStatistics extends Component {
         const { defective_data: defectiveData } = this.state;
 
         return (
-            <div>
-                <div className='sales-statistics col-6'>
+            <div className='statistics-container'>
+                <div className='sales-over-produce-statistics col-6'>
                     <div>
-                        <div className='title text-center mx-3'>
+                        <div className='statistics-title mx-3'>
                             <i className="arrow left" onClick={() => this.switchYearDown()}></i>
-                            Thống kê lượng bán/sản xuất {this.state.year}
+                            Thống kê bán/sản xuất {this.state.year}
                             <i className="arrow right" onClick={() => this.switchYearUp()}></i>
                         </div>
                     </div>
@@ -174,11 +174,11 @@ class SalesOverProduceStatistics extends Component {
                         />
                     </Chart>
                 </div>
-                <div className='defective-statistics col-6'>
+                <div className='defective-over-produce-statistics col-6'>
                     <div>
-                        <div className='title text-center mx-3'>
+                        <div className='statistics-title mx-3'>
                             <i className="arrow left" onClick={() => this.switchYearDown()}></i>
-                            Thống kê lượng bảo hành/sản xuất {this.state.year}
+                            Thống kê bảo hành/sản xuất {this.state.year}
                             <i className="arrow right" onClick={() => this.switchYearUp()}></i>
                         </div>
                     </div>
@@ -229,4 +229,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SalesOverProduceStatistics);
+export default connect(mapStateToProps, mapDispatchToProps)(Statistics);

@@ -119,38 +119,40 @@ class WarrantyStatistics extends Component {
         const product_lines = this.state.product_lines
 
         return (
-            <div className="card">
-                <div>
-                    <div className='title text-center'>
-                        <i className="arrow left" onClick={() => this.switchYearDown()}></i>
-                        Thống kê số lượng sản phẩm bảo hành năm {this.state.year}
-                        <i className="arrow right" onClick={() => this.switchYearUp()}></i>
+            <div className='statistics-container'>
+                <div className="warranty-statistics">
+                    <div>
+                        <div className='statistics-title mx-3'>
+                            <i className="arrow left" onClick={() => this.switchYearDown()}></i>
+                            Thống kê lượng sản phẩm bảo hành {this.state.year}
+                            <i className="arrow right" onClick={() => this.switchYearUp()}></i>
+                        </div>
                     </div>
-                </div>
-                <div className='quantity-chart'>
-                    <Chart data={quantityData}>
-                        <ArgumentAxis />
-                        <ValueAxis tickFormat={format} />
+                    <div className='quantity-chart'>
+                        <Chart data={quantityData}>
+                            <ArgumentAxis />
+                            <ValueAxis tickFormat={format} />
 
-                        {
-                            product_lines.map((product_line) => {
-                                return (
-                                    <BarSeries name={product_line} valueField={product_line} argumentField="month" />
-                                )
-                            })
-                        }
+                            {
+                                product_lines.map((product_line) => {
+                                    return (
+                                        <BarSeries name={product_line} valueField={product_line} argumentField="month" />
+                                    )
+                                })
+                            }
 
-                        <Animation />
-                        <Legend position="bottom" rootComponent={Root} />
-                        <Stack
-                            stacks={[
-                                {
-                                    series: product_lines
-                                },
-                            ]}
-                            offset={stackOffsetExpand}
-                        />
-                    </Chart>
+                            <Animation />
+                            <Legend position="bottom" rootComponent={Root} />
+                            <Stack
+                                stacks={[
+                                    {
+                                        series: product_lines
+                                    },
+                                ]}
+                                offset={stackOffsetExpand}
+                            />
+                        </Chart>
+                    </div>
                 </div>
             </div>
         );

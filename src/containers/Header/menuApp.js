@@ -3,15 +3,15 @@ export const headquarterMenu = [
         name: 'Quản lý',
         menus: [
             {
-                name: 'Quản lý cơ sở',
+                name: 'Cơ sở',
                 link: '/hq/facility-manage'
             },
             {
-                name: 'Quản lý khách hàng',
+                name: 'Khách hàng',
                 link: '/hq/customer-manage'
             },
             {
-                name: 'Quản lý dòng sản phẩm',
+                name: 'Dòng sản phẩm',
                 link: '/hq/product-line-manage'
             },
         ]
@@ -27,19 +27,19 @@ export const agentMenu = [
                 link: '/agent/sales-statistics'
             },
             {
-                name: 'Quản lý sản phẩm tốt',
+                name: 'Sản phẩm tồn kho',
                 link: '/agent/good-products-manage'
             },
             {
-                name: 'Quản lý sản phẩm xấu',
+                name: 'Sản phẩm bảo hành, lỗi',
                 link: '/agent/bad-products-manage'
             },
             {
-                name: 'Quản lý hóa đơn',
+                name: 'Hóa đơn bán hàng',
                 link: '/agent/bills-manage'
             },
             {
-                name: 'Quản lý phiếu bảo hành',
+                name: 'Phiếu bảo hành',
                 link: '/agent/cards-manage'
             },
             {
@@ -56,14 +56,14 @@ export const factoryMenu = [
         menus: [
             {
                 name: 'Thống kê',
-                link: '/factory/sale-rate-statistics'
+                link: '/factory/statistics'
             },
             {
-                name: 'Quản lý sản phẩm tốt',
+                name: 'Sản phẩm tồn kho',
                 link: '/factory/good-products-manage'
             },
             {
-                name: 'Quản lý sản phẩm xấu',
+                name: 'Sản phẩm lỗi',
                 link: '/factory/bad-products-manage'
             },
         ]
@@ -79,7 +79,7 @@ export const centerMenu = [
                 link: '/center/warranty-statistics'
             },
             {
-                name: 'Quản lý sản phẩm xấu',
+                name: 'Sản phẩm bảo hành',
                 link: '/center/bad-products-manage'
             },
         ]

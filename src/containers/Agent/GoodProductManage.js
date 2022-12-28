@@ -9,7 +9,7 @@ class GoodProductManage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            goodProducts: [],
+            good_products: [],
             is_modal_open: false
         }
     }
@@ -23,7 +23,7 @@ class GoodProductManage extends Component {
         let data = await handleGetGoodProducts(facility.facility_id)
         if (data && data.errCode === 0) {
             this.setState({
-                goodProducts: data.products
+                good_products: data.products
             })
         }
     }
@@ -58,22 +58,23 @@ class GoodProductManage extends Component {
 
 
     render() {
-        let goodProducts = this.state.goodProducts
+        let good_products = this.state.good_products
 
         return (
             <div className='content'>
-                <div className='title text-center'>Sản phẩm tốt</div>
+                <div className='title'>Quản lý sản phẩm tồn kho</div>
                 <ModalCreateBill
                     isOpen={this.state.is_modal_open}
                     toggleModal={this.toggleModal}
                     createBill={this.createBill}
+                    good_products={this.state.good_products}
                 />
-                <button className='btn btn-add'
+                <button className='btn btn-red'
                     onClick={() => this.createBillButton()}>
                     Tạo hóa đơn
                 </button>
-                <div className='mx-1 mt-3'>
-                    <table className="table table-striped">
+                <div className='table-container mt-3'>
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th scope="col">Dòng sản phẩm</th>
@@ -82,7 +83,7 @@ class GoodProductManage extends Component {
                         </thead>
                         <tbody>
                             {
-                                goodProducts.map((productLine) => {
+                                good_products.map((productLine) => {
                                     return (
                                         <tr>
                                             <td>{productLine.product_line}</td>

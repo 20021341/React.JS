@@ -79,16 +79,16 @@ class Login extends Component {
     render() {
         return (
             <div className='login-background'>
-                <div className='stars' aria-hidden='true'></div>
+                {/* <div className='stars' aria-hidden='true'></div>
                 <div className='stars2' aria-hidden='true'></div>
-                <div className='stars3' aria-hidden='true'></div>
+                <div className='stars3' aria-hidden='true'></div> */}
                 <div className='login-container'>
                     <div className='login-content'>
                         <div className='col-12 login-text'>Đăng nhập</div>
                         <div className='col-12 form-group login-input'>
                             <div>
                                 <label style={{ float: 'left' }}>Mã cơ sở</label>
-                                <label style={{ color: 'red', float: 'right' }}>
+                                <label style={{ color: 'yellow', float: 'right' }}>
                                     {this.state.facility_id_alert}
                                 </label>
                             </div>
@@ -101,7 +101,7 @@ class Login extends Component {
                         <div className='col-12 form-group login-input'>
                             <div>
                                 <label style={{ float: 'left' }}>Mật khẩu</label>
-                                <label style={{ color: 'red', float: 'right' }}>
+                                <label style={{ color: 'yellow', float: 'right' }}>
                                     {this.state.password_alert}
                                 </label>
                             </div>
@@ -114,7 +114,7 @@ class Login extends Component {
                             </span>
                         </div>
 
-                        <div className='col-12' style={{ color: "red" }}>
+                        <div className='col-12' style={{ color: "yellow" }}>
                             {this.state.res_message}
                         </div>
                         <div className='col-12'>

@@ -4,9 +4,15 @@
 body,
 html {
   // background: linear-gradient(135deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+  background: url(https://cdn.sforum.vn/sforum/wp-content/uploads/2022/12/hinh-nen-tet-2-min.png);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   font-family: $fontmain;
   font-size: $base-size - 2px;
   height: 100vh;
+  font-weight: bold;
 }
 
 .btn {
@@ -18,81 +24,170 @@ html {
   user-select: none;
 }
 
-.btn-add,
-.btn-delete,
-.btn-modify {
+.btn-red,
+.btn-yellow,
+.btn-brown {
   display: inline-block;
+}
+
+.btn-red {
+  background: $color-button-red;
+  color: $common-text-color;
 
   &:hover {
     color: $common-text-color;
-    background-color: darken($colormain, 5);
+    background: darken($color-button-red, 5);
   }
 }
 
-.btn-add {
-  background-color: $colormain;
-  color: $common-text-color;
-}
-
-.btn-modify {
-  background-color: $colorsub;
-  color: $common-text-color;
-}
-
-.btn-delete {
-  background-color: $common-red;
-  color: $common-text-color;
-}
-
-.btn-confirm {
-  background-color: $common-green;
+.btn-brown {
+  background: $color-button-brown;
   color: $common-text-color;
 
   &:hover {
     color: $common-text-color;
-    background-color: darken($common-green, 5);
+    background: darken($color-button-brown, 5);
+  }
+}
+
+.btn-yellow {
+  background: $color-button-yellow;
+  color: $common-text-color;
+
+  &:hover {
+    color: $common-text-color;
+    background: darken($color-button-yellow, 5);
+  }
+}
+
+.btn-confirm {
+  background: $color-button-confirm;
+  color: $common-text-color;
+
+  &:hover {
+    color: $common-text-color;
+    background: darken($color-button-confirm, 5);
   }
 }
 
 .btn-deny {
-  background-color: $common-orange;
+  background: $color-button-deny;
   color: $common-text-color;
 
   &:hover {
     color: $common-text-color;
-    background-color: darken($common-orange, 5);
+    background: darken($color-button-deny, 5);
   }
 }
 
-.table {
-  width: 100%;
+.table-container {
+  overflow-y: scroll;
+  height: 503px;
+  padding: 0;
 
-  thead {
-    background-color: $colormain;
-    color: $common-text-color;
-    text-align: center;
-  }
+  .table {
+    width: 100%;
+    border: 3px solid $color-table-head;
 
-  tbody {
-    text-align: center;
-
-    tr {
-      &:hover {
+    thead th {
+      background: $color-table-head;
+      color: $common-text-color;
+      text-align: center;
+      position: sticky;
+      top: 1px;
+      z-index: 1;
+    }
+  
+    tbody {
+      text-align: center;
+      background: $color-table-body;
+  
+      tr {
         color: $common-text-color;
-        background-color: $color-table-hover;
+  
+        &:hover {
+          color: $color-table-body;
+          background: $color-table-hover;
+        }
       }
     }
   }
 }
 
+.table-container::-webkit-scrollbar {
+  display: none;
+}
+
+
 .content-container {
-  .title {
+  .agent-container, .center-container, .factory-container, .head-quarter-container {
+    margin: 0px 120px;
+  }
+
+  .title, .statistics-title {
     text-align: center;
     text-transform: uppercase;
     font-weight: bold;
     font-size: $base-size + 4px;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin: 15px 30%;
     color: $colormain;
+  }
+
+  .title {
+    background: $color-statistics;
+    border: 5px solid $colormain;
+    border-radius: 10px;
+  }
+
+  .search-area {
+    input {
+      border: 2px solid $colormain;
+      border-radius: 5px;
+      padding: 5px 10px;
+      width: 250px;
+    }
+  }
+}
+
+.statistics-container {
+  padding: 10px;
+
+  .text-muted {
+    font-weight: bold;
+    font-size: larger;
+  }
+
+  .list-group-item {
+    font-weight: bold;
+    background-color: $color-statistics;
+  }
+
+  .sales-statistics, .warranty-statistics {
+    border: 5px solid $colormain;
+    border-radius: 10px;
+
+    background: $color-statistics;
+  }
+
+  .sales-over-produce-statistics {
+    border-top: 5px solid $colormain;
+    border-bottom: 5px solid $colormain;
+    border-left: 5px solid $colormain;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+
+    background: $color-statistics;
+    float: left;
+  }
+
+  .defective-over-produce-statistics {
+    border-top: 5px solid $colormain;
+    border-bottom: 5px solid $colormain;
+    border-right: 5px solid $colormain;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    background: $color-statistics;
+    float: right
   }
 }

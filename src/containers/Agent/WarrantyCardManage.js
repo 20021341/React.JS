@@ -7,11 +7,22 @@ class WarrantyCardManage extends Component {
         super(props)
         this.state = {
             cards: [],
+            search_text: ''
         }
     }
 
     async componentDidMount() {
         await this.getCards()
+    }
+
+    handleOnChangeInput = (event, field) => {
+        let copyState = { ...this.state }
+        copyState[field] = event.target.value
+        this.setState({
+            ...copyState
+        }, () => {
+            console.log(this.state)
+        })
     }
 
     getCards = async () => {
@@ -31,9 +42,14 @@ class WarrantyCardManage extends Component {
 
         return (
             <div className='content'>
-                <div className='title text-center'>Phiếu bảo hành</div>
-                <div className='mx-1 mt-3'>
-                    <table className="table table-striped">
+                <div className='title'>Quản lý phiếu bảo hành</div>
+                <div className='search-area mx-3'>
+                    <input type='text' value={this.state.search_text} placeholder='Tìm kiếm bằng mã khách hàng...'
+                        onChange={(event) => { this.handleOnChangeInput(event, 'search_text') }}
+                    />
+                </div>
+                <div className='table-container mt-3'>
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th scope="col">Mã phiếu bảo hành</th>
@@ -48,17 +64,19 @@ class WarrantyCardManage extends Component {
                         <tbody>
                             {
                                 cards.map((card) => {
-                                    return (
-                                        <tr>
-                                            <td>{card.card_id}</td>
-                                            <td>{card.product_id}</td>
-                                            <td>{card.customer_id}</td>
-                                            <td>{card.phone_number}</td>
-                                            <td>{card.create_date}</td>
-                                            <td>{card.facility_name}</td>
-                                            <td>{card.status}</td>
-                                        </tr>
-                                    )
+                                    if (card.customer_id.includes(this.state.search_text)) {
+                                        return (
+                                            <tr>
+                                                <td>{card.card_id}</td>
+                                                <td>{card.product_id}</td>
+                                                <td>{card.customer_id}</td>
+                                                <td>{card.phone_number}</td>
+                                                <td>{card.create_date}</td>
+                                                <td>{card.facility_name}</td>
+                                                <td>{card.status}</td>
+                                            </tr>
+                                        )
+                                    }
                                 })
                             }
                         </tbody>

@@ -80,7 +80,7 @@ class BadProductManage extends Component {
 
         return (
             <div className='content'>
-                <div className='title text-center'>Sản phẩm xấu</div>
+                <div className='title'>Quản lý sản phẩm cần bảo hành</div>
                 <ModalConfirm
                     isOpen={this.state.is_modal_repair_open}
                     toggleModalConfirm={this.toggleModalRepair}
@@ -94,18 +94,18 @@ class BadProductManage extends Component {
                     message={'Vận chuyển sản phẩm hỏng?'}
                 />
 
-                <button className='btn btn-modify'
+                <button className='btn btn-red'
                     onClick={() => this.repairButton()}>
                     Sửa chữa sản phẩm
                 </button>
 
-                <button className='btn btn-modify'
+                <button className='btn btn-brown'
                     onClick={() => this.deliverButton()}>
                     Vận chuyển sản phẩm hỏng
                 </button>
 
-                <div className='mx-1 mt-3'>
-                    <table className="table table-striped">
+                <div className='table-container mt-3'>
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th scope="col">Mã sản phẩm</th>

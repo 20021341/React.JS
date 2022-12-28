@@ -44,7 +44,7 @@ class ModalConfirm extends Component {
                 <ModalHeader toggle={() => this.toggle()}>Xác nhận</ModalHeader>
                 <ModalBody>
                     <div className='modal-body'>
-                        <h5>{this.props.message}</h5>
+                        <h5 className='confirm-question'>{this.props.message}</h5>
                         <div className='response-container'>
                             <div style={{ color: 'red' }}>
                                 {this.state.res_message}

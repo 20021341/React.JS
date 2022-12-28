@@ -7,11 +7,22 @@ class BillManage extends Component {
         super(props)
         this.state = {
             bills: [],
+            search_text: ''
         }
     }
 
     async componentDidMount() {
         await this.getBills()
+    }
+
+    handleOnChangeInput = (event, field) => {
+        let copyState = { ...this.state }
+        copyState[field] = event.target.value
+        this.setState({
+            ...copyState
+        }, () => {
+            console.log(this.state)
+        })
     }
 
     getBills = async () => {
@@ -30,9 +41,14 @@ class BillManage extends Component {
 
         return (
             <div className='content'>
-                <div className='title text-center'>Hóa đơn</div>
-                <div className='mx-1 mt-3'>
-                    <table className="table table-striped">
+                <div className='title'>Quản lý hóa đơn</div>
+                <div className='search-area mx-3'>
+                    <input type='text' value={this.state.search_text} placeholder='Tìm kiếm bằng mã khách hàng...'
+                        onChange={(event) => { this.handleOnChangeInput(event, 'search_text') }}
+                    />
+                </div>
+                <div className='table-container table-container mt-3'>
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th scope="col">Mã hóa đơn</th>
@@ -44,14 +60,16 @@ class BillManage extends Component {
                         <tbody>
                             {
                                 bills.map((bill) => {
-                                    return (
-                                        <tr>
-                                            <td>{bill.bill_id}</td>
-                                            <td>{bill.product_id}</td>
-                                            <td>{bill.customer_id}</td>
-                                            <td>{bill.buy_date}</td>
-                                        </tr>
-                                    )
+                                    if (bill.customer_id.includes(this.state.search_text)) {
+                                        return (
+                                            <tr>
+                                                <td>{bill.bill_id}</td>
+                                                <td>{bill.product_id}</td>
+                                                <td>{bill.customer_id}</td>
+                                                <td>{bill.buy_date}</td>
+                                            </tr>
+                                        )
+                                    }
                                 })
                             }
                         </tbody>

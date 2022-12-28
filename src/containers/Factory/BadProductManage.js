@@ -107,7 +107,7 @@ class BadProductManage extends Component {
 
         return (
             <div className='content'>
-                <div className='title text-center'>Sản phẩm xấu</div>
+                <div className='title'>Quản lý sản phẩm lỗi</div>
                 <ModalConfirm
                     isOpen={this.state.is_modal_recycle_open}
                     toggleModalConfirm={this.toggleModalRecycle}
@@ -126,23 +126,23 @@ class BadProductManage extends Component {
                     reportDefective={this.reportDefective}
                 />
 
-                <button className='btn btn-modify'
+                <button className='btn btn-red'
                     onClick={() => this.recycleButton()}>
                     Tái chế sản phẩm hỏng
                 </button>
 
-                <button className='btn btn-modify'
+                <button className='btn btn-brown'
                     onClick={() => this.repairButton()}>
                     Sửa chữa sản phẩm lỗi
                 </button>
 
-                <button className='btn btn-delete'
+                <button className='btn btn-yellow'
                     onClick={() => this.reportButton()}>
                     Báo cáo dòng sản phẩm lỗi
                 </button>
 
-                <div className='mx-1 mt-3'>
-                    <table className="table table-striped">
+                <div className='table-container mt-3'>
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th scope="col">Mã sản phẩm</th>

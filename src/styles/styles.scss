@@ -30,14 +30,6 @@ $fa-font-path : "~@fortawesome/fontawesome-free-webfonts/webfonts";
     -webkit-transform: rotate(135deg);
 }
 
-.sales-statistics {
-    float: left;
-}
-
-.defective-statistics {
-    float: right
-}
-
 @import "login";
 @import "header";
 @import "navigator";

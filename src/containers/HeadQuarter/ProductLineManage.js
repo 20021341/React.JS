@@ -49,20 +49,20 @@ class ProductLineManage extends Component {
 
         return (
             <div className='content'>
-                <div className='title text-center'>Quản lý dòng sản phẩm</div>
+                <div className='title'>Quản lý dòng sản phẩm</div>
                 <ModalCreateProductLine
                     isOpen={this.state.is_modal_create_open}
                     toggleModal={this.toggleModalCreate}
                     createProductLine={this.createProductLine}
                 />
 
-                <button className='btn btn-add'
+                <button className='btn btn-red'
                     onClick={() => this.handleCreateProductLineButton()}>
                     Tạo dòng sản phẩm
                 </button>
 
-                <div className='mx-1 mt-3'>
-                    <table className="table table-striped">
+                <div className='table-container mt-3'>
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th scope="col">Dòng sản phẩm</th>

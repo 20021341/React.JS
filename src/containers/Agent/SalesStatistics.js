@@ -121,36 +121,38 @@ class SalesStatistics extends Component {
         const product_lines = this.state.product_lines
 
         return (
-            <div className="card">
-                <div>
-                    <div className='title text-center'>
-                        <i className="arrow left" onClick={() => this.switchYearDown()}></i>
-                        Thống kê số lượng sản phẩm đã bán năm {this.state.year}
-                        <i className="arrow right" onClick={() => this.switchYearUp()}></i>
+            <div className='statistics-container'>
+                <div className="sales-statistics">
+                    <div>
+                        <div className='statistics-title mx-3'>
+                            <i className="arrow left" onClick={() => this.switchYearDown()}></i>
+                            Thống kê lượng sản phẩm đã bán {this.state.year}
+                            <i className="arrow right" onClick={() => this.switchYearUp()}></i>
+                        </div>
                     </div>
+                    <Chart data={chartData}>
+                        <ArgumentAxis />
+                        <ValueAxis />
+
+                        {
+                            product_lines.map((product_line) => {
+                                return (
+                                    <BarSeries name={product_line} valueField={product_line} argumentField="month" />
+                                )
+                            })
+                        }
+
+                        <Animation />
+                        <Legend position="bottom" rootComponent={Root} />
+                        <Stack
+                            stacks={[
+                                {
+                                    series: product_lines
+                                },
+                            ]}
+                        />
+                    </Chart>
                 </div>
-                <Chart data={chartData}>
-                    <ArgumentAxis />
-                    <ValueAxis />
-
-                    {
-                        product_lines.map((product_line) => {
-                            return (
-                                <BarSeries name={product_line} valueField={product_line} argumentField="month" />
-                            )
-                        })
-                    }
-
-                    <Animation />
-                    <Legend position="bottom" rootComponent={Root} />
-                    <Stack
-                        stacks={[
-                            {
-                                series: product_lines
-                            },
-                        ]}
-                    />
-                </Chart>
             </div>
         );
     }
