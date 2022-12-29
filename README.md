@@ -1,3 +1,5 @@
+BigCorp LifeCycle App #Frontend
+
 Thành viên: 
 - 20021341 - Đỗ Hoàng Hà - Nhóm trưởng
 - 20021312 - Thân Hùng Cường
