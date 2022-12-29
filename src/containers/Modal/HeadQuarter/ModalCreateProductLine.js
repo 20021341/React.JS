@@ -21,6 +21,7 @@ class ModalCreateProductLine extends Component {
             display_alert: '',
             warranty_period_alert: '',
             res_message: '',
+            // danh sách cấu hình được dựng sẵn để lựa chọn
             cpuList: [
                 'Intel Core i9-12900H',
                 'Intel Core i9-12900HK',
@@ -104,6 +105,7 @@ class ModalCreateProductLine extends Component {
         })
     }
 
+    // nút tạo dòng sản phẩm mới
     createProductLineButton = () => {
         this.setState({
             product_line_alert: '',
@@ -127,6 +129,7 @@ class ModalCreateProductLine extends Component {
                 warranty_period: this.state.warranty_period
             }
 
+            // gửi dữ liệu cho component quản lý dòng sản phẩm để gọi api
             let res = this.props.createProductLine(data)
 
             res.then((obj) => {
@@ -224,10 +227,10 @@ class ModalCreateProductLine extends Component {
             <Modal
                 isOpen={this.props.isOpen}
                 toggle={() => this.toggle()}
-
                 size='lg'
             >
                 <ModalHeader toggle={() => this.toggle()}>Tạo dòng sản phẩm mới</ModalHeader>
+
                 <ModalBody>
                     <div className='modal-body'>
                         <div className='input-container'>
@@ -237,10 +240,12 @@ class ModalCreateProductLine extends Component {
                                     {this.state.product_line_alert}
                                 </label>
                             </div>
+
                             <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'product_line') }}
                                 value={this.state.quantity}
                                 onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
+
                         <div className='select-container'>
                             <div>
                                 <label style={{ float: 'left' }}>CPU</label>
@@ -248,6 +253,7 @@ class ModalCreateProductLine extends Component {
                                     {this.state.cpu_alert}
                                 </label>
                             </div>
+
                             <select name='cpu' onChange={(event) => { this.handleOnChangeInput(event, 'cpu') }} >
                                 <option value={''} selected={'selected'}>--Chọn bộ vi xử lí--</option>
                                 {
@@ -259,6 +265,7 @@ class ModalCreateProductLine extends Component {
                                 }
                             </select>
                         </div>
+
                         <div className='select-container'>
                             <div>
                                 <label style={{ float: 'left' }}>GPU</label>
@@ -266,6 +273,7 @@ class ModalCreateProductLine extends Component {
                                     {this.state.gpu_alert}
                                 </label>
                             </div>
+
                             <select name='gpu' onChange={(event) => { this.handleOnChangeInput(event, 'gpu') }} >
                                 <option value={''} selected={'selected'}>--Chọn bộ xử lí đồ họa--</option>
                                 {
@@ -277,6 +285,7 @@ class ModalCreateProductLine extends Component {
                                 }
                             </select>
                         </div>
+
                         <div className='select-container'>
                             <div>
                                 <label style={{ float: 'left' }}>RAM</label>
@@ -284,6 +293,7 @@ class ModalCreateProductLine extends Component {
                                     {this.state.ram_alert}
                                 </label>
                             </div>
+
                             <select name='ram' onChange={(event) => { this.handleOnChangeInput(event, 'ram') }} >
                                 <option value={''} selected={'selected'}>--Chọn bộ nhớ RAM--</option>
                                 {
@@ -295,6 +305,7 @@ class ModalCreateProductLine extends Component {
                                 }
                             </select>
                         </div>
+
                         <div className='select-container'>
                             <div>
                                 <label style={{ float: 'left' }}>ROM</label>
@@ -302,6 +313,7 @@ class ModalCreateProductLine extends Component {
                                     {this.state.memory_alert}
                                 </label>
                             </div>
+
                             <select name='memory' onChange={(event) => { this.handleOnChangeInput(event, 'memory') }} >
                                 <option value={''} selected={'selected'}>--Chọn bộ nhớ lưu trữ--</option>
                                 {
@@ -313,6 +325,7 @@ class ModalCreateProductLine extends Component {
                                 }
                             </select>
                         </div>
+
                         <div className='select-container'>
                             <div>
                                 <label style={{ float: 'left' }}>Màn hình</label>
@@ -320,6 +333,7 @@ class ModalCreateProductLine extends Component {
                                     {this.state.display_alert}
                                 </label>
                             </div>
+
                             <select name='display' onChange={(event) => { this.handleOnChangeInput(event, 'display') }} >
                                 <option value={''} selected={'selected'}>--Chọn độ phân giải--</option>
                                 {
@@ -331,6 +345,7 @@ class ModalCreateProductLine extends Component {
                                 }
                             </select>
                         </div>
+
                         <div className='select-container'>
                             <div>
                                 <label style={{ float: 'left' }}>Bảo hành</label>
@@ -338,6 +353,7 @@ class ModalCreateProductLine extends Component {
                                     {this.state.warranty_period_alert}
                                 </label>
                             </div>
+
                             <select name='warranty_period' onChange={(event) => { this.handleOnChangeInput(event, 'warranty_period') }} >
                                 <option value={''} selected={'selected'}>--Chọn thời hạn bảo hành--</option>
                                 {
@@ -349,6 +365,7 @@ class ModalCreateProductLine extends Component {
                                 }
                             </select>
                         </div>
+
                         <div className='response-container'>
                             <div style={{ color: 'red' }}>
                                 {this.state.res_message}
@@ -356,6 +373,7 @@ class ModalCreateProductLine extends Component {
                         </div>
                     </div>
                 </ModalBody>
+                
                 <ModalFooter>
                     <Button className='btn btn-confirm px-3' onClick={() => this.createProductLineButton()}>Tạo dòng sản phẩm</Button>{' '}
                     <Button className='btn btn-deny px-3' onClick={() => this.toggle()}>Hủy</Button>

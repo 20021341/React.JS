@@ -7,6 +7,7 @@ import { headquarterMenu, agentMenu, factoryMenu, centerMenu } from './menuApp';
 import ModalConfirm from '../Modal/ModalConfirm'
 
 class Header extends Component {
+
     constructor(props) {
         super(props)
         this.state = {
@@ -18,7 +19,7 @@ class Header extends Component {
     componentDidMount() {
         let { facility } = this.props
         let menu = []
-        if (facility) {
+        if (facility) { // phân cấp menu chức năng cho từng cơ sở
             let role = facility.role
             if (role === 'admin') {
                 menu = headquarterMenu
@@ -42,18 +43,23 @@ class Header extends Component {
         })
     }
 
+    // đăng xuất
     logout = async () => {
         const { processLogout } = this.props
+
         processLogout()
+
         this.toggleModalLogout()
     }
 
+    // bấm nút đăng xuất
     logoutButton = () => {
         this.setState({
             is_modal_confirm_open: true
         })
     }
 
+    // bật/tắt modal xác nhận đăng xuất
     toggleModalLogout = () => {
         this.setState({
             is_modal_confirm_open: !this.state.is_modal_confirm_open

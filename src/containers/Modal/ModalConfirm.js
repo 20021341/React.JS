@@ -13,12 +13,16 @@ class ModalConfirm extends Component {
     componentDidMount() {
     }
 
+    // nút xác nhận
     confirmButton = async () => {
         this.setState({
             res_message: ''
         })
 
+        // báo cho component mà sử dụng modal xác nhận này là người dùng xác nhận
+        // lấy dữ liệu res trả về để hiển thị kết quả mà backend trả lời
         let res = await this.props.onConfirm()
+
         if (!res || res.errCode === 0) {
             this.toggle()
         } else {
@@ -42,17 +46,19 @@ class ModalConfirm extends Component {
                 size='lg'
             >
                 <ModalHeader toggle={() => this.toggle()}>Xác nhận</ModalHeader>
+
                 <ModalBody>
                     <div className='modal-body'>
                         <h5 className='confirm-question'>{this.props.message}</h5>
+
                         <div className='response-container'>
                             <div style={{ color: 'red' }}>
                                 {this.state.res_message}
                             </div>
                         </div>
                     </div>
-
                 </ModalBody>
+
                 <ModalFooter>
                     <Button className='btn btn-confirm px-3' onClick={() => this.confirmButton()}>Đồng ý</Button>{' '}
                     <Button className='btn btn-deny px-3' onClick={() => this.toggle()}>Hủy</Button>
@@ -60,7 +66,6 @@ class ModalConfirm extends Component {
             </Modal>
         )
     }
-
 }
 
 const mapStateToProps = state => {

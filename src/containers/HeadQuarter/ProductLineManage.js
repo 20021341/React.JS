@@ -17,8 +17,10 @@ class ProductLineManage extends Component {
         await this.getAllProductLines()
     }
 
+    // lấy danh sách dòng sản phẩm
     getAllProductLines = async () => {
         let data = await handleGetAllProductLines()
+
         if (data && data.errCode === 0) {
             this.setState({
                 product_lines: data.product_lines
@@ -26,18 +28,21 @@ class ProductLineManage extends Component {
         }
     }
 
+    // tạo dòng sản phẩm mới
     createProductLine = async (data) => {
         let res = await handleCreateNewProductLine(data)
         await this.getAllProductLines()
         return res
     }
 
-    handleCreateProductLineButton = () => {
+    // nút tạo dòng sản phẩm
+    createProductLineButton = () => {
         this.setState({
             is_modal_create_open: true
         })
     }
 
+    // bật/tắt modal tạo dòng sản phẩm
     toggleModalCreate = () => {
         this.setState({
             is_modal_create_open: !this.state.is_modal_create_open
@@ -50,6 +55,8 @@ class ProductLineManage extends Component {
         return (
             <div className='content'>
                 <div className='title'>Quản lý dòng sản phẩm</div>
+
+                {/* modal tạo dòng sản phẩm mới */}
                 <ModalCreateProductLine
                     isOpen={this.state.is_modal_create_open}
                     toggleModal={this.toggleModalCreate}
@@ -57,7 +64,7 @@ class ProductLineManage extends Component {
                 />
 
                 <button className='btn btn-red'
-                    onClick={() => this.handleCreateProductLineButton()}>
+                    onClick={() => this.createProductLineButton()}>
                     Tạo dòng sản phẩm
                 </button>
 
@@ -96,7 +103,6 @@ class ProductLineManage extends Component {
             </div>
         );
     }
-
 }
 
 const mapStateToProps = state => {

@@ -15,8 +15,10 @@ class CustomerManage extends Component {
         await this.getAllCustomers()
     }
 
+    // lấy danh sách khách hàng (thông tin và số lượng sản phẩm họ đã mua)
     getAllCustomers = async () => {
         let data = await handleGetAllCustomers()
+
         if (data && data.errCode === 0) {
             this.setState({
                 customers: data.customers
@@ -24,13 +26,13 @@ class CustomerManage extends Component {
         }
     }
 
-
     render() {
         let customers = this.state.customers
 
         return (
             <div className='content'>
                 <div className='title'>Quản lý khách hàng</div>
+
                 <div className='table-container mt-3'>
                     <table className="table">
                         <thead>
@@ -60,7 +62,6 @@ class CustomerManage extends Component {
             </div>
         );
     }
-
 }
 
 const mapStateToProps = state => {

@@ -15,6 +15,7 @@ class WarrantyCardManage extends Component {
         await this.getCards()
     }
 
+    // cập nhật thuộc tính search_text
     handleOnChangeInput = (event, field) => {
         let copyState = { ...this.state }
         copyState[field] = event.target.value
@@ -25,10 +26,12 @@ class WarrantyCardManage extends Component {
         })
     }
 
+    // lấy danh sách phiếu bảo hành được tạo ở đại lý này và trạng thái của chúng
     getCards = async () => {
         const { facility } = this.props
+
+        // gọi api, truyền vào id của đại lý này
         let data = await handleGetCardsByAgentID(facility.facility_id)
-        console.log(data)
 
         if (data && data.errCode === 0) {
             this.setState({
@@ -43,11 +46,13 @@ class WarrantyCardManage extends Component {
         return (
             <div className='content'>
                 <div className='title'>Quản lý phiếu bảo hành</div>
+
                 <div className='search-area mx-3'>
                     <input type='text' value={this.state.search_text} placeholder='Tìm kiếm bằng mã khách hàng...'
                         onChange={(event) => { this.handleOnChangeInput(event, 'search_text') }}
                     />
                 </div>
+
                 <div className='table-container mt-3'>
                     <table className="table">
                         <thead>
@@ -85,7 +90,6 @@ class WarrantyCardManage extends Component {
             </div>
         );
     }
-
 }
 
 const mapStateToProps = state => {

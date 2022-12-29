@@ -13,6 +13,7 @@ class ModalCreateCard extends Component {
             phone_number: '',
             product_id: '',
             center_id: '',
+            // những thuộc tính alert là dòng thông báo lúc nhấn nút xác nhận của từng trường dữ liệu
             customer_id_alert: '',
             product_id_alert: '',
             center_id_alert: '',
@@ -27,14 +28,16 @@ class ModalCreateCard extends Component {
         this.getCenters()
     }
 
+    // cập nhật lại thuộc tính khi người dùng nhập dữ liệu
     handleOnChangeInput = (event, field) => {
         if (field === 'customer_id') {
-            this.getProductsOfCustomers(event.target.value.trim())
-            this.getCustomerByID(event.target.value.trim())
+            this.getProductsOfCustomers(event.target.value.trim()) // lấy danh sách sản phẩm mà khách hàng đã mua
+            this.getCustomerByID(event.target.value.trim()) // lấy thông tin của khách hàng
         }
 
         let copyState = { ...this.state }
         copyState[field] = event.target.value
+
         this.setState({
             ...copyState
         }, () => {
@@ -42,7 +45,9 @@ class ModalCreateCard extends Component {
         })
     }
 
+    // nút tạo phiếu bảo hành
     createCardButton = () => {
+        // clear dữ liệu cũ
         this.setState({
             customer_id_alert: '',
             product_id_alert: '',
@@ -57,7 +62,10 @@ class ModalCreateCard extends Component {
                 center_id: this.state.center_id
             }
 
+            // truyền dữ liệu cho component quản lý sản phẩm bảo hành, lỗi để gọi api
+            // sau đó nó trả về response để cập nhật res_message báo lỗi
             let res = this.props.createCard(data)
+
             res.then((obj) => {
                 if (obj.errCode === 0) {
                     this.toggle()
@@ -68,12 +76,15 @@ class ModalCreateCard extends Component {
         }
     }
 
+    // kiểm tra input hợp lệ
     checkValidInput = () => {
         let isValid = true
         let arrInput = ['customer_id', 'product_id', 'center_id']
+
         for (let i = 0; i < arrInput.length; i++) {
             if (!this.state[arrInput[i]]) {
                 isValid = false
+
                 switch (arrInput[i]) {
                     case 'customer_id':
                         this.setState({ customer_id_alert: 'Chưa nhập mã khách hàng' })
@@ -87,14 +98,17 @@ class ModalCreateCard extends Component {
                 }
             }
         }
+
         return isValid
     }
 
+    // lấy thông tin khách hàng theo mã khách hàng
     getCustomerByID = async (customer_id) => {
         let res = await handleGetCustomerByID(customer_id)
 
         if (res.errCode === 0) {
             let customer = res.customer
+
             this.setState({
                 customerInfo: customer,
                 fullname: customer.fullname,
@@ -109,18 +123,25 @@ class ModalCreateCard extends Component {
         }
     }
 
+    // lấy danh sách trung tâm bảo hành
     getCenters = async () => {
         let res = await handleGetFacilititesByRole('center')
+
         let centers = res.facilities
+
         this.setState({
             centers: centers
         })
     }
 
+    // lấy danh sách sản phẩm mà khách hàng đã mua
+    // dùng để lựa chọn khi tạo phiếu bảo hành
     getProductsOfCustomers = async (customer_id) => {
         let res = await handleGetProductsOfCustomer(customer_id)
+
         if (res.errCode === 0) {
             let products = res.products
+
             this.setState({
                 products: products
             })
@@ -131,13 +152,16 @@ class ModalCreateCard extends Component {
         }
     }
 
+    // nút enter
     handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             this.createCardButton()
         }
     }
 
+    // bật/tắt modal tạo 
     toggle = () => {
+        // clear dữ liệu cũ
         this.setState({
             customer_id: '',
             fullname: '',
@@ -165,6 +189,7 @@ class ModalCreateCard extends Component {
                 size='lg'
             >
                 <ModalHeader toggle={() => this.toggle()}>Tạo thẻ bảo hành</ModalHeader>
+
                 <ModalBody>
                     <div className='modal-body'>
                         <div className='input-container'>
@@ -174,20 +199,24 @@ class ModalCreateCard extends Component {
                                     {this.state.customer_id_alert}
                                 </label>
                             </div>
+
                             <input type='text' value={this.state.customer_id}
                                 onChange={(event) => { this.handleOnChangeInput(event, 'customer_id') }}
                                 onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
+
                         <div className='input-container'>
                             <label>Họ và tên</label>
                             <input type='text' readOnly onChange={(event) => { this.handleOnChangeInput(event, 'fullname') }}
                                 value={this.state.fullname} />
                         </div>
+
                         <div className='input-container'>
                             <label>Số điện thoại</label>
                             <input type='text' readOnly onChange={(event) => { this.handleOnChangeInput(event, 'phone_number') }}
                                 value={this.state.phone_number} />
                         </div>
+
                         <div className='select-container'>
                             <div>
                                 <label style={{ float: 'left' }}>Mã sản phẩm</label>
@@ -195,6 +224,7 @@ class ModalCreateCard extends Component {
                                     {this.state.product_id_alert}
                                 </label>
                             </div>
+
                             <select name='product_id' onChange={(event) => { this.handleOnChangeInput(event, 'product_id') }} >
                                 <option value={''} selected={'selected'}>--Sản phẩm đã mua--</option>
                                 {
@@ -206,6 +236,7 @@ class ModalCreateCard extends Component {
                                 }
                             </select>
                         </div>
+
                         <div className='select-container'>
                             <div>
                                 <label style={{ float: 'left' }}>Trung tâm bảo hành</label>
@@ -213,6 +244,7 @@ class ModalCreateCard extends Component {
                                     {this.state.center_id_alert}
                                 </label>
                             </div>
+
                             <select name='maintain_at' onChange={(event) => { this.handleOnChangeInput(event, 'center_id') }} >
                                 <option value={''} selected={'selected'}>--Chọn một trung tâm--</option>
                                 {
@@ -224,6 +256,7 @@ class ModalCreateCard extends Component {
                                 }
                             </select>
                         </div>
+
                         <div className='response-container'>
                             <div style={{ color: 'red' }}>
                                 {this.state.res_message}
@@ -231,6 +264,7 @@ class ModalCreateCard extends Component {
                         </div>
                     </div>
                 </ModalBody>
+
                 <ModalFooter>
                     <Button className='btn btn-confirm px-3' onClick={() => this.createCardButton()}>Tạo phiếu bảo hành</Button>{' '}
                     <Button className='btn btn-deny px-3' onClick={() => this.toggle()}>Hủy</Button>

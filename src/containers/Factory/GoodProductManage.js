@@ -20,9 +20,12 @@ class GoodProductManage extends Component {
         await this.getGoodProducts()
     }
 
+    // lấy danh sách sản phẩm tồn kho của nhà máy này
     getGoodProducts = async () => {
         const { facility } = this.props
+
         let data = await handleGetGoodProducts(facility.facility_id)
+
         if (data && data.errCode === 0) {
             this.setState({
                 good_products: data.products
@@ -30,8 +33,10 @@ class GoodProductManage extends Component {
         }
     }
 
+    // sản xuất sản phẩm, sản phẩm sau khi sản xuất sẽ được chuyển vào kho của nhà máy
     produce = async (data) => {
         const { facility } = this.props
+
         let info = {
             factory_id: facility.facility_id,
             product_line: data.product_line,
@@ -39,12 +44,16 @@ class GoodProductManage extends Component {
         }
 
         let res = await handleProduceProducts(info)
+
         await this.getGoodProducts()
+
         return res
     }
 
+    // vận chuyển sản phẩm đến đại lý phân phối
     deliverGoodProducts = async (data) => {
         const { facility } = this.props
+
         let info = {
             factory_id: facility.facility_id,
             product_line: data.product_line,
@@ -53,34 +62,39 @@ class GoodProductManage extends Component {
         }
 
         let res = await handleDeliverProducts(info)
+
         await this.getGoodProducts()
+
         return res
     }
 
+    // nút sản xuất
     produceButton = () => {
         this.setState({
             is_modal_produce_open: true
         })
     }
 
+    // bật/tắt modal sản xuất
     toggleModalProduce = () => {
         this.setState({
             is_modal_produce_open: !this.state.is_modal_produce_open
         })
     }
 
+    // nút vận chuyển
     deliverButton = () => {
         this.setState({
             is_modal_deliver_open: true
         })
     }
 
+    // bật/tắt modal vận chuyển
     toggleModalDeliver = () => {
         this.setState({
             is_modal_deliver_open: !this.state.is_modal_deliver_open
         })
     }
-
 
     render() {
         let good_products = this.state.good_products
@@ -88,12 +102,16 @@ class GoodProductManage extends Component {
         return (
             <div className='content'>
                 <div className='title'>Quản lý sản phẩm tồn kho</div>
+
+                {/* modal sản xuất */}
                 <ModalProduce
                     isOpen={this.state.is_modal_produce_open}
                     toggleModal={this.toggleModalProduce}
                     produce={this.produce}
                     good_products={this.state.good_products}
                 />
+
+                {/* modal vận chuyển */}
                 <ModalDeliverGoodProduct
                     isOpen={this.state.is_modal_deliver_open}
                     toggleModal={this.toggleModalDeliver}

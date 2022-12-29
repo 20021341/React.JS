@@ -20,7 +20,9 @@ class ModalDeliverDefectiveProduct extends Component {
 
     handleOnChangeInput = (event, field) => {
         let copyState = { ...this.state }
+
         copyState[field] = event.target.value
+
         this.setState({
             ...copyState
         }, () => {
@@ -28,6 +30,7 @@ class ModalDeliverDefectiveProduct extends Component {
         })
     }
 
+    // nút vận chuyển sản phẩm lỗi
     deliverDefectiveButton = async () => {
         this.setState({
             center_id_alert: '',
@@ -35,6 +38,9 @@ class ModalDeliverDefectiveProduct extends Component {
         })
 
         if (this.checkValidInput()) {
+
+            // truyền dữ liệu cho component quản lý sản phẩm bảo hành, lỗi để gọi api
+            // sau đó nó trả về response để cập nhật res_message báo lỗi
             let res = await this.props.deliverDefectiveProducts(this.state.center_id)
 
             if (res.errCode === 0) {
@@ -54,9 +60,13 @@ class ModalDeliverDefectiveProduct extends Component {
         return isValid
     }
 
+    // lấy danh sách trung tâm bảo hành
+    // để lựa chọn trung tâm thay vì nhập mã
     getCenters = async () => {
         let res = await handleGetFacilititesByRole('center')
+
         let centers = res.facilities
+
         this.setState({
             centers: centers
         })
@@ -82,6 +92,7 @@ class ModalDeliverDefectiveProduct extends Component {
                 size='lg'
             >
                 <ModalHeader toggle={() => this.toggle()}>Vận chuyển sản phẩm lỗi</ModalHeader>
+
                 <ModalBody>
                     <div className='modal-body'>
                         <div className='select-container'>
@@ -91,6 +102,7 @@ class ModalDeliverDefectiveProduct extends Component {
                                     {this.state.center_id_alert}
                                 </label>
                             </div>
+
                             <select name='maintain_at' onChange={(event) => { this.handleOnChangeInput(event, 'center_id') }} >
                                 <option value={''} selected={'selected'}>--Chọn một trung tâm--</option>
                                 {
@@ -110,6 +122,7 @@ class ModalDeliverDefectiveProduct extends Component {
                         </div>
                     </div>
                 </ModalBody>
+
                 <ModalFooter>
                     <Button className='btn btn-confirm px-3' onClick={() => this.deliverDefectiveButton()}>Vận chuyển sản phẩm</Button>{' '}
                     <Button className='btn btn-deny px-3' onClick={() => this.toggle()}>Hủy</Button>

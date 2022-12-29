@@ -17,6 +17,7 @@ class SalesStatistics extends Component {
         this.state = {
             year: 2022,
             product_lines: [],
+            // dữ liệu giả ban đầu để render ra chart thống kê, sau đó sẽ được cập nhật lại sau
             data: [
                 {
                     month: 'T1', Alien: 0, Alpha: 0, Nitro: 0, ROG: 0, Strix: 0, TUF: 0, Zephyrus: 0
@@ -62,20 +63,22 @@ class SalesStatistics extends Component {
         await this.getStatistics(this.state.year)
     }
 
+    // lấy dữ liệu thống kê số lượng sản phẩm được bán ra của từng dòng sản phẩm
+    // theo từng tháng trong 1 năm
     getStatistics = async (year) => {
         const { facility } = this.props
         let product_lines = this.state.product_lines
         let data = this.state.data
 
+        // sao chép dữ liệu từ response vào trong thuộc tính data của component này
         for (let i = 0; i < product_lines.length; i++) {
             let product_line = product_lines[i]
+
             let res = await handleGetSalesStatisticsByProductLine({
                 agent_id: facility.facility_id,
                 year: year,
                 product_line: product_line
             })
-
-            console.log(res)
 
             for (let j = 0; j < data.length; j++) {
                 data[j][product_line] = res.statistics[j].quantity_sold
@@ -87,8 +90,10 @@ class SalesStatistics extends Component {
         })
     }
 
+    // lấy danh sách dòng sản phẩm
     getAllProductLines = async () => {
         let res = await handleGetAllProductLines()
+
         if (res && res.errCode === 0) {
             let product_lines = []
             res.product_lines.map((obj) => {
@@ -100,6 +105,7 @@ class SalesStatistics extends Component {
         }
     }
 
+    // tăng năm lên, để xem thống kê của các năm khác
     switchYearUp = async () => {
         let year = this.state.year + 1
         this.getStatistics(year)
@@ -108,6 +114,7 @@ class SalesStatistics extends Component {
         })
     }
 
+    // giảm năm xuống
     switchYearDown = async () => {
         let year = this.state.year - 1
         this.getStatistics(year)
@@ -130,6 +137,7 @@ class SalesStatistics extends Component {
                             <i className="arrow right" onClick={() => this.switchYearUp()}></i>
                         </div>
                     </div>
+
                     <Chart data={chartData}>
                         <ArgumentAxis />
                         <ValueAxis />
@@ -156,7 +164,6 @@ class SalesStatistics extends Component {
             </div>
         );
     }
-
 }
 
 const mapStateToProps = state => {

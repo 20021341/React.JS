@@ -10,8 +10,13 @@ class HeadQuarter extends Component {
         return (
             <div className="head-quarter-container">
                 <Switch>
+                    {/* đường dẫn chức năng quản lý cơ sở */}
                     <Route path="/hq/facility-manage" component={FacilityManage} />
+
+                    {/* đường dẫn chức năng quản lý khách hàng */}
                     <Route path="/hq/customer-manage" component={CustomerManage} />
+                    
+                    {/* đường dẫn chức năng quản lý dòng sản phẩm */}
                     <Route path="/hq/product-line-manage" component={ProductLineManage} />
                 </Switch>
             </div>

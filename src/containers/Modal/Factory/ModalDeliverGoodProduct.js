@@ -35,7 +35,9 @@ class ModalDeliverGoodProduct extends Component {
         })
     }
 
+    // nút vận chuyển 
     deliverButton = () => {
+        // clear dữ liệu cũ
         this.setState({
             product_line_alert: '',
             agent_id_alert: '',
@@ -50,6 +52,8 @@ class ModalDeliverGoodProduct extends Component {
                 quantity: this.state.quantity.trim(),
             }
 
+            // truyền dữ liệu cho component quản lý sản phẩm tồn kho để gọi api
+            // sau đó nó trả về response để cập nhật res_message báo lỗi
             let res = this.props.deliverGoodProducts(data)
 
             res.then((obj) => {
@@ -83,8 +87,10 @@ class ModalDeliverGoodProduct extends Component {
         return isValid
     }
 
+    // lấy danh sách đại lý phân phối
     getAllAgents = async () => {
         let res = await handleGetFacilititesByRole('agent')
+
         if (res && res.errCode === 0) {
             this.setState({
                 agents: res.facilities
@@ -92,8 +98,10 @@ class ModalDeliverGoodProduct extends Component {
         }
     }
 
+    // lấy danh sách dòng sản phẩm
     getAllProductLines = async () => {
         let res = await handleGetAllProductLines()
+
         if (res && res.errCode === 0) {
             this.setState({
                 product_lines: res.product_lines
@@ -125,7 +133,7 @@ class ModalDeliverGoodProduct extends Component {
         let product_lines = this.state.product_lines
         let agents = this.state.agents
         let good_products = this.props.good_products
-        let in_stock = ''
+        let in_stock = '' // số lượng tồn kho của dòng sản phẩm
         
         for (let i = 0; i < good_products.length; i++) {
             if (good_products[i].product_line === this.state.product_line) {
@@ -141,6 +149,7 @@ class ModalDeliverGoodProduct extends Component {
                 size='lg'
             >
                 <ModalHeader toggle={() => this.toggle()}>Vận chuyển đến đại lý</ModalHeader>
+
                 <ModalBody>
                     <div className='modal-body'>
                         <div className='select-container'>
@@ -150,6 +159,7 @@ class ModalDeliverGoodProduct extends Component {
                                     {this.state.product_line_alert}
                                 </label>
                             </div>
+
                             <select name='product_line' onChange={(event) => { this.handleOnChangeInput(event, 'product_line') }} >
                                 <option value={''} selected={'selected'}>--Chọn một dòng sản phẩm--</option>
                                 {
@@ -161,6 +171,7 @@ class ModalDeliverGoodProduct extends Component {
                                 }
                             </select>
                         </div>
+
                         <div className='select-container'>
                             <div>
                                 <label style={{ float: 'left' }}>Đại lý phân phối</label>
@@ -168,6 +179,7 @@ class ModalDeliverGoodProduct extends Component {
                                     {this.state.agent_id_alert}
                                 </label>
                             </div>
+
                             <select name='agent_id' onChange={(event) => { this.handleOnChangeInput(event, 'agent_id') }} >
                                 <option value={''}>--Chọn một đại lý--</option>
                                 {
@@ -179,6 +191,7 @@ class ModalDeliverGoodProduct extends Component {
                                 }
                             </select>
                         </div>
+
                         <div className='input-container'>
                             <div>
                                 <label style={{ float: 'left' }}>Số lượng {!in_stock ? '' : '(Số lượng tồn kho: ' + in_stock + ')'}</label>
@@ -186,10 +199,12 @@ class ModalDeliverGoodProduct extends Component {
                                     {this.state.quantity_alert}
                                 </label>
                             </div>
+
                             <input type='number' min={1} value={this.state.quantity}
                                 onChange={(event) => { this.handleOnChangeInput(event, 'quantity') }}
                                 onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
+
                         <div className='response-container'>
                             <div style={{ color: 'red' }}>
                                 {this.state.res_message}
@@ -197,6 +212,7 @@ class ModalDeliverGoodProduct extends Component {
                         </div>
                     </div>
                 </ModalBody>
+
                 <ModalFooter>
                     <Button className='btn btn-confirm px-3' onClick={() => this.deliverButton()}>Vận chuyển</Button>{' '}
                     <Button className='btn btn-deny px-3' onClick={() => this.toggle()}>Hủy</Button>

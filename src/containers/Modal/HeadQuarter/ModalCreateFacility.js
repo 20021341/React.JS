@@ -34,6 +34,7 @@ class ModalCreateFacility extends Component {
         })
     }
 
+    // nút tạo cơ sở mới
     createFacilityButton = () => {
         this.setState({
             facility_name_alert: '',
@@ -53,6 +54,8 @@ class ModalCreateFacility extends Component {
                 role: this.state.role
             }
 
+            // gửi dữ liệu cho component quản lí cơ sở để gọi api
+            // nó trả dữ liệu cho modal để cập nhật res_message thông báo tin nhắn trả về
             let res = this.props.createFacility(data)
 
             res.then((obj) => {
@@ -145,6 +148,7 @@ class ModalCreateFacility extends Component {
                 size='lg'
             >
                 <ModalHeader toggle={() => this.toggle()}>Mở cơ sở mới</ModalHeader>
+
                 <ModalBody>
                     <div className='modal-body'>
                         <div className='input-container'>
@@ -154,10 +158,12 @@ class ModalCreateFacility extends Component {
                                     {this.state.facility_name_alert}
                                 </label>
                             </div>
+
                             <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'facility_name') }}
                                 value={this.state.facility_name}
                                 onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
+
                         <div className='input-container'>
                             <div>
                                 <label style={{ float: 'left' }}>Mật khẩu {'(Mặc định là 123456)'}</label>
@@ -165,10 +171,12 @@ class ModalCreateFacility extends Component {
                                     {this.state.password_alert}
                                 </label>
                             </div>
+
                             <input type='password' onChange={(event) => { this.handleOnChangeInput(event, 'password') }}
                                 value={this.state.password}
                                 onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
+
                         <div className='input-container'>
                             <div>
                                 <label style={{ float: 'left' }}>Số điện thoại</label>
@@ -176,10 +184,12 @@ class ModalCreateFacility extends Component {
                                     {this.state.phone_number_alert}
                                 </label>
                             </div>
+
                             <input type='text' onChange={(event) => { this.handleOnChangeInput(event, 'phone_number') }}
                                 value={this.state.phone_number}
                                 onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
+
                         <div className='select-container'>
                             <div>
                                 <label style={{ float: 'left' }}>Địa chỉ</label>
@@ -187,6 +197,7 @@ class ModalCreateFacility extends Component {
                                     {this.state.address_alert}
                                 </label>
                             </div>
+
                             <select name='address' onChange={(event) => { this.handleOnChangeInput(event, 'address') }} >
                                 <option value={''} selected={'selected'}>--Thành phố--</option>
                                 <option value={'An Giang'}>An Giang</option>
@@ -256,6 +267,7 @@ class ModalCreateFacility extends Component {
                                 <option value={'TP  HCM'}>TP HCM</option>
                             </select>
                         </div>
+
                         <div className='select-container'>
                             <div>
                                 <label style={{ float: 'left' }}>Vai trò</label>
@@ -263,14 +275,15 @@ class ModalCreateFacility extends Component {
                                     {this.state.role_alert}
                                 </label>
                             </div>
+
                             <select name='role' onChange={(event) => { this.handleOnChangeInput(event, 'role') }} >
                                 <option value={''} selected={'selected'}>--Chọn một vai trò--</option>
                                 <option value={'factory'}>Nhà máy</option>
                                 <option value={'agent'}>Đại lý phân phối</option>
                                 <option value={'center'}>Trung tâm bảo hành</option>
                             </select>
-
                         </div>
+
                         <div className='response-container'>
                             <div style={{ color: 'red' }}>
                                 {this.state.res_message}
@@ -278,6 +291,7 @@ class ModalCreateFacility extends Component {
                         </div>
                     </div>
                 </ModalBody>
+                
                 <ModalFooter>
                     <Button className='btn btn-confirm px-3' onClick={() => this.createFacilityButton()}>Mở cơ sở mới</Button>{' '}
                     <Button className=' btn btn-deny px-3' onClick={() => this.toggle()}>Hủy</Button>

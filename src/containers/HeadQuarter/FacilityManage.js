@@ -17,8 +17,10 @@ class FacilityManage extends Component {
         await this.getAllFacilities()
     }
 
+    // lấy danh sách toàn bộ cơ sở
     getAllFacilities = async () => {
         let data = await handleGetAllFacilities()
+
         if (data && data.errCode === 0) {
             this.setState({
                 facilities: data.facilities
@@ -26,18 +28,23 @@ class FacilityManage extends Component {
         }
     }
 
+    // tạo một cơ sở mới, lấy dữ liệu từ modal
     createFacility = async (data) => {
         let res = await handleCreateFacility(data)
+
         await this.getAllFacilities()
+
         return res
     }
 
-    handleCreateFacilityButton = () => {
+    // nút tạo cơ sở
+    createFacilityButton = () => {
         this.setState({
             is_modal_open: true
         })
     }
 
+    // bật/tắt modal tạo cơ sở
     toggleModal = () => {
         this.setState({
             is_modal_open: !this.state.is_modal_open
@@ -50,6 +57,8 @@ class FacilityManage extends Component {
         return (
             <div className='content'>
                 <div className='title'>Quản lý cơ sở</div>
+
+                {/* modal tạo cơ sở */}
                 <ModalCreateFacility
                     isOpen={this.state.is_modal_open}
                     toggleModal={this.toggleModal}
@@ -57,7 +66,7 @@ class FacilityManage extends Component {
                 />
 
                 <button className='btn btn-red'
-                    onClick={() => this.handleCreateFacilityButton()}>
+                    onClick={() => this.createFacilityButton()}>
                     Mở cơ sở mới
                 </button>
 
@@ -72,6 +81,7 @@ class FacilityManage extends Component {
                                 <th scope="col">Vai trò</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             {
                                 facilities.map((facility) => {
@@ -92,7 +102,6 @@ class FacilityManage extends Component {
             </div>
         );
     }
-
 }
 
 const mapStateToProps = state => {

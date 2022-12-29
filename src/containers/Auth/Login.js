@@ -27,6 +27,7 @@ class Login extends Component {
         })
     }
 
+    // kiểm tra xem input nhập vào có hợp lệ hay không (có rỗng hay không, có đúng định dạng không)
     checkValidInput = () => {
         let isValid = true
         let arrInput = ['facility_id', 'password']
@@ -46,6 +47,7 @@ class Login extends Component {
         return isValid
     }
 
+    // đăng nhập vào hệ thống, chỉ được đăng nhập khi thông tin nhập vào là đúng
     login = async () => {
         this.setState({
             facility_id_alert: '',
@@ -54,9 +56,11 @@ class Login extends Component {
         })
 
         if (this.checkValidInput()) {
+            // gọi api, truyền vào mã cơ sở và mật khẩu
             let res = await handleLogin(this.state.facility_id, this.state.password);
 
             if (res && res.errCode === 0) {
+                // đăng nhập thành công
                 this.props.userLoginSuccess(res.facility);
             } else {
                 this.setState({ res_message: res.message })
@@ -70,6 +74,7 @@ class Login extends Component {
         }
     }
 
+    // ẩn/hiển thị mật khẩu
     handleShowHidePassword = () => {
         this.setState({
             is_password_showed: !this.state.is_password_showed
@@ -79,12 +84,10 @@ class Login extends Component {
     render() {
         return (
             <div className='login-background'>
-                {/* <div className='stars' aria-hidden='true'></div>
-                <div className='stars2' aria-hidden='true'></div>
-                <div className='stars3' aria-hidden='true'></div> */}
                 <div className='login-container'>
                     <div className='login-content'>
                         <div className='col-12 login-text'>Đăng nhập</div>
+
                         <div className='col-12 form-group login-input'>
                             <div>
                                 <label style={{ float: 'left' }}>Mã cơ sở</label>
@@ -92,23 +95,28 @@ class Login extends Component {
                                     {this.state.facility_id_alert}
                                 </label>
                             </div>
+
                             <input type='text' className='form-control' placeholder='Nhập mã cơ sở...'
                                 value={this.state.facility_id}
                                 onChange={(event) => { this.handleOnChangeInput(event, 'facility_id') }}
                                 onKeyDown={(event) => this.handleKeyDown(event)} />
 
                         </div>
+
                         <div className='col-12 form-group login-input'>
                             <div>
                                 <label style={{ float: 'left' }}>Mật khẩu</label>
+
                                 <label style={{ color: 'yellow', float: 'right' }}>
                                     {this.state.password_alert}
                                 </label>
                             </div>
+
                             <input type={this.state.is_password_showed ? 'text' : 'password'} className='form-control' placeholder='Nhập mật khẩu...'
                                 value={this.state.password}
                                 onChange={(event) => { this.handleOnChangeInput(event, 'password') }}
                                 onKeyDown={(event) => this.handleKeyDown(event)} />
+
                             <span onClick={() => this.handleShowHidePassword()}>
                                 <i className={this.state.is_password_showed ? 'far fa-eye-slash' : 'far fa-eye'}></i>
                             </span>
@@ -117,6 +125,7 @@ class Login extends Component {
                         <div className='col-12' style={{ color: "yellow" }}>
                             {this.state.res_message}
                         </div>
+
                         <div className='col-12'>
                             <button className='login-button' onClick={() => this.login()}>Đăng nhập</button>
                         </div>
@@ -129,7 +138,6 @@ class Login extends Component {
 
 const mapStateToProps = state => {
     return {
-        language: state.app.language
     };
 };
 

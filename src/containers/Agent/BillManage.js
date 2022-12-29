@@ -15,6 +15,7 @@ class BillManage extends Component {
         await this.getBills()
     }
 
+    // cập nhật lại giá trị cho thuộc tính search_text, sử dụng để lọc bảng
     handleOnChangeInput = (event, field) => {
         let copyState = { ...this.state }
         copyState[field] = event.target.value
@@ -25,11 +26,14 @@ class BillManage extends Component {
         })
     }
 
+    // lấy danh sách hóa đơn được tạo ở đại lý này
     getBills = async () => {
         const { facility } = this.props
+
+        // gọi api, truyền vào id của đại lý này
         let data = await handleGetBillsByAgentID(facility.facility_id)
-        if (data && data.errCode === 0) {
-            console.log(data.bills)
+
+        if (data && data.errCode === 0) { // lấy dữ liệu thành công, không có lỗi xảy ra
             this.setState({
                 bills: data.bills
             })
@@ -42,11 +46,13 @@ class BillManage extends Component {
         return (
             <div className='content'>
                 <div className='title'>Quản lý hóa đơn</div>
+
                 <div className='search-area mx-3'>
                     <input type='text' value={this.state.search_text} placeholder='Tìm kiếm bằng mã khách hàng...'
                         onChange={(event) => { this.handleOnChangeInput(event, 'search_text') }}
                     />
                 </div>
+
                 <div className='table-container table-container mt-3'>
                     <table className="table">
                         <thead>
@@ -78,9 +84,9 @@ class BillManage extends Component {
             </div>
         );
     }
-
 }
 
+// lấy thuộc tính của component cha
 const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,

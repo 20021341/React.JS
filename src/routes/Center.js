@@ -10,7 +10,10 @@ class Center extends Component {
         return (
             <div className="center-container">
                 <Switch>
+                    {/* đường dẫn chức năng thống kê */}
                     <Route path="/center/warranty-statistics" component={WarrantyStatistics} />
+                    
+                    {/* đường dẫn chức năng quản lý sản phẩm bảo hành */}
                     <Route path="/center/bad-products-manage" component={BadProductManage} />
                 </Switch>
             </div>

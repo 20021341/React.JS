@@ -4,6 +4,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { handleGetAllProductLines } from '../../../services/productService';
 
 class ModalReportDefective extends Component {
+
     constructor(props) {
         super(props)
         this.state = {
@@ -28,6 +29,7 @@ class ModalReportDefective extends Component {
         })
     }
 
+    // nút báo cáo dòng sản phẩm lỗi
     reportDefectiveButton = () => {
         this.setState({
             product_line_alert: '',
@@ -35,6 +37,9 @@ class ModalReportDefective extends Component {
         })
 
         if (this.checkValidInput()) {
+
+            // truyền dữ liệu cho component quản lý sản phẩm lỗi để gọi api
+            // sau đó nó trả về response để cập nhật res_message báo lỗi
             let res = this.props.reportDefective(this.state.product_line)
 
             res.then((obj) => {
@@ -58,8 +63,10 @@ class ModalReportDefective extends Component {
         return isValid
     }
 
+    // lấy danh sách dòng sản phẩm
     getAllProductLines = async () => {
         let res = await handleGetAllProductLines()
+
         if (res && res.errCode === 0) {
             this.setState({
                 product_lines: res.product_lines
@@ -87,6 +94,7 @@ class ModalReportDefective extends Component {
                 size='lg'
             >
                 <ModalHeader toggle={() => this.toggle()}>Báo cáo dòng sản phẩm lỗi</ModalHeader>
+
                 <ModalBody>
                     <div className='modal-body'>
                         <div className='select-container'>
@@ -96,6 +104,7 @@ class ModalReportDefective extends Component {
                                     {this.state.product_line_alert}
                                 </label>
                             </div>
+
                             <select name='product_line' onChange={(event) => { this.handleOnChangeInput(event, 'product_line') }} >
                                 <option value={''} selected={'selected'}>--Chọn một dòng sản phẩm--</option>
                                 {
@@ -106,6 +115,7 @@ class ModalReportDefective extends Component {
                                     })
                                 }
                             </select>
+
                             <div className='response-container'>
                                 <div style={{ color: 'red' }}>
                                     {this.state.res_message}
@@ -114,6 +124,7 @@ class ModalReportDefective extends Component {
                         </div>
                     </div>
                 </ModalBody>
+                
                 <ModalFooter>
                     <Button className='btn btn-confirm px-3' onClick={() => this.reportDefectiveButton()}>Báo cáo</Button>{' '}
                     <Button className='btn btn-deny px-3' onClick={() => this.toggle()}>Hủy</Button>

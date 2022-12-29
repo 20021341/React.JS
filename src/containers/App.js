@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter as Router } from 'connected-react-router';
 import { history } from '../redux'
-
-
 import { userIsAuthenticated, userIsNotAuthenticated } from '../hoc/authentication';
 
 import Home from '../routes/Home';
@@ -49,10 +47,20 @@ class App extends Component {
                         <span className="content-container">
                             <Switch>
                                 <Route path='/' exact component={(Home)} />
+
+                                {/* đường dẫn login */}
                                 <Route path='/login' component={userIsNotAuthenticated(Login)} />
+
+                                {/* đường dẫn của ban điều hành */}
                                 <Route path='/hq' component={userIsAuthenticated(HeadQuarter)} />
+
+                                {/* đường dẫn của đại lý phân phối */}
                                 <Route path='/agent' component={userIsAuthenticated(Agent)} />
+
+                                {/* đường dẫn của nhà máy */}
                                 <Route path='/factory' component={userIsAuthenticated(Factory)} />
+                                
+                                {/* đường dẫn của trung tâm bảo hành */}
                                 <Route path='/center' component={userIsAuthenticated(Center)} />
                             </Switch>
                         </span>

@@ -12,8 +12,13 @@ class Factory extends Component {
         return (
             <div className="factory-container">
                 <Switch>
+                    {/* đường dẫn chức năng thống kê */}
                     <Route path="/factory/statistics" component={Statistics} />
+
+                    {/* đường dẫn chức năng quản lý sản phẩm tồn kho */}
                     <Route path="/factory/good-products-manage" component={GoodProductManage} />
+                    
+                    {/* đường dẫn chức năng quản lý sản phẩm lỗi */}
                     <Route path="/factory/bad-products-manage" component={BadProductManage} />
                 </Switch>
             </div>

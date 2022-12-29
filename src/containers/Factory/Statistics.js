@@ -15,6 +15,8 @@ class Statistics extends Component {
 
         this.state = {
             year: 2022,
+            // 2 dữ liệu giả để render ban đầu, sẽ được cập nhật lại sau
+            // dữ liệu doanh số trên lượng sản xuất
             sales_data: [
                 {
                     product_line: 'Alien', quantity_sold: 0, total: 0
@@ -34,6 +36,7 @@ class Statistics extends Component {
                 {
                     product_line: 'Zephyrus', quantity_sold: 0, total: 0
                 }],
+            // dữ liệu số lượng phải đem đi bảo hành trên số lượng sản xuất
             defective_data: [
                 {
                     product_line: 'Alien', quantity_defective: 0, total: 0
@@ -61,6 +64,7 @@ class Statistics extends Component {
         await this.getDefectiveStatistics(this.state.year)
     }
 
+    // lấy dữ liệu thống kê doanh số bán được của những sản phẩm được sản xuất tại nhà máy này
     getSalesStatistics = async (year) => {
         const { facility } = this.props
         let sales_data = this.state.sales_data
@@ -70,6 +74,7 @@ class Statistics extends Component {
             year: year,
         })
 
+        // cập nhật dữ liệu thống kê
         for (let i = 0; i < sales_data.length; i++) {
             for (let j = 0; j < res.statistics.length; j++) {
                 if (sales_data[i].product_line === res.statistics[j].product_line) {
@@ -85,6 +90,7 @@ class Statistics extends Component {
         })
     }
 
+    // lấy dữ liệu thống kê lượng sản phẩm sản xuất tại nhà máy này phải đem đi bảo hành
     getDefectiveStatistics = async (year) => {
         const { facility } = this.props
         let defective_data = this.state.defective_data
@@ -94,8 +100,7 @@ class Statistics extends Component {
             year: year,
         })
 
-        console.log(res)
-
+        // cập nhật lại dữ liệu thống kê
         for (let i = 0; i < defective_data.length; i++) {
             for (let j = 0; j < res.statistics.length; j++) {
                 if (defective_data[i].product_line === res.statistics[j].product_line) {
@@ -109,10 +114,9 @@ class Statistics extends Component {
         this.setState({
             defective_data: defective_data
         })
-
-        console.log(this.state.defective_data)
     }
 
+    // tăng năm lên
     switchYearUp = async () => {
         let year = this.state.year + 1
         this.getSalesStatistics(year)
@@ -122,6 +126,7 @@ class Statistics extends Component {
         })
     }
 
+    // giảm năm xuống
     switchYearDown = async () => {
         let year = this.state.year - 1
         this.getSalesStatistics(year)
@@ -145,6 +150,8 @@ class Statistics extends Component {
                             <i className="arrow right" onClick={() => this.switchYearUp()}></i>
                         </div>
                     </div>
+
+                    {/* biểu đồ doanh số bán trên số lượng sản xuất */}
                     <Chart data={salesData}>
                         <ArgumentAxis />
                         <ValueAxis />
@@ -174,6 +181,7 @@ class Statistics extends Component {
                         />
                     </Chart>
                 </div>
+
                 <div className='defective-over-produce-statistics col-6'>
                     <div>
                         <div className='statistics-title mx-3'>
@@ -182,6 +190,8 @@ class Statistics extends Component {
                             <i className="arrow right" onClick={() => this.switchYearUp()}></i>
                         </div>
                     </div>
+
+                    {/* biểu đồ số lượng đem đi bảo hành trên số lượng sản xuất */}
                     <Chart data={defectiveData}>
                         <ArgumentAxis />
                         <ValueAxis />
@@ -214,7 +224,6 @@ class Statistics extends Component {
             </div>
         );
     }
-
 }
 
 const mapStateToProps = state => {

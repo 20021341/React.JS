@@ -13,6 +13,7 @@ class ModalCreateBill extends Component {
             customer_id: '',
             fullname: '',
             phone_number: '',
+            // những thuộc tính alert là dòng thông báo lúc nhấn nút xác nhận của từng trường dữ liệu
             product_line_alert: '',
             quantity_alert: '',
             customer_id_alert: '',
@@ -28,6 +29,7 @@ class ModalCreateBill extends Component {
         await this.getAllProductLines()
     }
 
+    // xử lí cập nhật thuộc tính khi người dùng nhập dữ liệu
     handleOnChangeInput = (event, field) => {
         if (field === 'customer_id') {
             this.getCustomerByID(event.target.value.trim())
@@ -35,6 +37,7 @@ class ModalCreateBill extends Component {
 
         let copyState = { ...this.state }
         copyState[field] = event.target.value
+
         this.setState({
             ...copyState
         }, () => {
@@ -42,7 +45,9 @@ class ModalCreateBill extends Component {
         })
     }
 
+    // nút tạo hóa đơn
     createBillButton = () => {
+        // clear hết dữ liệu cũ
         this.setState({
             product_line_alert: '',
             quantity_alert: '',
@@ -61,19 +66,21 @@ class ModalCreateBill extends Component {
                 phone_number: this.state.phone_number.trim(),
             }
 
-            console.log(data)
-
+            // truyền dữ liệu cho component quản lý sản phẩm tồn kho để gọi api
+            // sau đó nó trả về response để cập nhật res_message báo lỗi
             let res = this.props.createBill(data)
+
             res.then((obj) => {
-                if (obj.errCode === 0) {
+                if (obj.errCode === 0) { // tạo thành công
                     this.toggle()
                 } else {
-                    this.setState({ res_message: obj.message })
+                    this.setState({ res_message: obj.message }) 
                 }
             })
         }
     }
 
+    // kiểm tra hợp lệ của input
     checkValidInput = () => {
         let isValid = true
         let arrInput = ['product_line', 'quantity', 'customer_id', 'fullname', 'phone_number']
@@ -113,21 +120,26 @@ class ModalCreateBill extends Component {
         return isValid
     }
 
+    // kiểm tra tên hợp lệ
     nameValidate = (name) => {
         var regExp = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/
         return regExp.test(name)
     }
 
+    // kiểm tra số điện thoại hợp lệ
     phoneNumberValidate = (phone_number) => {
         var regExp = /^(0[234][0-9]{8}|1[89]00[0-9]{4})$/
         return regExp.test(phone_number)
     }
 
+    // lấy thông tin của khách hàng theo id của họ
+    // để phục vụ việc tự động điền thông tin trong hóa đơn
     getCustomerByID = async (customer_id) => {
         let res = await handleGetCustomerByID(customer_id)
 
         if (res.errCode === 0) {
             let customer = res.customer
+
             this.setState({
                 customerInfo: customer,
                 fullname: customer.fullname,
@@ -140,6 +152,7 @@ class ModalCreateBill extends Component {
         }
     }
 
+    // lấy danh sách dòng sản phẩm
     getAllProductLines = async () => {
         let res = await handleGetAllProductLines()
         if (res && res.errCode === 0) {
@@ -149,12 +162,14 @@ class ModalCreateBill extends Component {
         }
     }
 
+    // nút enter
     handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             this.createBillButton()
         }
     }
 
+    // bật/tắt modal
     toggle = () => {
         this.setState({
             product_line: '',
@@ -175,7 +190,7 @@ class ModalCreateBill extends Component {
     render() {
         let product_lines = this.state.product_lines
         let good_products = this.props.good_products
-        let in_stock = ''
+        let in_stock = '' // số lượng sản phẩm tồn kho
         
         for (let i = 0; i < good_products.length; i++) {
             if (good_products[i].product_line === this.state.product_line) {
@@ -191,6 +206,7 @@ class ModalCreateBill extends Component {
                 size='lg'
             >
                 <ModalHeader toggle={() => this.toggle()}>Tạo hóa đơn</ModalHeader>
+
                 <ModalBody>
                     <div className='modal-body'>
                         <div className='select-container'>
@@ -219,10 +235,12 @@ class ModalCreateBill extends Component {
                                     {this.state.quantity_alert}
                                 </label>
                             </div>
+
                             <input type='number' min={1} value={this.state.quantity}
                                 onChange={(event) => { this.handleOnChangeInput(event, 'quantity') }}
                                 onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
+
                         <div className='input-container'>
                             <div>
                                 <label style={{ float: 'left' }}>Mã khách hàng</label>
@@ -230,10 +248,12 @@ class ModalCreateBill extends Component {
                                     {this.state.customer_id_alert}
                                 </label>
                             </div>
+
                             <input type='text' value={this.state.customer_id}
                                 onChange={(event) => { this.handleOnChangeInput(event, 'customer_id') }}
                                 onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
+
                         <div className='input-container'>
                             <div>
                                 <label style={{ float: 'left' }}>Họ và tên</label>
@@ -241,10 +261,12 @@ class ModalCreateBill extends Component {
                                     {this.state.fullname_alert}
                                 </label>
                             </div>
+
                             <input type='text' value={this.state.fullname}
                                 onChange={(event) => { this.handleOnChangeInput(event, 'fullname') }}
                                 onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
+
                         <div className='input-container'>
                             <div>
                                 <label style={{ float: 'left' }}>Số điện thoại</label>
@@ -252,10 +274,12 @@ class ModalCreateBill extends Component {
                                     {this.state.phone_number_alert}
                                 </label>
                             </div>
+
                             <input type='text' value={this.state.phone_number}
                                 onChange={(event) => { this.handleOnChangeInput(event, 'phone_number') }}
                                 onKeyDown={(event) => this.handleKeyDown(event)} />
                         </div>
+
                         <div className='response-container'>
                             <div style={{ color: 'red' }}>
                                 {this.state.res_message}
@@ -263,6 +287,7 @@ class ModalCreateBill extends Component {
                         </div>
                     </div>
                 </ModalBody>
+
                 <ModalFooter>
                     <Button className='btn btn-confirm px-3' onClick={() => this.createBillButton()}>Tạo hóa đơn</Button>{' '}
                     <Button className='btn btn-deny px-3' onClick={() => this.toggle()}>Hủy</Button>

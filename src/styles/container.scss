@@ -3,7 +3,6 @@
  */
 body,
 html {
-  // background: linear-gradient(135deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
   background: url(https://cdn.sforum.vn/sforum/wp-content/uploads/2022/12/hinh-nen-tet-2-min.png);
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -13,6 +12,7 @@ html {
   font-size: $base-size - 2px;
   height: 100vh;
   font-weight: bold;
+  overflow: hidden;
 }
 
 .btn {

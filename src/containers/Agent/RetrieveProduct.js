@@ -15,17 +15,19 @@ class RetrieveProduct extends Component {
         await this.getProductsNeedRetrieving()
     }
 
+    // lấy danh sách sản phẩm được mua ở đại lý này mà bị lỗi do nhà máy báo nhưng đang ở tay khách hàng
     getProductsNeedRetrieving = async () => {
         let { facility } = this.props
 
+        // gọi api, truyền vào id của đại lý này
         let data = await handleGetProductsNeedRetrieving(facility.facility_id)
-        if (data && data.errCode === 0) {
+
+        if (data && data.errCode === 0) { // lấy danh sách thành công
             this.setState({
                 products: data.products
             })
         }
     }
-
 
     render() {
         let products = this.state.products
@@ -33,6 +35,7 @@ class RetrieveProduct extends Component {
         return (
             <div className='content'>
                 <div className='title'>Sản phẩm cần thu hồi</div>
+
                 <div className='table-container mt-3'>
                     <table className="table">
                         <thead>
@@ -64,7 +67,6 @@ class RetrieveProduct extends Component {
             </div>
         );
     }
-
 }
 
 const mapStateToProps = state => {
