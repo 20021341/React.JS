@@ -147,7 +147,9 @@ class ModalCreateBill extends Component {
             })
         } else {
             this.setState({
-                customerInfo: null
+                customerInfo: null,
+                fullname: '',
+                phone_number: ''
             })
         }
     }
